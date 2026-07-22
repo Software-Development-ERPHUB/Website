@@ -1,0 +1,141 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --g1:#006B33; --g2:#00923F; --g3:#38C66C; --g4:#E8F5EE; --g5:#F0FAF4;
+  --gold:#D97706; --navy:#0B1120;
+  --text1:#0B1120; --text2:#374151; --text3:#6B7280;
+  --border:#E5E7EB; --page:#F8FAFC;
+}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,sans-serif;-webkit-font-smoothing:antialiased;background:var(--page);color:var(--text1);font-size:14px;line-height:1.6;overflow-x:hidden}
+a{text-decoration:none}
+button{font-family:inherit}
+img{max-width:100%;display:block}
+
+/* Text gradient */
+.text-gradient-green{background:linear-gradient(135deg,var(--g1),var(--g3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* Navbar */
+.navbar{background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
+
+/* Cards */
+.card{background:#fff;border:1px solid var(--border);border-radius:16px;transition:all .24s cubic-bezier(.4,0,.2,1)}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 44px rgba(0,107,51,0.10);border-color:rgba(0,107,51,0.18)}
+
+/* Buttons */
+.btn-primary{background:linear-gradient(135deg,var(--g1),var(--g2));color:#fff;font-weight:700;border:none;padding:11px 22px;border-radius:11px;cursor:pointer;font-size:13.5px;box-shadow:0 4px 16px rgba(0,107,51,0.28);transition:all .22s;display:inline-flex;align-items:center;gap:7px}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(0,107,51,0.42)}
+.btn-outline{background:transparent;color:var(--g1);font-weight:700;padding:10px 20px;border-radius:11px;border:2px solid rgba(0,107,51,0.28);cursor:pointer;font-size:13.5px;transition:all .22s;display:inline-flex;align-items:center;gap:7px}
+.btn-outline:hover{background:var(--g4);border-color:var(--g1)}
+
+/* Badge & dot */
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--g4);border:1px solid rgba(0,107,51,0.2);border-radius:30px;padding:5px 14px;color:var(--g1);font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--g3);display:inline-block;animation:pulse-dot 2s ease-in-out infinite}
+@keyframes pulse-dot{0%,100%{box-shadow:0 0 0 0 rgba(56,198,108,.5)}50%{box-shadow:0 0 0 6px rgba(56,198,108,0)}}
+
+/* Section tag */
+.section-tag{display:inline-flex;align-items:center;gap:7px;background:var(--g4);border:1px solid rgba(0,107,51,.18);border-radius:30px;padding:5px 14px;margin-bottom:12px}
+.section-tag span{color:var(--g1);font-size:10px;font-weight:700;letter-spacing:1.8px;text-transform:uppercase}
+
+/* Input */
+.input{width:100%;padding:11px 14px;border-radius:10px;border:1.5px solid var(--border);font-size:13.5px;color:var(--text1);outline:none;background:#fff;font-family:inherit;transition:border-color .2s,box-shadow .2s}
+.input:focus{border-color:var(--g2);box-shadow:0 0 0 3px rgba(0,146,63,.1)}
+
+/* Scrollbar */
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:#f1f5f9}
+::-webkit-scrollbar-thumb{background:linear-gradient(var(--g1),var(--g3));border-radius:4px}
+
+/* Animations */
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+@keyframes spin-slow{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+
+/* ═══ RESPONSIVE HELPERS ═══ */
+
+/* Hero */
+.hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+@media(max-width:768px){
+  .hero-grid{grid-template-columns:1fr;gap:0}
+  .hero-img-col{display:none!important}
+}
+
+/* Nav */
+.hidden.md\:flex{display:none}
+@media(min-width:768px){.hidden.md\:flex{display:flex!important}}
+.flex.md\:hidden{display:flex}
+@media(min-width:768px){.flex.md\:hidden{display:none!important}}
+
+/* Orbit */
+.orbit-container{display:block}
+@media(max-width:640px){.orbit-container{display:none!important}}
+
+/* Stats bar */
+@media(max-width:480px){
+  .stats-bar{grid-template-columns:repeat(2,1fr)!important}
+}
+
+/* Company cards */
+@media(max-width:480px){
+  .companies-grid{grid-template-columns:repeat(2,1fr)!important;gap:8px!important}
+}
+
+/* Site grid on websites page */
+.site-grid{display:grid;grid-template-columns:1fr 1.3fr;min-height:260px}
+@media(max-width:768px){
+  .site-grid{grid-template-columns:1fr}
+  .site-thumb{min-height:200px!important;order:-1!important}
+}
+
+/* Contact grids */
+.contact-main-grid{display:grid;grid-template-columns:1fr 340px;gap:22px}
+@media(max-width:900px){.contact-main-grid{grid-template-columns:1fr}}
+
+.contact-banner-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center}
+@media(max-width:768px){.contact-banner-grid{grid-template-columns:1fr}}
+
+/* Company apps banner */
+@media(max-width:640px){
+  .apps-header{flex-direction:column!important;align-items:flex-start!important}
+}
+
+/* HRMS grid */
+.hrms-modules{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr))}
+@media(max-width:480px){.hrms-modules{grid-template-columns:1fr 1fr}}
+
+/* Audit grid */
+.audit-modules{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr))}
+@media(max-width:480px){.audit-modules{grid-template-columns:1fr 1fr}}
+
+/* Section padding responsive */
+.sec-pad{padding:56px 24px}
+@media(max-width:640px){.sec-pad{padding:36px 16px}}
+
+/* Analytics grid */
+@media(max-width:480px){
+  .analytics-grid{grid-template-columns:1fr 1fr!important}
+}
+
+/* Sector grid */
+@media(max-width:480px){
+  .sector-grid{grid-template-columns:repeat(3,1fr)!important;gap:8px!important}
+}
+
+/* General font scaling */
+@media(max-width:480px){
+  .hero-h1{font-size:1.6rem!important}
+  .section-h2{font-size:1.2rem!important}
+}
+
+/* Touch targets */
+@media(max-width:768px){
+  button{min-height:44px}
+  a{min-height:36px}
+}
