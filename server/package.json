@@ -1,0 +1,29 @@
+{
+  "name": "voltech-website-api",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "API for the Voltech website \u2014 stores contact enquiries and internship applications in MySQL",
+  "scripts": {
+    "dev": "node --watch src/index.js",
+    "start": "node src/index.js",
+    "db:init": "node src/scripts/init-db.js",
+    "cms:create-admin": "node src/scripts/create-admin.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.4.0",
+    "helmet": "^7.1.0",
+    "jsonwebtoken": "^9.0.3",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.11.0",
+    "sanitize-html": "^2.17.7"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

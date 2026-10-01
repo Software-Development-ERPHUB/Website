@@ -16,20 +16,24 @@ const LOGOS = {
   asiapower: { src: logoAsiapower, bg: '#ffffff' },
 }
 
-export default function CompanyLogo({ companyId, size = 60, rounded = 14, padding = 6 }) {
+/**
+ * Company logo tile. `size` = square; pass `width` / `height` for a wider tile
+ * (most logos are wordmarks, so wide tiles show them much larger).
+ */
+export default function CompanyLogo({ companyId, size = 60, width, height, rounded = 14, padding = 6, shadow = true }) {
   const logo = LOGOS[companyId]
   if (!logo) return null
   return (
     <div style={{
-      width: size,
-      height: size,
+      width: width || size,
+      height: height || size,
       borderRadius: rounded,
       background: logo.bg,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       padding: padding,
-      boxShadow: '0 4px 16px rgba(0,0,0,0.12)',
+      boxShadow: shadow ? '0 4px 16px rgba(0,0,0,0.12)' : 'none',
       flexShrink: 0,
       border: '1.5px solid rgba(0,107,51,0.10)',
     }}>
