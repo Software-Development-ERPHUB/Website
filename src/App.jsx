@@ -26,6 +26,9 @@ const AdminApp = lazy(() => import('./admin/AdminApp'))
 const ErpHome = lazy(() => import('./pages/erp/ErpHome'))
 const ErpCompany = lazy(() => import('./pages/erp/ErpCompany'))
 const ErpWebsites = lazy(() => import('./pages/erp/ErpWebsites'))
+// Client product catalogue + full-screen demo viewer
+const Products = lazy(() => import('./pages/Products'))
+const ProductDemo = lazy(() => import('./pages/ProductDemo'))
 
 function LegacyCompanyRedirect() {
   const { id } = useParams()
@@ -37,6 +40,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/admin/*" element={<Suspense fallback={null}><AdminApp /></Suspense>} />
+        <Route path="/products/:slug/demo" element={<Suspense fallback={null}><ProductDemo /></Suspense>} />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
@@ -55,6 +59,8 @@ export default function App() {
           <Route path="news/:slug" element={<NewsDetail />} />
           <Route path="privacy-policy" element={<Legal kind="privacy" />} />
           <Route path="terms" element={<Legal kind="terms" />} />
+
+          <Route path="products" element={<Products />} />
 
           <Route path="erp" element={<ErpHome />} />
           <Route path="erp/companies/:companyId" element={<ErpCompany />} />

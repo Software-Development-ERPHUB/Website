@@ -53,9 +53,17 @@ Portrait: 480×600 (4:5) WebP. Banner: 1600×780 WebP with the person on the rig
 
 ## Deployment
 SPA — unknown paths must serve `index.html`. `public/.htaccess` handles Apache. For Nginx:
-`location / { try_files $uri /index.html; }`
+`location / { try_files $uri $uri/ /index.html; }` (the `$uri/` part lets product demos load from `/demo/<slug>/`).
 
 Old routes `/companies`, `/companies/:id`, `/websites` redirect to `/projects`.
+
+## Products and client demos
+`/products` lists the products by suite (HRMS, Finance, Manufacturing). Edit them in `src/content/products.js`.
+Each demo opens at `/products/<slug>/demo`, a full-screen viewer that loads `public/demo/<slug>/index.html`,
+so clients never see an HTML file name. To add or replace a demo, put the HTML file at
+`public/demo/<slug>/index.html` and set the product's `status` to `'demo'`. Products marked `'soon'` show a
+placeholder page; `'live'` products (the CRM) open their `liveUrl` in a new tab. `/demo/` is excluded from
+search engines in `robots.txt`.
 
 ## Search and languages
 - **Global search** — header search button, `Ctrl/⌘ + K` or `/`. Index is built from `src/content/*` and `src/data/companies.js` (`src/lib/searchIndex.js`), so new content is searchable automatically.

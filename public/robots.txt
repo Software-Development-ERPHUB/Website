@@ -1,4 +1,6 @@
 User-agent: *
 Allow: /
+Disallow: /demo/
+Disallow: /products/*/demo
 
 Sitemap: https://www.example.com/sitemap.xml

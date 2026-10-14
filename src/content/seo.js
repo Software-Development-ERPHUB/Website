@@ -4,6 +4,11 @@
  * except for other plain-data files.
  */
 export const PAGE_SEO = {
+  '/products': {
+    title: 'Products — HRMS, Finance & Manufacturing Applications',
+    description: 'Ready-made business applications for HR, payroll, finance, CRM and procurement. Try a live demo and see how it fits your business.',
+    priority: '0.9',
+  },
   '/erp': {
     title: 'ERP Portfolio — In-house ERP for Voltech Group',
     description: 'The ERP applications our team designed, built and runs for Voltech Group since 2015 — HRMS, supply chain, design management, audit and more.',
