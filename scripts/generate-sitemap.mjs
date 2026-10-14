@@ -17,5 +17,5 @@ ${urls.map((u) => `  <url><loc>${u.loc}</loc><lastmod>${today}</lastmod><priorit
 </urlset>
 `
 writeFileSync(new URL('../public/sitemap.xml', import.meta.url), xml)
-writeFileSync(new URL('../public/robots.txt', import.meta.url), `User-agent: *\nAllow: /\n\nSitemap: ${base}/sitemap.xml\n`)
+writeFileSync(new URL('../public/robots.txt', import.meta.url), `User-agent: *\nAllow: /\nDisallow: /demo/\nDisallow: /products/*/demo\n\nSitemap: ${base}/sitemap.xml\n`)
 console.log(`sitemap.xml: ${urls.length} URLs for ${base}`)

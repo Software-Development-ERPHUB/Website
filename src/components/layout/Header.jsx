@@ -145,8 +145,8 @@ export default function Header() {
           <button ref={searchBtn} type="button" onClick={() => { setOpen(false); setSearchOpen(true) }} aria-label="Search the website" aria-keyshortcuts="Control+K"
             className="group inline-flex h-11 items-center gap-2 rounded-lg border border-line px-3 text-sm text-muted transition-colors hover:border-brand hover:text-brand">
             <Search size={18} aria-hidden="true" className="transition-transform duration-300 group-hover:scale-110" />
-            <span className="hidden 2xl:inline">Search</span>
-            <kbd className="kbd notranslate hidden 2xl:inline-flex" translate="no">{isMac ? '⌘' : 'Ctrl'} K</kbd>
+            <span className="sr-only">Search</span>
+            <kbd className="kbd notranslate hidden" translate="no">{isMac ? '⌘' : 'Ctrl'} K</kbd>
           </button>
           <div className="hidden sm:block"><LanguageSwitcher /></div>
           <Link to="/contact" className="btn-primary group hidden !min-h-[44px] whitespace-nowrap !px-4 sm:inline-flex lg:hidden xl:inline-flex">Start a project<ArrowRight size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" /></Link>

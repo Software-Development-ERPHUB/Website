@@ -147,6 +147,7 @@ export const CAREERS = {
 export const NAV = [
   { to: '/services', label: 'Services' },
   { to: '/solutions', label: 'Solutions' },
+  { to: '/products', label: 'Products' },
   { to: '/industries', label: 'Industries' },
   { to: '/projects', label: 'Projects' },
   {
