@@ -6,7 +6,9 @@ import { findProduct, PRODUCT_CATEGORIES } from '../content/products'
 
 /**
  * Full-screen demo viewer: /products/<slug>/demo.
- * Loads public/demo/<slug>/ in a frame so the address bar never shows a file name.
+ * Loads public/demo/<slug>/index.html in a frame; the address bar only ever shows
+ * /products/<slug>/demo. The frame points at the file itself (not the folder) so it
+ * works on any host, including ones that send folder URLs to the SPA's 404 page.
  */
 export default function ProductDemo() {
   const { slug } = useParams()
@@ -40,7 +42,7 @@ export default function ProductDemo() {
         {!loaded && <div className="absolute inset-0 flex items-center justify-center text-sm text-white/60">Loading demo…</div>}
         <iframe
           title={`${p.name} demo`}
-          src={`/demo/${p.slug}/`}
+          src={`/demo/${p.slug}/index.html`}
           onLoad={() => setLoaded(true)}
           className="absolute inset-0 h-full w-full border-0 bg-white"
           allow="clipboard-write; fullscreen"

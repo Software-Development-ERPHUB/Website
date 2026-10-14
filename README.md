@@ -53,7 +53,7 @@ Portrait: 480×600 (4:5) WebP. Banner: 1600×780 WebP with the person on the rig
 
 ## Deployment
 SPA — unknown paths must serve `index.html`. `public/.htaccess` handles Apache. For Nginx:
-`location / { try_files $uri $uri/ /index.html; }` (the `$uri/` part lets product demos load from `/demo/<slug>/`).
+`location / { try_files $uri /index.html; }`
 
 Old routes `/companies`, `/companies/:id`, `/websites` redirect to `/projects`.
 
