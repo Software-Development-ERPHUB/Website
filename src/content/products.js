@@ -144,7 +144,7 @@ export const PRODUCTS = [
     status: 'demo',
     tagline: 'Indent to purchase order with smart quotation comparison.',
     description: 'Raise indents and requisitions, send RFQs to vendors, compare quotations with AI help and issue approved purchase orders.',
-    features: ['Indents & requisitions', 'RFQ / enquiry', 'Quotation comparison', 'Purchase orders', 'Vendor & item master', 'Approvals', 'Reports'],
+    features: ['Indents & requisitions', 'RFQ / enquiry', 'Quotation comparison', 'Purchase orders', 'Vendor & item master', 'Approval workflow', 'Users & roles', 'Reports'],
   },
 ]
 

@@ -38,9 +38,29 @@
   --sh-md:0 14px 34px -12px rgba(21,36,48,.24);
   --sh-lg:0 26px 60px -20px rgba(21,36,48,.34);
   --header-h:64px; --side-w:264px;
+  --topbar:rgba(255,255,255,.85);
   --ease:cubic-bezier(.2,.7,.2,1);
   --font:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 }
+/* ---------- dark mode ---------- */
+[data-theme="dark"]{
+  --bg:#0b1219; --sunken:#080f15;
+  --surface:#141d26; --surface-2:#1a2530;
+  --ink:#e8eff5; --ink-2:#adc0cf; --ink-3:#7f93a4;
+  --line:#27343f; --line-strong:#38474f;
+  --neutral:#93a5b3; --neutral-soft:#1e2b36;
+  --info-soft:#15273b; --success-soft:#11301f; --danger-soft:#3a1a17; --violet-soft:#241d38;
+  --topbar:rgba(15,22,29,.85);
+  --sh-xs:0 1px 2px rgba(0,0,0,.4);
+  --sh-sm:0 4px 14px -6px rgba(0,0,0,.5);
+  --sh-md:0 14px 34px -12px rgba(0,0,0,.6);
+  --sh-lg:0 26px 60px -20px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+[data-theme="dark"] .note{border-color:rgba(90,150,210,.32); color:#bcd4ea}
+[data-theme="dark"] .login__form{background:var(--surface)}
+[data-theme="dark"] .icon-btn .dot,[data-theme="dark"] .ai-fab .mark{border-color:var(--surface)}
+[data-theme="dark"] img{filter:none}
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
 body{
@@ -56,7 +76,23 @@ button{font-family:inherit}
 ::-webkit-scrollbar-thumb:hover{background:#aebac6;background-clip:padding-box;border:3px solid transparent}
 
 /* ---------------- layout ---------------- */
-.app{display:flex; flex-direction:column; min-height:100vh}
+.app{display:flex; min-height:100vh; background:var(--bg)}
+.topbar .topnav__brand,.topbar .topmenu{display:none}
+.app.layout-top .sidebar{display:none}
+.app.layout-top .topbar .topnav__brand{display:flex}
+.app.layout-top .topbar .topmenu{display:flex}
+.app.layout-top .topbar .crumb{display:none}
+.theme-picks{display:flex;gap:10px;flex-wrap:wrap}
+.theme-pick{width:46px;height:46px;border-radius:13px;border:1px solid var(--line);cursor:pointer;position:relative;transition:.15s;box-shadow:var(--sh-xs)}
+.theme-pick:hover{transform:translateY(-2px)}
+.theme-pick.on{box-shadow:0 0 0 3px var(--surface),0 0 0 5px var(--primary-300)}
+.theme-pick.on::after{content:'✓';position:absolute; inset:0; display:grid; place-items:center; color:#fff; font-size:16px; font-weight:800; text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.seg{display:inline-flex; background:var(--surface-2); border:1px solid var(--line); border-radius:10px; padding:3px; gap:3px}
+.seg button{border:0; background:transparent; padding:7px 14px; border-radius:8px; font-family:inherit; font-size:12.5px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:.15s}
+.seg button.on{background:var(--surface); color:var(--primary); box-shadow:var(--sh-xs)}
+.seg.dark{background:rgba(255,255,255,.1); border-color:rgba(255,255,255,.15)}
+.seg.dark button{color:#cfe2ec}
+.seg.dark button.on{background:rgba(255,255,255,.2); color:#fff; box-shadow:none}
 .sidebar{
   width:var(--side-w); flex:0 0 var(--side-w); position:sticky; top:0; height:100vh;
   background:var(--grad-side); color:#dbe7ee; display:flex; flex-direction:column;
@@ -65,7 +101,7 @@ button{font-family:inherit}
 }
 .sidebar::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18)}
 .brand{display:flex; align-items:center; gap:11px; padding:6px 8px 18px; color:#fff}
-.brand__logo{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#1f7396,#4aa2c4);
+.brand__logo{width:38px;height:38px;border-radius:11px;background:var(--grad-primary);
   display:grid;place-items:center;box-shadow:0 6px 16px -4px rgba(31,115,150,.7); color:#fff}
 .brand__logo svg{width:21px;height:21px}
 .brand__name{font-weight:800; font-size:17px; letter-spacing:-.02em; line-height:1}
@@ -90,10 +126,10 @@ button{font-family:inherit}
 
 .frame{flex:1; min-width:0; display:flex; flex-direction:column}
 .topbar{
-  height:var(--header-h); position:sticky; top:0; z-index:30; background:rgba(255,255,255,.85);
+  height:var(--header-h); position:sticky; top:0; z-index:30; background:var(--topbar);
   backdrop-filter:blur(14px); border-bottom:1px solid var(--line); display:flex; align-items:center; gap:16px; padding:0 22px;
 }
-.hamb{display:none; width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:#fff;align-items:center;justify-content:center;cursor:pointer}
+.hamb{display:none; width:38px;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--surface);align-items:center;justify-content:center;cursor:pointer}
 .crumb{display:flex; flex-direction:column; min-width:0}
 .crumb b{font-size:15px; font-weight:700}
 .crumb span{font-size:12px; color:var(--ink-3)}
@@ -101,7 +137,7 @@ button{font-family:inherit}
 /* top navigation (replaces the left sidebar) */
 .topnav{
   position:sticky; top:0; z-index:50; display:flex; align-items:center; gap:10px; height:var(--header-h);
-  padding:0 20px; background:rgba(255,255,255,.92); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
+  padding:0 20px; background:var(--topbar); backdrop-filter:blur(14px); border-bottom:1px solid var(--line);
 }
 .topnav__brand{display:flex; align-items:center; gap:10px; font-weight:800; font-size:17px; letter-spacing:-.02em; white-space:nowrap; margin-right:8px}
 .topnav__brand .brand__logo{width:34px;height:34px;border-radius:10px}
@@ -114,7 +150,7 @@ button{font-family:inherit}
 .tm-btn .caret{width:14px;height:14px; transition:.2s}
 .tm-group:hover .tm-btn,.tm-group.open .tm-btn{background:var(--surface-2); color:var(--primary)}
 .tm-group.open .tm-btn .caret{transform:rotate(180deg)}
-.tm-drop{position:absolute; top:calc(100% + 8px); left:0; min-width:252px; background:#fff; border:1px solid var(--line); border-radius:14px; box-shadow:var(--sh-overlay); padding:8px; display:none; z-index:60; animation:fadeUp .16s var(--ease)}
+.tm-drop{position:absolute; top:calc(100% + 8px); left:0; min-width:252px; background:var(--surface); border:1px solid var(--line); border-radius:14px; box-shadow:var(--sh-overlay); padding:8px; display:none; z-index:60; animation:fadeUp .16s var(--ease)}
 .tm-group.open .tm-drop{display:block}
 .tm-item{display:flex; align-items:center; gap:11px; padding:9px 11px; border-radius:10px; font-size:13.5px; font-weight:500; color:var(--ink-2); cursor:pointer; transition:.13s; text-decoration:none}
 .tm-item svg{width:17px;height:17px; opacity:.85; flex:0 0 auto}
@@ -130,8 +166,8 @@ button{font-family:inherit}
 .search svg{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:17px;height:17px; color:var(--ink-3)}
 .search input{width:100%; height:40px; border-radius:11px; border:1px solid var(--line); background:var(--surface-2);
   padding:0 14px 0 38px; font-size:13.5px; outline:none; transition:.16s}
-.search input:focus{border-color:var(--primary-300); background:#fff; box-shadow:0 0 0 4px var(--primary-soft)}
-.icon-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;cursor:pointer;position:relative;color:var(--ink-2);transition:.16s}
+.search input:focus{border-color:var(--primary-300); background:var(--surface); box-shadow:0 0 0 4px var(--primary-soft)}
+.icon-btn{width:40px;height:40px;border-radius:11px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;cursor:pointer;position:relative;color:var(--ink-2);transition:.16s}
 .icon-btn:hover{background:var(--surface-2); color:var(--primary)}
 .icon-btn svg{width:19px;height:19px}
 .icon-btn .dot{position:absolute; top:8px; right:9px; width:8px;height:8px;border-radius:50%;background:var(--danger);border:2px solid #fff}
@@ -149,7 +185,7 @@ button{font-family:inherit}
 .page-head p{color:var(--ink-2); margin-top:5px; font-size:13.5px; max-width:720px}
 .page-head .actions{margin-left:auto; display:flex; gap:10px; flex-wrap:wrap}
 .btn{display:inline-flex; align-items:center; gap:8px; height:40px; padding:0 16px; border-radius:11px; font-size:13.5px; font-weight:600;
-  border:1px solid var(--line); background:#fff; color:var(--ink); cursor:pointer; transition:.16s var(--ease); white-space:nowrap}
+  border:1px solid var(--line); background:var(--surface); color:var(--ink); cursor:pointer; transition:.16s var(--ease); white-space:nowrap}
 .btn svg{width:17px;height:17px}
 .btn:hover{background:var(--surface-2); transform:translateY(-1px); box-shadow:var(--sh-xs)}
 .btn:active{transform:none}
@@ -205,7 +241,7 @@ table.tbl{width:100%; border-collapse:collapse; font-size:13.5px; min-width:680p
 
 /* form */
 .form-section{background:var(--surface); border:1px solid var(--line); border-radius:var(--r-lg); box-shadow:var(--sh-sm); margin-bottom:18px; overflow:hidden}
-.form-section__head{display:flex; align-items:center; gap:11px; padding:16px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fbfdfe,#fff)}
+.form-section__head{display:flex; align-items:center; gap:11px; padding:16px 20px; border-bottom:1px solid var(--line); background:linear-gradient(180deg,var(--surface-2),var(--surface))}
 .form-section__head .ic{width:34px;height:34px;border-radius:10px;background:var(--primary-soft);color:var(--primary);display:grid;place-items:center}
 .form-section__head .ic svg{width:18px;height:18px}
 .form-section__head h3{font-size:14.5px}
@@ -218,7 +254,7 @@ table.tbl{width:100%; border-collapse:collapse; font-size:13.5px; min-width:680p
 @media(max-width:560px){.fgrid{grid-template-columns:1fr} .fgrid .span-2,.fgrid .span-all{grid-column:1}}
 .field label{display:block; font-size:12px; font-weight:600; color:var(--ink-2); margin-bottom:6px}
 .field label .req{color:var(--danger)}
-.input,select.input,textarea.input{width:100%; min-height:40px; border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13.5px; font-family:inherit; background:#fff; color:var(--ink); outline:none; transition:.15s}
+.input,select.input,textarea.input{width:100%; min-height:40px; border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13.5px; font-family:inherit; background:var(--surface); color:var(--ink); outline:none; transition:.15s}
 textarea.input{resize:vertical; min-height:64px}
 .input:focus{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
 .input[readonly]{background:var(--surface-2); color:var(--ink-3)}
@@ -233,12 +269,52 @@ input[type="date"].input{min-height:40px}
 input[type="date"].input::-webkit-calendar-picker-indicator{opacity:.55; cursor:pointer; margin-left:2px}
 input[type="file"].input{padding:6px 10px; font-size:12.5px; color:var(--ink-2); line-height:1.6}
 input[type="file"].input::file-selector-button{margin-right:10px; border:1px solid var(--line); background:var(--surface-2); color:var(--ink-2); border-radius:8px; padding:5px 11px; font-family:inherit; font-size:12px; font-weight:600; cursor:pointer}
+
+/* ---------- Select2-style searchable dropdown ---------- */
+.sel2{position:relative; width:100%}
+.sel2-native{position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+.sel2__control{width:100%; min-height:40px; display:flex; align-items:center; gap:8px; text-align:left;
+  border:1px solid var(--line); border-radius:10px; padding:9px 12px; font-size:13.5px; font-family:inherit;
+  background:var(--surface); color:var(--ink); cursor:pointer; transition:.15s}
+.sel2__control:hover{border-color:var(--line-strong)}
+.sel2.open .sel2__control{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
+.sel2__control:disabled{cursor:not-allowed; background:var(--surface-2); color:var(--ink-3)}
+.sel2__label{flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap}
+.sel2__label.is-ph{color:var(--ink-3)}
+.sel2__chev{flex:0 0 15px; width:15px; height:15px; color:var(--ink-3); transition:transform .18s var(--ease)}
+.sel2.open .sel2__chev{transform:rotate(180deg); color:var(--primary)}
+.sel2__menu{position:absolute; left:0; right:0; top:calc(100% + 6px); z-index:60; background:var(--surface);
+  border:1px solid var(--line); border-radius:12px; box-shadow:var(--sh-md); padding:6px;
+  opacity:0; transform:translateY(-6px); pointer-events:none; transition:.16s var(--ease)}
+.sel2.open .sel2__menu{opacity:1; transform:none; pointer-events:auto}
+.sel2__menu.up{top:auto; bottom:calc(100% + 6px); transform:translateY(6px)}
+.sel2.open .sel2__menu.up{transform:none}
+.sel2__search{padding:2px 2px 8px; position:relative}
+.sel2__search svg{position:absolute; left:11px; top:calc(50% - 3px); transform:translateY(-50%); width:14px; height:14px; color:var(--ink-3); pointer-events:none}
+.sel2__search input{width:100%; min-height:36px; border:1px solid var(--line); border-radius:9px; padding:7px 11px 7px 32px; font-family:inherit; font-size:13px; outline:none; color:var(--ink)}
+.sel2__search input:focus{border-color:var(--primary-300); box-shadow:0 0 0 3px var(--primary-soft)}
+.sel2__list{max-height:236px; overflow-y:auto; display:flex; flex-direction:column; gap:1px}
+.sel2__opt{padding:9px 11px; border-radius:8px; font-size:13.3px; cursor:pointer; color:var(--ink); display:flex; align-items:center; gap:8px}
+.sel2__opt:hover{background:var(--surface-2)}
+.sel2__opt.on{background:var(--primary-soft); color:var(--primary); font-weight:700}
+.sel2__opt.on::after{content:'✓'; margin-left:auto; font-weight:800}
+.sel2__empty{padding:12px; text-align:center; color:var(--ink-3); font-size:12.5px}
+.lines-table .sel2__control{min-height:36px; padding:6px 10px; font-size:12.5px}
+.lines-table .sel2__menu{min-width:240px; right:auto}
+
+/* ---------- date picker polish ---------- */
+.datepick{position:relative}
+.datepick__ic{position:absolute; left:12px; top:50%; transform:translateY(-50%); width:16px; height:16px; color:var(--ink-3); pointer-events:none}
+.datepick .input{padding-left:36px}
+input[type="date"].input::-webkit-calendar-picker-indicator{opacity:.5; cursor:pointer; padding:3px; border-radius:6px; transition:.15s}
+input[type="date"].input::-webkit-calendar-picker-indicator:hover{opacity:1; background:var(--surface-2)}
+input[type="date"].input:hover{border-color:var(--line-strong)}
 .hint{font-size:11.5px; color:var(--ink-3); margin-top:5px; display:flex; align-items:center; gap:5px}
 .logo-picks{display:flex;gap:10px;flex-wrap:wrap}
-.logo-pick{width:50px;height:50px;border-radius:14px;border:1px solid var(--line);background:#fff;display:grid;place-items:center;color:var(--ink-3);cursor:pointer;transition:.15s}
+.logo-pick{width:50px;height:50px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--ink-3);cursor:pointer;transition:.15s}
 .logo-pick:hover{border-color:var(--primary-300);color:var(--primary)}
 .logo-pick.on{background:var(--primary-soft);border-color:var(--primary-300);color:var(--primary);box-shadow:0 0 0 3px var(--primary-soft)}
-.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:#fff;font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:.15s}
+.pill{display:inline-flex;align-items:center;gap:7px;padding:8px 13px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:12.5px;font-weight:600;color:var(--ink-2);cursor:pointer;transition:.15s}
 .pill:hover{border-color:var(--primary-300);color:var(--primary)}
 .pill.on{background:var(--primary-soft);border-color:var(--primary-300);color:var(--primary)}
 .pill svg{width:15px;height:15px}
@@ -289,14 +365,14 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
   background:var(--surface-2); color:var(--ink-3); border:2px solid var(--line); transition:.3s}
 .trail-node .dot svg{width:19px;height:19px}
 .trail-node.done .dot{background:var(--grad-primary); color:#fff; border-color:transparent; box-shadow:0 8px 18px -8px rgba(19,80,107,.9)}
-.trail-node.now .dot{background:#fff; color:var(--primary); border-color:var(--primary); animation:ring 1.8s infinite}
+.trail-node.now .dot{background:var(--surface); color:var(--primary); border-color:var(--primary); animation:ring 1.8s infinite}
 .trail-node b{font-size:12.5px; display:block}
 .trail-node span{font-size:11px; color:var(--ink-3)}
 @keyframes ring{0%{box-shadow:0 0 0 0 rgba(19,80,107,.35)} 70%{box-shadow:0 0 0 10px rgba(19,80,107,0)} 100%{box-shadow:0 0 0 0 rgba(19,80,107,0)}}
 
 /* donut + bars */
 .donut{width:180px;height:180px;border-radius:50%; position:relative; flex:0 0 180px}
-.donut::after{content:''; position:absolute; inset:26px; background:#fff; border-radius:50%; box-shadow:inset 0 0 0 1px var(--line)}
+.donut::after{content:''; position:absolute; inset:26px; background:var(--surface); border-radius:50%; box-shadow:inset 0 0 0 1px var(--line)}
 .donut__center{position:absolute; inset:0; display:grid; place-content:center; text-align:center; z-index:1}
 .donut__center b{font-size:24px; display:block; letter-spacing:-.02em}
 .donut__center span{font-size:11px; color:var(--ink-3)}
@@ -328,7 +404,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .set-nav__item.active{background:var(--primary-soft); color:var(--primary)}
 .set-nav__sep{height:1px;background:var(--line);margin:8px 6px}
 .intg{display:flex; align-items:center; gap:16px; padding:18px; border:1px solid var(--line); border-radius:var(--r-md); background:var(--surface-2); transition:.18s}
-.intg:hover{background:#fff; box-shadow:var(--sh-sm)}
+.intg:hover{background:var(--surface); box-shadow:var(--sh-sm)}
 .intg__logo{width:52px;height:52px;border-radius:15px; display:grid; place-items:center; flex:0 0 52px; color:#fff}
 .intg__logo svg{width:27px;height:27px}
 .intg__logo.wa{background:linear-gradient(135deg,#25D366,#128C7E)}
@@ -336,7 +412,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .intg__meta b{font-size:15px} .intg__meta p{font-size:12.5px; color:var(--ink-3); margin-top:2px}
 .intg__right{margin-left:auto; display:flex; align-items:center; gap:12px}
 .switch{width:46px;height:26px;border-radius:999px;background:var(--line-strong); position:relative; cursor:pointer; transition:.2s var(--ease); flex:0 0 46px}
-.switch::after{content:''; position:absolute; top:3px; left:3px; width:20px;height:20px;border-radius:50%;background:#fff; box-shadow:var(--sh-xs); transition:.2s var(--ease)}
+.switch::after{content:''; position:absolute; top:3px; left:3px; width:20px;height:20px;border-radius:50%;background:var(--surface); box-shadow:var(--sh-xs); transition:.2s var(--ease)}
 .switch.on{background:var(--success)}
 .switch.on::after{transform:translateX(20px)}
 .wa-preview{background:#e5ddd5; border-radius:var(--r-md); padding:16px; background-image:radial-gradient(rgba(0,0,0,.04) 1px,transparent 1px); background-size:16px 16px}
@@ -357,7 +433,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 @keyframes pulse{0%{transform:scale(1); opacity:.7} 100%{transform:scale(1.7); opacity:0}}
 @keyframes dotpulse{0%{box-shadow:0 0 0 0 rgba(224,169,74,.7)} 70%{box-shadow:0 0 0 9px rgba(224,169,74,0)} 100%{box-shadow:0 0 0 0 rgba(224,169,74,0)}}
 @keyframes sparkle{0%,100%{transform:rotate(0) scale(1)} 50%{transform:rotate(12deg) scale(1.12)}}
-.ai-hint{position:fixed; right:96px; bottom:38px; z-index:60; background:#fff; border:1px solid var(--line); box-shadow:var(--sh-md);
+.ai-hint{position:fixed; right:96px; bottom:38px; z-index:60; background:var(--surface); border:1px solid var(--line); box-shadow:var(--sh-md);
   border-radius:14px 14px 4px 14px; padding:10px 14px; font-size:12.5px; max-width:230px; text-align:right; animation:fadeUp .5s var(--ease); transition:.3s}
 .ai-hint b{display:block; color:var(--primary); font-size:12.5px; margin-bottom:2px}
 .ai-hint.hide{opacity:0; transform:translateX(10px); pointer-events:none}
@@ -382,7 +458,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .msg.bot .msg__av svg{width:16px;height:16px}
 .msg.me{align-self:flex-end; flex-direction:row-reverse}
 .msg.me .msg__av{background:var(--accent-soft); color:var(--accent)}
-.msg__bubble{background:#fff; border:1px solid var(--line); border-radius:14px 14px 14px 4px; padding:11px 13px; font-size:13px; box-shadow:var(--sh-xs)}
+.msg__bubble{background:var(--surface); border:1px solid var(--line); border-radius:14px 14px 14px 4px; padding:11px 13px; font-size:13px; box-shadow:var(--sh-xs)}
 .msg.me .msg__bubble{background:var(--primary); color:#fff; border-color:transparent; border-radius:14px 14px 4px 14px}
 .msg__bubble .src{margin-top:9px; padding-top:9px; border-top:1px dashed var(--line); display:flex; flex-wrap:wrap; gap:6px}
 .msg__bubble .src a{font-size:11.5px; font-weight:600; color:var(--primary); background:var(--primary-soft); padding:3px 9px; border-radius:999px}
@@ -390,9 +466,9 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .typing span:nth-child(2){animation-delay:.2s} .typing span:nth-child(3){animation-delay:.4s}
 @keyframes ty{0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-5px);opacity:1}}
 .ai-quick{display:flex; gap:8px; flex-wrap:wrap; padding:0 18px 12px; background:#f6fafc}
-.ai-quick button{border:1px solid var(--line); background:#fff; border-radius:999px; padding:6px 12px; font-size:12px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:.15s}
+.ai-quick button{border:1px solid var(--line); background:var(--surface); border-radius:999px; padding:6px 12px; font-size:12px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:.15s}
 .ai-quick button:hover{border-color:var(--primary-300); color:var(--primary); background:var(--primary-soft)}
-.ai-input{display:flex; gap:10px; padding:14px; border-top:1px solid var(--line); background:#fff}
+.ai-input{display:flex; gap:10px; padding:14px; border-top:1px solid var(--line); background:var(--surface)}
 .ai-input input{flex:1; height:44px; border:1px solid var(--line); border-radius:13px; padding:0 15px; font-size:13.5px; outline:none; font-family:inherit}
 .ai-input input:focus{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
 .ai-input button{width:44px;height:44px;border-radius:13px;border:0;background:var(--grad-primary); color:#fff; cursor:pointer; display:grid; place-items:center; box-shadow:0 8px 18px -8px rgba(19,80,107,.9)}
@@ -428,7 +504,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .lg-field label{display:block; font-size:12.5px; font-weight:600; margin-bottom:7px; color:var(--ink-2)}
 .lg-input{position:relative}
 .lg-input .lead{position:absolute; left:13px; top:50%; transform:translateY(-50%); width:18px;height:18px; color:var(--ink-3)}
-.lg-input input{width:100%; height:49px; border:1px solid var(--line); border-radius:12px; padding:0 46px 0 42px; font-size:14px; font-family:inherit; outline:none; transition:.15s; background:#fff; color:var(--ink)}
+.lg-input input{width:100%; height:49px; border:1px solid var(--line); border-radius:12px; padding:0 46px 0 42px; font-size:14px; font-family:inherit; outline:none; transition:.15s; background:var(--surface); color:var(--ink)}
 .lg-input input:focus{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
 .lg-input .eye{position:absolute; right:8px; top:50%; transform:translateY(-50%); width:34px;height:34px;border:0;background:transparent;cursor:pointer;color:var(--ink-3); display:grid;place-items:center; border-radius:8px}
 .lg-input .eye svg{width:18px;height:18px}
@@ -441,15 +517,21 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .lg-btn{width:100%; height:50px; border:0; border-radius:12px; background:var(--grad-primary); color:#fff; font-size:15px; font-weight:700; cursor:pointer; box-shadow:0 14px 30px -12px rgba(19,80,107,.95); transition:.16s var(--ease); display:flex; align-items:center; justify-content:center; gap:9px}
 .lg-btn svg{width:18px;height:18px}
 .lg-btn:hover{transform:translateY(-1px); box-shadow:0 18px 36px -12px rgba(19,80,107,.95)}
+.lg-input select{appearance:none; width:100%; height:48px; border:1px solid var(--line); border-radius:12px; padding:0 40px 0 42px; outline:none; font-family:inherit; font-size:13.5px; font-weight:600; color:var(--ink); background:var(--surface) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23556' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") no-repeat right 14px center; cursor:pointer}
+.lg-input select:focus{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
+.lg-input .sel2{width:100%}
+.lg-input .sel2__control{min-height:46px; padding-left:42px; font-size:13.5px; font-weight:600}
+.lg-role-hint{margin-top:10px; font-size:12.5px; color:var(--ink-2); display:flex; align-items:center; gap:7px}
+.lg-role-hint b{color:var(--primary)}
 .lg-select{display:flex; gap:8px; margin-bottom:22px; flex-wrap:wrap}
-.lg-pill{flex:1; min-width:74px; text-align:center; padding:9px 8px; border:1px solid var(--line); border-radius:11px; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-2); transition:.15s; background:#fff}
+.lg-pill{flex:1; min-width:74px; text-align:center; padding:9px 8px; border:1px solid var(--line); border-radius:11px; font-size:12.5px; font-weight:600; cursor:pointer; color:var(--ink-2); transition:.15s; background:var(--surface)}
 .lg-pill:hover{border-color:var(--primary-300)}
 .lg-pill.on{background:var(--primary-soft); border-color:var(--primary-300); color:var(--primary)}
 .lg-sep{display:flex; align-items:center; gap:12px; color:var(--ink-3); font-size:12px; margin:24px 0 16px}
 .lg-sep::before,.lg-sep::after{content:''; flex:1; height:1px; background:var(--line)}
 .lg-demo{display:flex; gap:8px; flex-wrap:wrap}
 .lg-demo button{border:1px solid var(--line); background:var(--surface-2); border-radius:10px; padding:9px 12px; font-size:12px; cursor:pointer; color:var(--ink-2); font-weight:600; transition:.15s}
-.lg-demo button:hover{background:#fff; border-color:var(--primary-300); color:var(--primary)}
+.lg-demo button:hover{background:var(--surface); border-color:var(--primary-300); color:var(--primary)}
 .lg-foot{margin-top:26px; text-align:center; font-size:12px; color:var(--ink-3); line-height:1.7}
 .lg-error{background:var(--danger-soft); color:var(--danger); border:1px solid #f3d3cf; border-radius:10px; padding:10px 13px; font-size:12.5px; margin-bottom:16px; display:none; align-items:center; gap:8px; font-weight:600}
 .lg-error svg{width:17px;height:17px;flex:0 0 17px}
@@ -459,7 +541,7 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 
 /* toast */
 .toasts{position:fixed; right:22px; bottom:22px; z-index:90; display:flex; flex-direction:column; gap:10px; align-items:flex-end}
-.toast{background:#fff; border:1px solid var(--line); border-left:4px solid var(--success); border-radius:12px; box-shadow:var(--sh-md); padding:13px 16px; min-width:280px; display:flex; gap:11px; align-items:flex-start; animation:toastIn .3s var(--ease)}
+.toast{background:var(--surface); border:1px solid var(--line); border-left:4px solid var(--success); border-radius:12px; box-shadow:var(--sh-md); padding:13px 16px; min-width:280px; display:flex; gap:11px; align-items:flex-start; animation:toastIn .3s var(--ease)}
 .toast.err{border-left-color:var(--danger)}
 .toast.info{border-left-color:var(--info)}
 .toast svg{width:19px;height:19px;flex:0 0 19px;margin-top:1px}
@@ -480,17 +562,36 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 
 /* master tabs */
 .mtabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:18px}
-.mtab{display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:#fff; font-size:12.5px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:.15s}
+.mtab{display:inline-flex; align-items:center; gap:7px; padding:8px 14px; border:1px solid var(--line); border-radius:999px; background:var(--surface); font-size:12.5px; font-weight:600; color:var(--ink-2); cursor:pointer; transition:.15s}
 .mtab svg{width:15px;height:15px}
 .mtab:hover{border-color:var(--primary-300); color:var(--primary)}
 .mtab.on{background:var(--primary-soft); border-color:var(--primary-300); color:var(--primary)}
 
+/* administration */
+.cell-user{display:flex; align-items:center; gap:11px}
+.cell-user span{display:block; font-size:12px}
+.avatar--sm{width:34px;height:34px;border-radius:10px;font-size:12px;flex:0 0 34px}
+.wf-list{display:flex; flex-direction:column; gap:8px}
+.wf-item{display:flex; align-items:center; gap:12px; padding:11px 12px; border:1px solid var(--line); border-radius:var(--r-md); cursor:pointer; transition:.15s}
+.wf-item:hover{border-color:var(--primary-300); background:var(--surface-2)}
+.wf-item.on{border-color:var(--primary-300); background:var(--primary-soft)}
+.wf-item__ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;background:var(--primary-soft);color:var(--primary);flex:0 0 34px}
+.wf-steps{display:flex; flex-direction:column; gap:14px}
+.wf-step{display:flex; align-items:center; gap:12px; position:relative}
+.wf-step__no{width:26px;height:26px;border-radius:50%;background:var(--grad-primary);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex:0 0 26px}
+.wf-step__body{display:flex; gap:8px; flex:1; min-width:0}
+.wf-step__body .input{flex:1; min-width:0}
+.wf-step__btns{display:flex; gap:2px}
+.wf-step__btns .btn{padding:6px}
+.wf-step__line{position:absolute; left:12px; top:30px; bottom:-14px; width:2px; background:var(--line)}
+.wf-step:last-child .wf-step__line{display:none}
+
 /* chat */
-.chatwrap{display:grid; grid-template-columns:300px 1fr; height:calc(100vh - 190px); min-height:460px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:#fff; box-shadow:var(--sh-sm)}
+.chatwrap{display:grid; grid-template-columns:300px 1fr; height:calc(100vh - 190px); min-height:460px; border:1px solid var(--line); border-radius:var(--r-lg); overflow:hidden; background:var(--surface); box-shadow:var(--sh-sm)}
 .chatlist{border-right:1px solid var(--line); overflow-y:auto; background:var(--surface-2)}
 .chatlist__item{display:flex; gap:12px; align-items:center; padding:13px 16px; cursor:pointer; border-bottom:1px solid var(--line); transition:.15s}
-.chatlist__item:hover{background:#fff}
-.chatlist__item.active{background:#fff; box-shadow:inset 3px 0 0 var(--primary)}
+.chatlist__item:hover{background:var(--surface)}
+.chatlist__item.active{background:var(--surface); box-shadow:inset 3px 0 0 var(--primary)}
 .chatlist__av{width:42px;height:42px;border-radius:12px; display:grid; place-items:center; color:#fff; font-weight:700; flex:0 0 42px; font-size:15px}
 .chatlist__av svg{width:20px;height:20px}
 .chatlist__meta{min-width:0; flex:1}
@@ -501,11 +602,11 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 .chatmain__head{display:flex; align-items:center; gap:12px; padding:13px 18px; border-bottom:1px solid var(--line)}
 .chatmsgs{flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:12px; background:linear-gradient(180deg,#fbfdfe,#f3f8fb)}
 .bubble{max-width:72%; padding:10px 14px; border-radius:14px; font-size:13.5px; box-shadow:var(--sh-xs); line-height:1.45}
-.bubble.in{background:#fff; border:1px solid var(--line); border-radius:14px 14px 14px 4px; align-self:flex-start}
+.bubble.in{background:var(--surface); border:1px solid var(--line); border-radius:14px 14px 14px 4px; align-self:flex-start}
 .bubble.out{background:var(--grad-primary); color:#fff; border-radius:14px 14px 4px 14px; align-self:flex-end}
 .bubble.wa-out{background:#d9fdd3; color:#152430; border-radius:14px 14px 4px 14px; align-self:flex-end}
 .bubble .t{font-size:10.5px; opacity:.7; margin-top:4px; text-align:right}
-.chatcomposer{display:flex; gap:10px; padding:14px; border-top:1px solid var(--line); background:#fff}
+.chatcomposer{display:flex; gap:10px; padding:14px; border-top:1px solid var(--line); background:var(--surface)}
 .chatcomposer input{flex:1; height:44px; border:1px solid var(--line); border-radius:13px; padding:0 15px; outline:none; font-family:inherit; font-size:13.5px}
 .chatcomposer input:focus{border-color:var(--primary-300); box-shadow:0 0 0 4px var(--primary-soft)}
 .chatcomposer input:disabled{background:var(--surface-2); color:var(--ink-3)}
@@ -514,9 +615,11 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
 @media(max-width:960px){
   .hamb{display:flex}
   .topnav__brand span{display:none}
+  .sidebar{position:fixed; left:0; top:0; transform:translateX(-104%); transition:transform .3s var(--ease); box-shadow:var(--sh-lg)}
+  .sidebar.open{transform:none}
   .topmenu{
     position:fixed; top:var(--header-h); left:0; right:0; flex-direction:column; align-items:stretch;
-    background:#fff; border-bottom:1px solid var(--line); padding:10px; gap:4px; box-shadow:var(--sh-md);
+    background:var(--surface); border-bottom:1px solid var(--line); padding:10px; gap:4px; box-shadow:var(--sh-md);
     transform:translateY(-140%); transition:transform .25s var(--ease); max-height:calc(100vh - var(--header-h)); overflow-y:auto;
   }
   .topmenu.open{transform:none}
@@ -525,10 +628,9 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
   .tm-group .tm-drop{display:none}
   .tm-group.open .tm-drop{display:block}
   .tm-drop{position:static; box-shadow:none; border:0; padding:0 0 6px 12px; min-width:0; animation:none}
-  .topnav .search{display:none}
+  .topbar .search{display:none}
   .userchip .meta{display:none}
   .content{padding:18px}
-  .crumbbar{padding:14px 18px 0}
 }
 </style>
 </head>
@@ -566,85 +668,92 @@ input[type="file"].input::file-selector-button{margin-right:10px; border:1px sol
       <h2>Welcome back</h2>
       <p>Sign in to your procurement workspace.</p>
 
-      <div class="lg-error" id="lgError"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Enter your email and password to continue.</span></div>
+      <div class="lg-error" id="lgError"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg><span>Enter valid credentials to continue.</span></div>
 
-      <div class="lg-select" id="roleSelect">
-        <div class="lg-pill on" onclick="pickRole(this,'Admin')">Admin</div>
-        <div class="lg-pill" onclick="pickRole(this,'Procurement Manager')">Procurement</div>
-        <div class="lg-pill" onclick="pickRole(this,'Buyer')">Buyer</div>
-        <div class="lg-pill" onclick="pickRole(this,'Approver')">Approver</div>
+      <div class="lg-select" id="loginMode">
+        <div class="lg-pill on" onclick="pickMode(this,'admin')">Administrator</div>
+        <div class="lg-pill" onclick="pickMode(this,'user')">Standard user</div>
       </div>
 
-      <div class="lg-field">
-        <label for="lgEmail">Email or username</label>
-        <div class="lg-input">
-          <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
-          <input id="lgEmail" type="text" value="admin@procurex.local" autocomplete="username" spellcheck="false" />
+      <div id="adminFields">
+        <div class="lg-field">
+          <label for="lgEmail">Username</label>
+          <div class="lg-input">
+            <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+            <input id="lgEmail" type="text" value="admin@procurex.local" autocomplete="username" spellcheck="false" />
+          </div>
+        </div>
+
+        <div class="lg-field">
+          <label for="lgPass">Password</label>
+          <div class="lg-input">
+            <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+            <input id="lgPass" type="password" value="Procurex@123" autocomplete="current-password" />
+            <button type="button" class="eye" onclick="togglePw()" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+          </div>
         </div>
       </div>
 
-      <div class="lg-field">
-        <label for="lgPass">Password</label>
-        <div class="lg-input">
-          <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
-          <input id="lgPass" type="password" value="Procurex@123" autocomplete="current-password" />
-          <button type="button" class="eye" onclick="togglePw()" aria-label="Show password"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg></button>
+      <div id="userFields" style="display:none">
+        <div class="lg-field">
+          <label for="lgUser">Select your user</label>
+          <div class="lg-input">
+            <svg class="lead" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6 8-6s8 2 8 6"/></svg>
+            <select id="lgUser" onchange="syncUserRole()"></select>
+          </div>
+          <div class="lg-role-hint">Role: <b id="lgRoleHint">Buyer</b> · no password required in demo</div>
         </div>
       </div>
 
       <div class="lg-row">
         <label class="lg-check"><input type="checkbox" checked />Remember me</label>
-        <span class="lg-link" onclick="toast('Reset link sent','We emailed a password reset link (demo).','info')">Forgot password?</span>
+        <span class="lg-link" id="forgotLink" onclick="toast('Reset link sent','We emailed a password reset link (demo).','info')">Forgot password?</span>
       </div>
 
       <button class="lg-btn" type="submit">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg>
-        Sign in
+        <span id="lgBtnLabel">Sign in as administrator</span>
       </button>
 
-      <div class="lg-sep">or use a demo account</div>
+      <div class="lg-sep">quick sign in</div>
       <div class="lg-demo">
-        <button type="button" onclick="fillDemo('admin@procurex.local','Admin')">Admin</button>
-        <button type="button" onclick="fillDemo('pm@procurex.local','Procurement Manager')">Procurement</button>
-        <button type="button" onclick="fillDemo('buyer@procurex.local','Buyer')">Buyer</button>
-        <button type="button" onclick="fillDemo('approver@procurex.local','Approver')">Approver</button>
-        <button type="button" onclick="fillDemo('finance@procurex.local','Finance')">Finance</button>
+        <button type="button" onclick="quickLogin('admin@procurex.local')">Admin</button>
+        <button type="button" onclick="quickLogin('pm@procurex.local')">Procurement</button>
+        <button type="button" onclick="quickLogin('buyer@procurex.local')">Buyer</button>
+        <button type="button" onclick="quickLogin('approver@procurex.local')">Approver</button>
+        <button type="button" onclick="quickLogin('finance@procurex.local')">Finance</button>
       </div>
 
-      <div class="lg-foot">Protected by role-based access · Password <b>Procurex@123</b><br/>© 2026 ProcureX Manufacturing Pvt Ltd</div>
+      <div class="lg-foot">Protected by role-based access · Admin password <b>Procurex@123</b><br/>© 2026 ProcureX Manufacturing Pvt Ltd</div>
     </form>
   </div>
 </div>
 
-<div class="app is-hidden" id="app">
-  <header class="topnav">
-    <button class="hamb" id="hamb" onclick="toggleNav()" aria-label="Menu">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
-    </button>
-    <div class="topnav__brand" id="brandBox"></div>
-    <nav class="topmenu" id="topmenu"></nav>
-    <div class="topnav__right">
+<div class="app is-hidden layout-side" id="app">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="scrim" id="scrim" onclick="toggleNav(false)"></div>
+
+  <div class="frame">
+    <header class="topbar">
+      <button class="hamb" id="hamb" onclick="toggleNav()" aria-label="Menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+      <div class="topnav__brand" id="brandBox"></div>
+      <nav class="topmenu" id="topmenu"></nav>
+      <div class="crumb" id="crumb"></div>
       <div class="search">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
         <input placeholder="Search indents, PRs, POs, vendors…" aria-label="Search" />
       </div>
+      <button class="icon-btn" id="modeBtn" onclick="toggleMode()" title="Toggle dark mode" aria-label="Toggle dark mode"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
       <button class="icon-btn" aria-label="Notifications"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg><span class="dot"></span></button>
-      <button class="icon-btn" aria-label="Theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg></button>
       <button class="icon-btn" onclick="logout()" title="Sign out" aria-label="Sign out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/></svg></button>
       <div class="userchip">
         <div class="avatar" id="avatarBox">PM</div>
         <div class="meta"><b id="userName">Priya Menon</b><span id="userRole">Procurement Manager</span></div>
       </div>
-    </div>
-  </header>
-
-  <div class="scrim" id="scrim" onclick="toggleNav(false)"></div>
-
-  <div class="frame">
-    <div class="crumbbar">
-      <div class="crumb" id="crumb"></div>
-      <span class="demo-flag">Client demo · sample data</span>
-    </div>
+    </header>
     <main class="content" id="view"></main>
   </div>
 </div>
@@ -738,7 +847,15 @@ const ICON = {
   groups:'<circle cx="9" cy="8" r="3"/><path d="M3.5 20c0-3 2.6-5 5.5-5s5.5 2 5.5 5"/><path d="M16 6a3 3 0 0 1 0 6M20.5 20c0-2.6-1.6-4.4-4-4.9"/>',
   building:'<rect x="4" y="2" width="16" height="20" rx="1.5"/><path d="M9 6h.01M15 6h.01M9 10h.01M15 10h.01M9 14h.01M15 14h.01M10 22v-3h4v3"/>',
   sitemap:'<rect x="9" y="3" width="6" height="5" rx="1"/><rect x="2" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="6" height="5" rx="1"/><path d="M12 8v4M5 16v-2h14v2"/>',
-  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/>'
+  image:'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.6"/><path d="m21 15-5-5L5 21"/>',
+  moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>',
+  sun:'<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>',
+  shield:'<path d="M12 3 5 6v6c0 4.2 3 7.6 7 9 4-1.4 7-4.8 7-9V6Z"/><path d="m9.5 12 1.8 1.8 3.2-3.6"/>',
+  workflow:'<rect x="3" y="3" width="7" height="6" rx="1.5"/><rect x="14" y="15" width="7" height="6" rx="1.5"/><path d="M6.5 9v4.5a2 2 0 0 0 2 2H14"/>',
+  key:'<circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 8-8M17 4l3 3M14.5 6.5l2.5 2.5"/>',
+  userplus:'<circle cx="9" cy="8" r="3.5"/><path d="M3 20c0-3.2 2.7-5 6-5"/><path d="M17 11v6M14 14h6"/>',
+  up:'<path d="m6 15 6-6 6 6"/>',
+  down:'<path d="m6 9 6 6 6-6"/>'
 };
 const svg = (n, s=20) => '<svg viewBox="0 0 24 24" width="'+s+'" height="'+s+'" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">'+(ICON[n]||'')+'</svg>';
 
@@ -762,6 +879,43 @@ const state = {
   setTab:'wa',
   navOpen:false,
   menuOpen:null,
+  users:[
+    {id:'U-001', name:'Arun Kumar', email:'admin@procurex.local', role:'Admin', dept:'Administration', active:true},
+    {id:'U-002', name:'Priya Menon', email:'pm@procurex.local', role:'Procurement Manager', dept:'Procurement', active:true},
+    {id:'U-003', name:'Rahul Das', email:'buyer@procurex.local', role:'Buyer', dept:'Procurement', active:true},
+    {id:'U-004', name:'Meera Iyer', email:'approver@procurex.local', role:'Approver', dept:'Finance', active:true},
+    {id:'U-005', name:'Sanjay Rao', email:'finance@procurex.local', role:'Finance', dept:'Finance', active:false}
+  ],
+  userDraft:null, userEdit:null,
+  roleSel:'Procurement Manager',
+  roles:{
+    'Admin':{desc:'Full control of the workspace, users and settings.',
+      perms:['indents.create','indents.approve','pr.approve','rfq.manage','quotes.manage','po.create','po.approve','vendors.manage','masters.manage','users.manage','reports.view','settings.manage']},
+    'Procurement Manager':{desc:'Runs sourcing, approvals and purchase orders',
+      perms:['indents.create','indents.approve','pr.approve','rfq.manage','quotes.manage','po.create','po.approve','vendors.manage','reports.view']},
+    Buyer:{desc:'Raises indents, manages RFQs, quotations and purchase orders', perms:['indents.create','rfq.manage','quotes.manage','po.create','vendors.manage','reports.view']},
+    Approver:{desc:'Approves indents, requisitions and purchase orders', perms:['indents.approve','pr.approve','po.approve','reports.view']},
+    Finance:{desc:'Reviews budgets, tax and releases payments', perms:['pr.approve','po.approve','reports.view']}
+  },
+  company:{
+    name:'ProcureX Manufacturing Pvt Ltd', legal:'ProcureX Manufacturing Private Limited',
+    gst:'33ABCDE1234F1Z5', pan:'ABCDE1234F', cin:'U29253TN2015PTC098765',
+    email:'procurement@procurex.local', phone:'+91 44 4290 8800', website:'https://procurex.local',
+    address:'Plot 12, Ambattur Industrial Estate', city:'Chennai', state:'Tamil Nadu', pincode:'600058',
+    country:'India', currency:'INR — Indian Rupee (₹)', fiscal:'April - March',
+    timezone:'(GMT+05:30) Asia/Kolkata', dateformat:'dd-MMM-yyyy'
+  },
+  workflow:[
+    {id:'WF-1', name:'Indent approval', module:'Indent', active:true, steps:[
+      {role:'Requester', action:'Submit'},{role:'HOD', action:'Approve'},{role:'Procurement Manager', action:'Approve'},{role:'Finance', action:'Review'}]},
+    {id:'WF-2', name:'Purchase requisition approval', module:'PR', active:true, steps:[
+      {role:'Buyer', action:'Raise'},{role:'Procurement Manager', action:'Approve'},{role:'Finance', action:'Approve'}]},
+    {id:'WF-3', name:'Purchase order release', module:'PO', active:true, steps:[
+      {role:'Buyer', action:'Create'},{role:'Procurement Manager', action:'Approve'},{role:'Finance', action:'Approve'}]},
+    {id:'WF-4', name:'Vendor onboarding', module:'Vendor', active:false, steps:[
+      {role:'Buyer', action:'Register'},{role:'Procurement Manager', action:'Verify'},{role:'Finance', action:'Approve'}]}
+  ],
+  wfSel:'WF-1',
   indents:[
     {id:'IND-2026-0031', date:'2026-10-10', department:'Production', division:'Panel Division', requestedBy:'Karthik S', priority:'Urgent', requiredBy:'2026-11-02', costCenter:'CC-PRO-01', purpose:'Panel wiring materials for WO-7764', justification:'Current stock is below re-order level for the LT panel order.', status:'Approved', lines:[
       {item:'MCB-32A-3P', name:'MCB 32A 3-Pole', spec:'3-pole, 10kA', uom:'Nos', qty:24, rate:480, requiredBy:'2026-11-02', remarks:''},
@@ -850,6 +1004,7 @@ const state = {
   rfqDraft:null, quoteDraft:null, editingRfq:null, editingQuote:null, compareRfq:'RFQ-1025',
   branding:{appName:'ProcureX', logo:'rocket'},
   menuPrefs:{},
+  prefs:{layout:'sidebar', theme:'teal', mode:'light'},
   threads:[
     {id:1, name:'Approvals', tag:'Team', color:'#13506b', msgs:[
       {by:'Meera Iyer', text:'IND-2026-0032 is with me, will approve today.', t:'09:40', me:false},
@@ -893,6 +1048,12 @@ const NAV = [
   ]},
   {group:'Vendors', items:[{key:'vendors',label:'Vendor Master',icon:'vendor'}]},
   {group:'Masters', items:[{key:'masters',label:'Item / Material Master',icon:'master'}]},
+  {group:'Administration', items:[
+    {key:'users',label:'Users',icon:'groups',badge:()=>state.users.filter(u=>u.active).length},
+    {key:'roles',label:'Roles & Permissions',icon:'shield'},
+    {key:'company',label:'Company Settings',icon:'building'},
+    {key:'workflow',label:'Workflow',icon:'workflow'}
+  ]},
   {group:'Insights', items:[{key:'reports',label:'Reports',icon:'report'},{key:'ai',label:'AI Assistant',icon:'ai'}]},
   {group:'System', items:[{key:'settings',label:'Settings',icon:'settings'}]},
   {group:'Connect', items:[
@@ -905,35 +1066,56 @@ const PLACEHOLDER = {};
 function navVisible(it){ return state.menuPrefs[it.key]!==false; }
 function renderSidebar(){
   const b = state.branding;
-  $('#brandBox').innerHTML = '<div class="brand__logo">'+svg(b.logo,21)+'</div><span>'+esc(b.appName)+'</span>';
-  let html = '';
+  const brandTop = '<div class="brand__logo">'+svg(b.logo,21)+'</div><span>'+esc(b.appName)+'</span>';
+  const be = $('#brandBox'); if(be) be.innerHTML = brandTop;
+
+  let side = '<div class="brand"><div class="brand__logo">'+svg(b.logo,21)+'</div>'
+           + '<div><div class="brand__name">'+esc(b.appName)+'</div></div></div>';
+  let top = '';
   NAV.forEach(g=>{
     const vis = g.items.filter(navVisible);
     if(!vis.length) return;
     if(vis.length===1 && g.items.length===1){
       const it = vis[0], on = state.view===it.key;
-      html += '<a class="tm-link '+(on?'on':'')+'" onclick="go(\''+it.key+'\')">'+it.label+'</a>';
+      side += '<a class="nav-item '+(on?'active':'')+'" onclick="go(\''+it.key+'\')">'+svg(it.icon,19)+'<span>'+it.label+'</span></a>';
+      top  += '<a class="tm-link '+(on?'on':'')+'" onclick="go(\''+it.key+'\')">'+it.label+'</a>';
       return;
     }
+    side += '<div class="nav-group"><div class="nav-group__label">'+g.group+'</div>';
+    vis.forEach(it=>{
+      const on = state.view===it.key;
+      const badge = it.badge ? '<span class="badge">'+it.badge()+'</span>' : '';
+      side += '<a class="nav-item '+(on?'active':'')+'" onclick="go(\''+it.key+'\')">'+svg(it.icon,19)+'<span>'+it.label+'</span>'+badge+'</a>';
+    });
+    side += '</div>';
     const open = state.menuOpen===g.group;
     const items = vis.map(it=>{
       const on = state.view===it.key;
       const badge = it.badge ? '<span class="tm-badge">'+it.badge()+'</span>' : '';
       return '<a class="tm-item '+(on?'on':'')+'" onclick="go(\''+it.key+'\')">'+svg(it.icon,17)+'<span>'+it.label+'</span>'+badge+'</a>';
     }).join('');
-    html += '<div class="tm-group '+(open?'open':'')+'">'
-          + '<button class="tm-btn" onclick="event.stopPropagation(); toggleMenu(\''+g.group+'\')">'+g.group
-          + ' <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>'
-          + '<div class="tm-drop">'+items+'</div>'
-          + '</div>';
+    top += '<div class="tm-group '+(open?'open':'')+'">'
+         + '<button class="tm-btn" onclick="event.stopPropagation(); toggleMenu(\''+g.group+'\')">'+g.group
+         + ' <svg class="caret" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg></button>'
+         + '<div class="tm-drop">'+items+'</div>'
+         + '</div>';
   });
-  $('#topmenu').innerHTML = html;
+
+  const prefs = state.prefs;
+  side += '<div class="side-foot"><div class="side-card"><b style="font-size:13px;color:#fff">Navigation</b>'
+       +  '<div class="seg dark" style="margin-top:10px">'
+       +  '<button class="'+(prefs.layout==='sidebar'?'on':'')+'" onclick="setLayout(\'sidebar\')">Sidebar</button>'
+       +  '<button class="'+(prefs.layout==='top'?'on':'')+'" onclick="setLayout(\'top\')">Top bar</button>'
+       +  '</div></div></div>';
+
+  const sb = $('#sidebar'); if(sb) sb.innerHTML = side;
+  const tm = $('#topmenu'); if(tm) tm.innerHTML = top;
 }
 function toggleMenu(group){ state.menuOpen = state.menuOpen===group ? null : group; renderSidebar(); }
 
 function crumb(){
   const item = NAV.flatMap(g=>g.items).find(i=>i.key===state.view);
-  const extra = {indentForm:(state.editing?'Edit Indent':'New Indent'), prForm:'Purchase Requisition', poForm:'Create Purchase Order', vendorForm:'Vendor Registration', masters:'Master Setup', rfqForm:'RFQ / Enquiry', quoteForm:'Record Quotation'};
+  const extra = {indentForm:(state.editing?'Edit Indent':'New Indent'), prForm:'Purchase Requisition', poForm:'Create Purchase Order', vendorForm:'Vendor Registration', masters:'Master Setup', rfqForm:'RFQ / Enquiry', quoteForm:'Record Quotation', users:'User Management', roles:'Roles & Permissions', company:'Company Settings', workflow:'Approval Workflows'};
   const label = item ? item.label : (extra[state.view] || 'ProcureX');
   $('#crumb').innerHTML = '<b>'+label+'</b><span>'+new Date().toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'})+'</span>';
 }
@@ -964,16 +1146,22 @@ function render(){
   else if(v==='quoteForm') html = quoteForm();
   else if(v==='compare') html = comparePage();
   else if(v==='reports') html = reportsPage();
+  else if(v==='users') html = usersPage();
+  else if(v==='roles') html = rolesPage();
+  else if(v==='company') html = companyPage();
+  else if(v==='workflow') html = workflowPage();
   else if(v==='chat') html = chatPage();
   else if(v==='whatsapp') html = whatsappPage();
   else if(v==='settings') html = settings();
   else if(v==='ai') html = aiPage();
   else html = placeholder(v);
   $('#view').innerHTML = html;
+  formEnhance($('#view'));
 }
 function toggleNav(force){
   state.navOpen = force===undefined ? !state.navOpen : force;
-  const m = $('#topmenu'); if(m) m.classList.toggle('open', state.navOpen);
+  const el = state.prefs.layout==='top' ? $('#topmenu') : $('#sidebar');
+  if(el) el.classList.toggle('open', state.navOpen);
   $('#scrim').classList.toggle('on', state.navOpen);
   if(!state.navOpen) state.menuOpen = null;
 }
@@ -1146,6 +1334,110 @@ function indentForm(){
 }
 function lineTotal2(){ return state.draft.lines.reduce((a,l)=>a+lineTotal(l),0); }
 function field(label, control, cls){ return '<div class="field '+(cls||'')+'"><label>'+label+'</label>'+control+'</div>'; }
+
+/* ===================== Select2-style dropdown + date picker ===================== */
+const SEL2_CHEV = '<svg class="sel2__chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>';
+const SEL2_SEARCH = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>';
+const DATE_ICON = '<svg class="datepick__ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 9h18M8 3v4M16 3v4"/></svg>';
+function formEnhance(root){
+  root = root || document;
+  root.querySelectorAll('select:not([data-sel2]):not(.sel2-native)').forEach(buildSel2);
+  root.querySelectorAll('input[type="date"]:not([data-datepick])').forEach(buildDate);
+}
+function buildSel2(sel){
+  if(sel.multiple) return;
+  sel.setAttribute('data-sel2','1');
+  if(sel.id==='lgUser') sel.setAttribute('data-placeholder','Select user');
+  const opts = [...sel.options];
+  const placeholder = sel.getAttribute('data-placeholder') || (opts[0] && opts[0].value==='' ? opts[0].text : 'Select');
+  const searchable = opts.length >= 7;
+
+  const wrap = document.createElement('div'); wrap.className='sel2';
+  if(sel.style.width){ wrap.style.width = sel.style.width; if(sel.style.width==='auto') wrap.style.display='inline-block'; }
+  if(sel.style.minWidth) wrap.style.minWidth = sel.style.minWidth;
+  sel.parentNode.insertBefore(wrap, sel);
+  wrap.appendChild(sel);
+  sel.classList.add('sel2-native');
+
+  const ctrl = document.createElement('button');
+  ctrl.type='button'; ctrl.className='sel2__control';
+  if(sel.disabled) ctrl.disabled = true;
+  ctrl.setAttribute('aria-haspopup','listbox');
+  ctrl.innerHTML = '<span class="sel2__label"></span>'+SEL2_CHEV;
+  wrap.appendChild(ctrl);
+
+  const menu = document.createElement('div'); menu.className='sel2__menu';
+  menu.innerHTML = (searchable ? '<div class="sel2__search">'+SEL2_SEARCH+'<input type="text" placeholder="Search…" aria-label="Search options"></div>' : '')
+    + '<div class="sel2__list"></div><div class="sel2__empty" style="display:none">No matches</div>';
+  wrap.appendChild(menu);
+
+  const list = menu.querySelector('.sel2__list');
+  opts.forEach(o=>{
+    const el = document.createElement('div');
+    el.className='sel2__opt'; el.setAttribute('role','option');
+    el.textContent = o.textContent;
+    el.setAttribute('data-val', o.value);
+    el.onclick = ()=>pickSel2(wrap, o.value);
+    list.appendChild(el);
+  });
+  if(!sel.disabled){
+    ctrl.onclick = (e)=>{ e.stopPropagation(); toggleSel2(wrap); };
+    const inp = menu.querySelector('.sel2__search input');
+    if(inp) inp.oninput = ()=>filterSel2(wrap, inp.value);
+  }
+  syncSel2(wrap);
+}
+function syncSel2(wrap){
+  const sel = wrap.querySelector('select');
+  const ctrl = wrap.querySelector('.sel2__control');
+  const label = wrap.querySelector('.sel2__label');
+  const opts = [...sel.options];
+  const cur = sel.selectedIndex >= 0 ? opts[sel.selectedIndex] : null;
+  const isPh = !cur || cur.value==='';
+  const ph = sel.getAttribute('data-placeholder') || (opts[0] && opts[0].value==='' ? opts[0].text : 'Select');
+  label.textContent = isPh ? ph : cur.textContent;
+  label.classList.toggle('is-ph', isPh);
+  wrap.querySelectorAll('.sel2__opt').forEach(o=>o.classList.toggle('on', !isPh && o.getAttribute('data-val')===sel.value));
+}
+function toggleSel2(wrap){
+  const wasOpen = wrap.classList.contains('open');
+  closeSel2();
+  if(wasOpen) return;
+  wrap.classList.add('open');
+  const inp = wrap.querySelector('.sel2__search input');
+  if(inp){ inp.value=''; filterSel2(wrap, ''); setTimeout(()=>inp.focus(), 0); }
+  const menu = wrap.querySelector('.sel2__menu');
+  const r = wrap.getBoundingClientRect();
+  const below = (window.innerHeight||0) - r.bottom;
+  menu.classList.toggle('up', below < 260 && r.top > below);
+}
+function closeSel2(){ document.querySelectorAll('.sel2.open').forEach(w=>w.classList.remove('open')); }
+function filterSel2(wrap, q){
+  q = (q||'').trim().toLowerCase();
+  let any = false;
+  wrap.querySelectorAll('.sel2__opt').forEach(o=>{
+    const hit = o.textContent.toLowerCase().includes(q);
+    o.style.display = hit ? '' : 'none';
+    if(hit) any = true;
+  });
+  const empty = wrap.querySelector('.sel2__empty');
+  if(empty) empty.style.display = any ? 'none' : '';
+}
+function pickSel2(wrap, value){
+  const sel = wrap.querySelector('select');
+  sel.value = value;
+  syncSel2(wrap);
+  wrap.classList.remove('open');
+  sel.dispatchEvent(new Event('change', { bubbles:true }));
+}
+document.addEventListener('click', (e)=>{ if(!e.target.closest('.sel2')) closeSel2(); });
+function buildDate(inp){
+  inp.setAttribute('data-datepick','1');
+  const wrap = document.createElement('div'); wrap.className='datepick';
+  inp.parentNode.insertBefore(wrap, inp);
+  wrap.appendChild(inp);
+  wrap.insertAdjacentHTML('afterbegin', DATE_ICON);
+}
 
 /* indent form handlers */
 function setField(k,v){ state.draft[k]=v; if(k==='requiredBy'){ state.draft.lines.forEach(l=>{ if(!l.requiredBy) l.requiredBy=v; }); } }
@@ -1338,7 +1630,7 @@ function poSave(status){
 function settings(){
   const tabs=[
     ['general','General','tune'],['procurement','Procurement','inventory'],['wa','WhatsApp Integration','wa'],
-    ['chat','Chat','chat'],['notifications','Notifications','bell'],['branding','Branding & Menu','palette'],['security','Security','lock']
+    ['chat','Chat','chat'],['notifications','Notifications','bell'],['branding','Branding & Menu','palette'],['prefs','Preferences','tune'],['security','Security','lock']
   ];
   const nav = tabs.map((t,i)=> (t[0]==='chat'?'<div class="set-nav__sep"></div>':'') +
     '<div class="set-nav__item '+(state.setTab===t[0]?'active':'')+'" onclick="setTab(\''+t[0]+'\')">'+svg(t[2],18)+t[1]+'</div>').join('');
@@ -1347,6 +1639,7 @@ function settings(){
   else if(state.setTab==='chat') panel=chatSettings();
   else if(state.setTab==='notifications') panel=notificationSettings();
   else if(state.setTab==='branding') panel=brandingSettings();
+  else if(state.setTab==='prefs') panel=prefsSettings();
   else { const found = tabs.find(t=>t[0]===state.setTab); panel = genericSettings(found ? found[1] : 'Settings'); }
   return head('Settings','Company, procurement, integrations and channels.','<button class="btn btn--primary" onclick="toast(\'Settings saved\',\'Your changes have been applied.\',\'ok\')">'+svg('save',17)+'Save changes</button>')+
   '<div class="settings"><div class="set-nav">'+nav+'</div><div>'+panel+'</div></div>';
@@ -1404,7 +1697,7 @@ function brandingSettings(){
   '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>Logo &amp; name</h3><p>How the app appears to your team</p></div><div class="card__body">'+
     '<div class="fgrid">'+
       field('Application name','<input class="input" value="'+esc(b.appName)+'" oninput="setBrandName(this.value)">')+
-      field('Theme accent','<select class="input" onchange="toast(\'Accent\',\'Theme accent options are shown in the full build.\',\'info\')"><option>Teal (default)</option><option>Indigo</option><option>Emerald</option><option>Slate</option></select>')+
+      field('Theme colour','<select class="input" onchange="applyTheme(this.value);render()">'+Object.keys(THEMES).map(k=>'<option value="'+k+'" '+(state.prefs.theme===k?'selected':'')+'>'+THEMES[k].label+'</option>').join('')+'</select>')+
     '</div>'+
     '<label style="display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin:16px 0 8px">Logo mark</label>'+
     '<div class="logo-picks">'+logoPicks+'</div>'+
@@ -1416,6 +1709,93 @@ function pickLogo(k){ state.branding.logo=k; renderSidebar(); render(); }
 function setBrandName(v){ state.branding.appName=v; renderSidebar(); }
 function toggleMenuPref(k){ state.menuPrefs[k]=!(state.menuPrefs[k]!==false); renderSidebar(); render(); }
 function resetBranding(){ state.branding={appName:'ProcureX', logo:'rocket'}; state.menuPrefs={}; renderSidebar(); render(); toast('Branding reset','Logo, name and menu restored to defaults.','ok'); }
+
+/* ===================== preferences: layout + theme ===================== */
+const THEMES = {
+  teal:   {label:'Teal (default)', p:'#13506b', p400:'#1f7396', p300:'#8fc4d8', soft:'#e8f1f5', line:'#cfe0e8',
+           grad:'linear-gradient(135deg,#13506b 0%,#1f7396 100%)', side:'linear-gradient(180deg,#0e3f55 0%,#13506b 55%,#0b2f3e 100%)'},
+  indigo: {label:'Indigo', p:'#4338ca', p400:'#6366f1', p300:'#b3bcf8', soft:'#eef0fe', line:'#dcdffb',
+           grad:'linear-gradient(135deg,#4338ca 0%,#6366f1 100%)', side:'linear-gradient(180deg,#312e81 0%,#4338ca 55%,#1e1b4b 100%)'},
+  blue:   {label:'Ocean blue', p:'#1d4ed8', p400:'#3b82f6', p300:'#93c5fd', soft:'#e8f0fe', line:'#cfe0fb',
+           grad:'linear-gradient(135deg,#1d4ed8 0%,#3b82f6 100%)', side:'linear-gradient(180deg,#1e3a8a 0%,#2563eb 55%,#172554 100%)'},
+  emerald:{label:'Emerald', p:'#047857', p400:'#10b981', p300:'#8fdcc0', soft:'#e7f6ef', line:'#c9ebdb',
+           grad:'linear-gradient(135deg,#047857 0%,#10b981 100%)', side:'linear-gradient(180deg,#064e3b 0%,#047857 55%,#053a2c 100%)'},
+  violet: {label:'Violet', p:'#6d28d9', p400:'#8b5cf6', p300:'#c9b6f8', soft:'#f0ebfb', line:'#e0d5f5',
+           grad:'linear-gradient(135deg,#6d28d9 0%,#8b5cf6 100%)', side:'linear-gradient(180deg,#4c1d95 0%,#6d28d9 55%,#3b1077 100%)'},
+  rose:   {label:'Rose', p:'#be123c', p400:'#e11d48', p300:'#f6aebd', soft:'#fde8ed', line:'#f7cdd6',
+           grad:'linear-gradient(135deg,#be123c 0%,#e11d48 100%)', side:'linear-gradient(180deg,#881337 0%,#be123c 55%,#6b0d29 100%)'},
+  amber:  {label:'Amber', p:'#b45309', p400:'#d97706', p300:'#f3c98a', soft:'#fdf1e3', line:'#f5ddbf',
+           grad:'linear-gradient(135deg,#b45309 0%,#d97706 100%)', side:'linear-gradient(180deg,#78350f 0%,#b45309 55%,#5c290b 100%)'},
+  slate:  {label:'Slate', p:'#334155', p400:'#475569', p300:'#a8b5c6', soft:'#eef1f5', line:'#dbe1e8',
+           grad:'linear-gradient(135deg,#334155 0%,#475569 100%)', side:'linear-gradient(180deg,#1e293b 0%,#334155 55%,#0f172a 100%)'}
+};
+function hexToRgba(hex,a){
+  let h = String(hex).replace('#','');
+  if(h.length===3) h = h.split('').map(c=>c+c).join('');
+  const n = parseInt(h,16);
+  return 'rgba('+((n>>16)&255)+','+((n>>8)&255)+','+(n&255)+','+a+')';
+}
+function applyTheme(key){
+  const t = THEMES[key] || THEMES.teal;
+  state.prefs.theme = THEMES[key] ? key : 'teal';
+  const dark = state.prefs.mode==='dark';
+  const r = document.documentElement.style;
+  r.setProperty('--primary', t.p);
+  r.setProperty('--primary-400', t.p400);
+  r.setProperty('--primary-300', t.p300);
+  r.setProperty('--primary-soft', dark ? hexToRgba(t.p,.20) : t.soft);
+  r.setProperty('--primary-line', dark ? hexToRgba(t.p,.38) : t.line);
+  r.setProperty('--grad-primary', t.grad);
+  r.setProperty('--grad-side', t.side);
+}
+const MOON_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>';
+const SUN_SVG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>';
+function applyMode(){
+  const mode = state.prefs.mode==='dark' ? 'dark' : 'light';
+  document.documentElement.setAttribute('data-theme', mode);
+  const b = $('#modeBtn'); if(b) b.innerHTML = mode==='dark' ? SUN_SVG : MOON_SVG;
+}
+function toggleMode(){
+  state.prefs.mode = state.prefs.mode==='dark' ? 'light' : 'dark';
+  applyMode(); applyTheme(state.prefs.theme); renderSidebar();
+  toast('Appearance', (state.prefs.mode==='dark'?'Dark':'Light')+' mode enabled.', 'info');
+}
+function themeSwatches(){
+  return Object.keys(THEMES).map(k=>{
+    const t=THEMES[k], on=state.prefs.theme===k;
+    return '<div class="theme-pick '+(on?'on':'')+'" title="'+t.label+'" onclick="applyTheme(\''+k+'\');render()" style="background:'+t.grad+'"></div>';
+  }).join('');
+}
+function setLayout(v){
+  state.prefs.layout = v==='top' ? 'top' : 'sidebar';
+  const app=$('#app'); if(app){ app.classList.toggle('layout-top', state.prefs.layout==='top'); app.classList.toggle('layout-side', state.prefs.layout==='sidebar'); }
+  state.navOpen=false; const m=$('#topmenu'); if(m) m.classList.remove('open'); const sc=$('#scrim'); if(sc) sc.classList.remove('on');
+  renderSidebar();
+}
+function toggleThemeQuick(){
+  const keys=Object.keys(THEMES);
+  const i=keys.indexOf(state.prefs.theme);
+  applyTheme(keys[(i+1)%keys.length]);
+  renderSidebar();
+  toast('Theme', THEMES[state.prefs.theme].label+' applied.', 'info');
+}
+function prefsSettings(){
+  return '<div class="note">'+svg('palette',18)+'<div>Personalise your workspace. These preferences are saved for your user and do not change the data other people see.</div></div>'+
+  '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>Navigation layout</h3><p>Choose where the menu lives</p></div><div class="card__body">'+
+    '<div class="seg"><button class="'+(state.prefs.layout==='sidebar'?'on':'')+'" onclick="setLayout(\'sidebar\');render()">Vertical sidebar</button>'+
+    '<button class="'+(state.prefs.layout==='top'?'on':'')+'" onclick="setLayout(\'top\');render()">Top bar</button></div>'+
+    '<p class="muted" style="margin-top:12px;font-size:12.5px">The vertical sidebar is the default; the top bar keeps the full width for wide tables and dashboards.</p>'+
+  '</div></div>'+
+  '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>Appearance</h3><p>Light or dark interface</p></div><div class="card__body">'+
+    '<div class="intg" style="margin-bottom:0"><div class="intg__logo" style="background:var(--primary-soft);color:var(--primary)">'+svg(state.prefs.mode==='dark'?'moon':'sun',22)+'</div>'+
+    '<div class="intg__meta"><b>'+(state.prefs.mode==='dark'?'Dark mode':'Light mode')+'</b><p>Switch between light and dark themes</p></div>'+
+    '<div class="intg__right"><div class="switch '+(state.prefs.mode==='dark'?'on':'')+'" onclick="toggleMode();render()"></div></div></div>'+
+  '</div></div>'+
+  '<div class="card"><div class="card__head"><h3>Theme colour</h3><p>Applies to buttons, links, the sidebar and highlights</p></div><div class="card__body">'+
+    '<label style="display:block;font-size:12px;font-weight:600;color:var(--ink-2);margin:0 0 10px">Accent palette</label>'+
+    '<div class="theme-picks">'+themeSwatches()+'</div>'+
+  '</div></div>';
+}
 
 function genericSettings(title){
   return '<div class="card"><div class="card__head"><h3>'+title+'</h3></div><div class="card__body"><div class="fgrid">'+
@@ -1590,6 +1970,171 @@ function masterSave(){
   state.masterDraft=blankMaster(MASTER_DEFS[type]); state.masterEdit=-1; render();
 }
 
+/* ===================== administration ===================== */
+const ROLES_LIST = ['Admin','Procurement Manager','Buyer','Approver','Finance'];
+const PERMS = [
+  ['indents.create','Raise indent'],['indents.approve','Approve indent'],
+  ['pr.approve','Approve requisition'],['rfq.manage','Manage RFQ'],
+  ['quotes.manage','Manage quotations'],['po.create','Create purchase order'],
+  ['po.approve','Approve purchase order'],['vendors.manage','Manage vendors'],
+  ['masters.manage','Manage masters'],['users.manage','Manage users & roles'],
+  ['reports.view','View reports'],['settings.manage','Manage settings']
+];
+const PERM_GROUPS = [
+  ['Procurement',['indents.create','indents.approve','pr.approve','rfq.manage','quotes.manage','po.create','po.approve']],
+  ['Masters & vendors',['vendors.manage','masters.manage']],
+  ['Administration',['users.manage','reports.view','settings.manage']]
+];
+
+/* ---- Users ---- */
+function usersPage(){
+  const d = state.userDraft;
+  const edit = state.userEdit;
+  const rows = state.users.map((u,i)=>'<tr>'+
+    '<td><div class="cell-user"><div class="avatar avatar--sm">'+esc(initials(u.name))+'</div><div><b>'+esc(u.name)+'</b><span class="muted">'+esc(u.email)+'</span></div></div></td>'+
+    '<td>'+statusChip(u.role)+'</td>'+
+    '<td>'+esc(u.dept)+'</td>'+
+    '<td>'+(u.active?'<span class="chip chip--approved">Active</span>':'<span class="chip chip--neutral">Inactive</span>')+'</td>'+
+    '<td style="text-align:right;white-space:nowrap"><button class="btn btn--ghost btn--sm" onclick="userEdit('+i+')">'+svg('edit',15)+'</button>'+
+    '<button class="btn btn--ghost btn--sm" onclick="userToggle('+i+')" title="Activate/deactivate">'+svg(u.active?'x':'check',15)+'</button></td></tr>').join('');
+  const roleOpts = ROLES_LIST.map(r=>'<option '+(d&&d.role===r?'selected':'')+'>'+r+'</option>').join('');
+  const form = edit===null ? '' :
+    '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>'+(edit==='new'?'Add user':'Edit user')+'</h3><div class="spacer"></div><button class="btn btn--sm" onclick="userCancel()">Cancel</button></div>'+
+    '<div class="card__body"><div class="fgrid">'+
+      field('Full name *','<input class="input" value="'+esc(d.name)+'" oninput="userField(\'name\',this.value)">')+
+      field('Email *','<input class="input" type="email" value="'+esc(d.email)+'" oninput="userField(\'email\',this.value)">')+
+      field('Role','<select class="input" onchange="userField(\'role\',this.value)">'+roleOpts+'</select>')+
+      field('Department','<input class="input" value="'+esc(d.dept)+'" oninput="userField(\'dept\',this.value)">')+
+    '</div><div style="display:flex;gap:10px;margin-top:16px"><button class="btn btn--primary" onclick="userSave()">'+svg('save',16)+(edit==='new'?'Create user':'Save changes')+'</button></div></div></div>';
+  return head('Users','Manage people who can sign in, their role and access.','<button class="btn btn--primary" onclick="userNew()">'+svg('userplus',17)+'Add user</button>')+
+    form+
+    '<div class="grid cols-3" style="margin-bottom:18px">'+
+      statTile('Total users', state.users.length, 'groups')+
+      statTile('Active', state.users.filter(u=>u.active).length, 'check')+
+      statTile('Roles', ROLES_LIST.length, 'shield')+
+    '</div>'+
+    '<div class="card"><div class="tbl-wrap"><table class="tbl"><thead><tr><th>User</th><th>Role</th><th>Department</th><th>Status</th><th></th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+}
+function statTile(label, value, icon){
+  return '<div class="card" style="padding:16px"><div style="display:flex;align-items:center;gap:12px"><div class="kpi__ic" style="width:40px;height:40px;background:var(--primary-soft);color:var(--primary)">'+svg(icon,20)+'</div><div><div style="font-size:22px;font-weight:800">'+value+'</div><div class="muted" style="font-size:12.5px">'+label+'</div></div></div></div>';
+}
+function userNew(){ state.userEdit='new'; state.userDraft={name:'',email:'',role:'Buyer',dept:'Procurement',active:true}; render(); }
+function userEdit(i){ state.userEdit=i; state.userDraft=Object.assign({}, state.users[i]); render(); }
+function userCancel(){ state.userEdit=null; state.userDraft=null; render(); }
+function userField(k,v){ state.userDraft[k]=v; }
+function userSave(){
+  const d=state.userDraft;
+  if(!String(d.name||'').trim() || !String(d.email||'').trim()){ toast('Missing details','Name and email are required.','err'); return; }
+  if(state.userEdit==='new'){ state.users.unshift(Object.assign({id:uid('U-'),active:true}, d)); toast('User created', d.name+' can now sign in.','ok'); }
+  else { state.users[state.userEdit]=Object.assign({}, state.users[state.userEdit], d); toast('User updated', d.name+' saved.','ok'); }
+  state.userEdit=null; state.userDraft=null; render();
+}
+function userToggle(i){ state.users[i].active=!state.users[i].active; toast(state.users[i].active?'Activated':'Deactivated', state.users[i].name, state.users[i].active?'ok':'info'); render(); }
+
+/* ---- Roles & permissions ---- */
+function rolesPage(){
+  const name = state.roleSel;
+  const role = state.roles[name] || state.roles[Object.keys(state.roles)[0]];
+  const tabs = Object.keys(state.roles).map(r=>'<div class="mtab '+(r===name?'on':'')+'" onclick="roleSet(\''+r+'\')">'+svg('shield',15)+r+'</div>').join('');
+  const groups = PERM_GROUPS.map(([g,keys])=>{
+    const items = keys.map(k=>{
+      const label = (PERMS.find(p=>p[0]===k)||['',k])[1];
+      const on = role.perms.includes(k);
+      return '<div class="intg" style="margin-bottom:10px"><div class="intg__meta"><b>'+label+'</b><p class="muted">'+k+'</p></div>'+
+        '<div class="intg__right"><div class="switch '+(on?'on':'')+'" onclick="roleToggle(\''+name+'\',\''+k+'\')"></div></div></div>';
+    }).join('');
+    return '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>'+g+'</h3></div><div class="card__body">'+items+'</div></div>';
+  }).join('');
+  const count = role.perms.length;
+  return head('Roles & Permissions','Control what each role can see and do across ProcureX.','<button class="btn btn--primary" onclick="roleSave()">'+svg('save',17)+'Save permissions</button>')+
+    '<div class="mtabs">'+tabs+'</div>'+
+    '<div class="note">'+svg('shield',18)+'<div><b>'+name+'</b> — '+role.desc+' · '+count+' of '+PERMS.length+' permissions enabled.</div></div>'+
+    '<div class="grid cols-2">'+groups+'</div>';
+}
+function roleSave(){ const r=state.roleSel; toast('Permissions saved', state.roles[r].perms.length+' permissions set for '+r+'.','ok'); }
+function roleSet(r){ state.roleSel=r; render(); }
+function roleToggle(r,k){
+  const p=state.roles[r].perms; const i=p.indexOf(k);
+  if(i>=0) p.splice(i,1); else p.push(k);
+  render();
+}
+
+/* ---- Company settings ---- */
+function companyPage(){
+  const c=state.company;
+  const f=(k)=>' oninput="coField(\''+k+'\',this.value)"';
+  return head('Company Settings','Your organisation profile, tax registrations and regional preferences.','<button class="btn btn--primary" onclick="coSave()">'+svg('save',17)+'Save changes</button>')+
+  '<div class="grid cols-2-1">'+
+    '<div>'+
+      '<div class="form-section"><div class="form-section__head"><div class="ic">'+svg('building',18)+'</div><h3>Organisation</h3></div><div class="form-section__body"><div class="fgrid">'+
+        field('Company name *','<input class="input" value="'+esc(c.name)+'"'+f('name')+'>')+
+        field('Legal name','<input class="input" value="'+esc(c.legal)+'"'+f('legal')+'>')+
+        field('GSTIN','<input class="input" value="'+esc(c.gst)+'"'+f('gst')+'>')+
+        field('PAN','<input class="input" value="'+esc(c.pan)+'"'+f('pan')+'>')+
+        field('CIN','<input class="input" value="'+esc(c.cin)+'"'+f('cin')+'>')+
+        field('Website','<input class="input" value="'+esc(c.website)+'"'+f('website')+'>')+
+      '</div></div></div>'+
+      '<div class="form-section"><div class="form-section__head"><div class="ic">'+svg('pin',18)+'</div><h3>Registered address</h3></div><div class="form-section__body"><div class="fgrid">'+
+        field('Address','<input class="input span-2" value="'+esc(c.address)+'"'+f('address')+'>','span-2')+
+        field('City','<input class="input" value="'+esc(c.city)+'"'+f('city')+'>')+
+        field('State','<input class="input" value="'+esc(c.state)+'"'+f('state')+'>')+
+        field('PIN code','<input class="input" value="'+esc(c.pincode)+'"'+f('pincode')+'>')+
+        field('Country','<input class="input" value="'+esc(c.country)+'"'+f('country')+'>')+
+      '</div></div></div>'+
+      '<div class="form-section"><div class="form-section__head"><div class="ic">'+svg('tune',18)+'</div><h3>Regional &amp; finance</h3></div><div class="form-section__body"><div class="fgrid">'+
+        field('Base currency','<select class="input" onchange="coField(\'currency\',this.value)">'+['INR — Indian Rupee (₹)','USD — US Dollar','EUR — Euro','AED — UAE Dirham'].map(o=>'<option '+(c.currency===o?'selected':'')+'>'+o+'</option>').join('')+'</select>')+
+        field('Fiscal year','<select class="input" onchange="coField(\'fiscal\',this.value)">'+['April - March','January - December'].map(o=>'<option '+(c.fiscal===o?'selected':'')+'>'+o+'</option>').join('')+'</select>')+
+        field('Time zone','<select class="input" onchange="coField(\'timezone\',this.value)">'+['(GMT+05:30) Asia/Kolkata','(GMT+04:00) Asia/Dubai','(GMT+00:00) UTC'].map(o=>'<option '+(c.timezone===o?'selected':'')+'>'+o+'</option>').join('')+'</select>')+
+        field('Date format','<select class="input" onchange="coField(\'dateformat\',this.value)">'+['dd-MMM-yyyy','dd/MM/yyyy','MM/dd/yyyy'].map(o=>'<option '+(c.dateformat===o?'selected':'')+'>'+o+'</option>').join('')+'</select>')+
+      '</div></div></div>'+
+    '</div>'+
+    '<div>'+
+      '<div class="card" style="margin-bottom:18px"><div class="card__head"><h3>Branding</h3></div><div class="card__body">'+
+        '<div style="display:flex;align-items:center;gap:14px"><div class="brand__logo" style="width:52px;height:52px;border-radius:14px">'+svg(state.branding.logo,26)+'</div>'+
+        '<div><b>'+esc(state.branding.appName)+'</b><div class="muted" style="font-size:12.5px">Logo, name and colours</div></div></div>'+
+        '<button class="btn btn--sm" style="margin-top:14px" onclick="go(\'settings\');setTab(\'branding\')">'+svg('palette',15)+'Edit branding</button>'+
+      '</div></div>'+
+      '<div class="card"><div class="card__head"><h3>Contact</h3></div><div class="card__body"><div class="fgrid">'+
+        field('Email','<input class="input" type="email" value="'+esc(c.email)+'"'+f('email')+'>')+
+        field('Phone','<input class="input" value="'+esc(c.phone)+'"'+f('phone')+'>')+
+      '</div></div></div>'+
+    '</div>'+
+  '</div>';
+}
+function coField(k,v){ state.company[k]=v; }
+function coSave(){ toast('Company saved', state.company.name+' profile updated.','ok'); }
+
+/* ---- Workflow ---- */
+const WF_ACTIONS=['Submit','Approve','Review','Verify','Create','Raise','Notify'];
+const WF_ROLES=['Requester','HOD','Buyer','Procurement Manager','Finance','Admin','Approver'];
+function workflowPage(){
+  const wf = state.workflow.find(w=>w.id===state.wfSel) || state.workflow[0];
+  const list = state.workflow.map(w=>'<div class="wf-item '+(w.id===wf.id?'on':'')+'" onclick="wfSet(\''+w.id+'\')">'+
+    '<div class="wf-item__ic">'+svg('workflow',18)+'</div>'+
+    '<div style="flex:1;min-width:0"><b>'+esc(w.name)+'</b><div class="muted" style="font-size:12px">'+w.module+' · '+w.steps.length+' steps</div></div>'+
+    '<div class="switch '+(w.active?'on':'')+'" onclick="event.stopPropagation();wfToggle(\''+w.id+'\')"></div></div>').join('');
+  const steps = wf.steps.map((s,i)=>'<div class="wf-step">'+
+    '<div class="wf-step__no">'+(i+1)+'</div>'+
+    '<div class="wf-step__body"><select class="input" onchange="wfStepRole(\''+wf.id+'\','+i+',this.value)">'+WF_ROLES.map(r=>'<option '+(s.role===r?'selected':'')+'>'+r+'</option>').join('')+'</select>'+
+    '<select class="input" onchange="wfStepAction(\''+wf.id+'\','+i+',this.value)">'+WF_ACTIONS.map(a=>'<option '+(s.action===a?'selected':'')+'>'+a+'</option>').join('')+'</select></div>'+
+    '<div class="wf-step__btns"><button class="btn btn--ghost btn--sm" onclick="wfStepMove(\''+wf.id+'\','+i+',-1)" '+(i===0?'disabled':'')+'>'+svg('up',15)+'</button>'+
+    '<button class="btn btn--ghost btn--sm" onclick="wfStepMove(\''+wf.id+'\','+i+',1)" '+(i===wf.steps.length-1?'disabled':'')+'>'+svg('down',15)+'</button>'+
+    '<button class="btn btn--ghost btn--sm" onclick="wfStepRemove(\''+wf.id+'\','+i+')">'+svg('trash',15)+'</button></div>'+
+    (i<wf.steps.length-1?'<div class="wf-step__line"></div>':'')+'</div>').join('');
+  return head('Workflow','Design approval flows for indents, requisitions, purchase orders and vendor onboarding.','<button class="btn btn--primary" onclick="wfSave()">'+svg('save',17)+'Save workflow</button>')+
+  '<div class="grid cols-2-1"><div class="card"><div class="card__head"><h3>'+esc(wf.name)+'</h3><p>Approval sequence</p></div><div class="card__body"><div class="wf-steps">'+steps+'</div>'+
+    '<button class="btn" style="margin-top:14px" onclick="wfStepAdd(\''+wf.id+'\')">'+svg('plus',16)+'Add step</button></div></div>'+
+  '<div class="card"><div class="card__head"><h3>Workflows</h3></div><div class="card__body"><div class="wf-list">'+list+'</div></div></div></div>';
+}
+function wfSet(id){ state.wfSel=id; render(); }
+function wfSave(){ const w=state.workflow.find(x=>x.id===state.wfSel); toast('Workflow saved', w.name+' is now '+(w.active?'active':'paused')+'.', 'ok'); }
+function wfToggle(id){ const w=state.workflow.find(x=>x.id===id); w.active=!w.active; toast(w.active?'Workflow active':'Workflow paused', w.name, 'info'); render(); }
+function wfStepAdd(id){ const w=state.workflow.find(x=>x.id===id); w.steps.push({role:'Procurement Manager',action:'Approve'}); render(); }
+function wfStepRemove(id,i){ const w=state.workflow.find(x=>x.id===id); if(w.steps.length<=1){ toast('Cannot remove','A workflow needs at least one step.','err'); return; } w.steps.splice(i,1); render(); }
+function wfStepMove(id,i,dir){ const w=state.workflow.find(x=>x.id===id); const j=i+dir; if(j<0||j>=w.steps.length) return; const t=w.steps[i]; w.steps[i]=w.steps[j]; w.steps[j]=t; render(); }
+function wfStepRole(id,i,v){ state.workflow.find(x=>x.id===id).steps[i].role=v; }
+function wfStepAction(id,i,v){ state.workflow.find(x=>x.id===id).steps[i].action=v; }
+
 /* ===================== chat ===================== */
 function chatPage(){
   const active=state.threads.find(t=>t.id===state.activeThread)||state.threads[0];
@@ -1603,7 +2148,7 @@ function chatPage(){
   const msgs=active.msgs.map(m=>'<div class="bubble '+(m.me?'out':'in')+'"><b style="font-size:11px;opacity:.75;display:block;margin-bottom:2px">'+esc(m.by)+'</b>'+esc(m.text)+'<div class="t">'+esc(m.t)+'</div></div>').join('');
   return head('Chat','Discuss approvals, quotes and orders with your team and vendors without leaving ProcureX.','')+
   '<div class="chatwrap"><div class="chatlist">'+
-    '<div style="padding:14px 16px;border-bottom:1px solid var(--line)"><div class="search" style="width:100%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Search people and vendors…" style="background:#fff"></div></div>'+
+    '<div style="padding:14px 16px;border-bottom:1px solid var(--line)"><div class="search" style="width:100%"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input placeholder="Search people and vendors…" style="background:var(--surface)"></div></div>'+
     list+
   '</div><div class="chatmain">'+
     '<div class="chatmain__head"><div class="chatlist__av" style="background:'+active.color+'">'+esc(active.name[0])+'</div><div><b>'+esc(active.name)+'</b><div class="muted">'+esc(active.tag)+' · online</div></div>'+
@@ -1948,37 +2493,62 @@ const USERS = {
   'approver@procurex.local':{name:'Meera Iyer', role:'Approver', ini:'MI'},
   'finance@procurex.local':{name:'Sanjay Rao', role:'Finance', ini:'SR'}
 };
-function pickRole(el, role){
-  document.querySelectorAll('#roleSelect .lg-pill').forEach(p=>p.classList.remove('on'));
-  el.classList.add('on'); state.loginRole = role;
+const USER_LIST = Object.keys(USERS);
+const ADMIN_EMAIL = 'admin@procurex.local';
+const ADMIN_PASS = 'Procurex@123';
+function initials(name){ return name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function userByInput(v){
+  v = String(v||'').trim().toLowerCase();
+  if(USERS[v]) return v;
+  return USER_LIST.find(e=>e.split('@')[0]===v) || null;
 }
-function togglePw(){ const i=$('#lgPass'); i.type = i.type==='password' ? 'text' : 'password'; }
-function fillDemo(email, role){
-  $('#lgEmail').value = email;
-  $('#lgPass').value = 'Procurex@123';
-  const pills=[...document.querySelectorAll('#roleSelect .lg-pill')];
-  const match = pills.find(p=>p.textContent.trim()===role.split(' ')[0]);
-  pills.forEach(p=>p.classList.remove('on'));
-  (match||pills[0]).classList.add('on');
+function populateUserSelect(){
+  const sel = $('#lgUser'); if(!sel) return;
+  sel.innerHTML = USER_LIST.filter(e=>e!==ADMIN_EMAIL)
+    .map(e=>'<option value="'+e+'">'+USERS[e].name+' — '+USERS[e].role+'</option>').join('');
+  syncUserRole();
+}
+function syncUserRole(){
+  const sel=$('#lgUser'); if(!sel) return;
+  const u=USERS[sel.value]; const hint=$('#lgRoleHint'); if(hint) hint.textContent = u ? u.role : '';
+}
+function pickMode(el, mode){
+  document.querySelectorAll('#loginMode .lg-pill').forEach(p=>p.classList.remove('on'));
+  el.classList.add('on'); state.loginMode = mode;
+  const admin = mode==='admin';
+  $('#adminFields').style.display = admin ? '' : 'none';
+  $('#userFields').style.display = admin ? 'none' : '';
+  $('#lgBtnLabel').textContent = admin ? 'Sign in as administrator' : 'Sign in';
   $('#lgError').classList.remove('on');
 }
-function initials(name){ return name.split(/\s+/).map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function togglePw(){ const i=$('#lgPass'); i.type = i.type==='password' ? 'text' : 'password'; }
+function quickLogin(email){
+  const admin = email===ADMIN_EMAIL;
+  const pills=[...document.querySelectorAll('#loginMode .lg-pill')];
+  const target = pills[admin?0:1]; if(target) pickMode(target, admin?'admin':'user');
+  if(admin){ $('#lgEmail').value=email; $('#lgPass').value=ADMIN_PASS; }
+  else { const sel=$('#lgUser'); sel.value=email; syncUserRole(); }
+  doLogin({preventDefault(){}});
+}
 function doLogin(e){
   e.preventDefault();
-  const email = $('#lgEmail').value.trim().toLowerCase();
-  const pass = $('#lgPass').value;
-  const err = $('#lgError');
-  if(!email || !pass){ err.classList.add('on'); return false; }
-  const known = USERS[email];
-  const userName = known ? known.name : (email.split('@')[0].replace(/[._-]+/g,' ').replace(/\b\w/g,c=>c.toUpperCase()) || 'User');
-  const userRole = known ? known.role : (state.loginRole || 'Admin');
-  const ini = known ? known.ini : initials(userName);
-  state.user = { name:userName, role:userRole, ini, email };
+  const err = $('#lgError'); err.classList.remove('on');
+  const admin = state.loginMode!=='user';
+  let email;
+  if(admin){
+    email = userByInput($('#lgEmail').value);
+    if(!$('#lgEmail').value.trim() || $('#lgPass').value!==ADMIN_PASS || !email){ err.classList.add('on'); return false; }
+  } else {
+    email = $('#lgUser').value;
+    if(!USERS[email]){ err.classList.add('on'); return false; }
+  }
+  const u = USERS[email];
+  state.user = { name:u.name, role:u.role, ini:u.ini, email };
   applyUser();
   $('#login').classList.add('hidden');
   const app = $('#app'); app.classList.remove('is-hidden');
   go('dashboard');
-  toast('Welcome back, '+userName.split(' ')[0], 'Signed in as '+userRole+'.', 'ok');
+  toast('Welcome back, '+u.name.split(' ')[0], 'Signed in as '+u.role+'.', 'ok');
   const h=$('#aiHint'); if(h){ h.classList.remove('hide'); setTimeout(()=>h.classList.add('hide'), 8000); }
   return false;
 }
@@ -1997,7 +2567,14 @@ function logout(){
 }
 
 /* keyboard + init */
-document.addEventListener('keydown', e=>{ if(e.key==='Escape' && state.ai.open) toggleAi(false); });
+document.addEventListener('keydown', e=>{
+  if(e.key==='Escape'){ closeSel2(); if(state.ai.open) toggleAi(false); }
+});
+applyMode();
+applyTheme(state.prefs.theme);
+setLayout(state.prefs.layout);
+populateUserSelect();
+formEnhance();
 applyUser(); renderSidebar(); crumb(); render(); renderAi();
 </script>
 </body>
