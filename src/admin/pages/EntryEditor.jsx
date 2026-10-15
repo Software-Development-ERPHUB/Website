@@ -7,11 +7,12 @@ import { StatusBadge, Spinner, useToast, useConfirm } from '../ui'
 import RichTextEditor from '../fields/RichTextEditor'
 import MediaPicker from '../fields/MediaPicker'
 import TagsInput from '../fields/TagsInput'
+import StagesField from '../fields/StagesField'
 
 const slugify = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150)
 
 function emptyData(def) {
-  return Object.fromEntries(def.fields.map((f) => [f.name, f.type === 'tags' ? [] : f.type === 'image' ? null : f.type === 'boolean' ? false : f.default || '']))
+  return Object.fromEntries(def.fields.map((f) => [f.name, f.type === 'tags' ? [] : f.type === 'image' ? null : f.type === 'boolean' ? (f.default ?? false) : f.type === 'stages' ? {} : f.default || '']))
 }
 
 function ImageField({ id, value, onChange }) {
@@ -51,6 +52,7 @@ function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
         <option value="">Choose…</option>{f.options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>); break
     case 'tags': input = <TagsInput id={id} value={value || []} onChange={onChange} />; break
+    case 'stages': input = <StagesField id={id} f={f} value={value} onChange={onChange} />; break
     case 'image': input = <ImageField id={id} value={value} onChange={onChange} />; break
     case 'number': input = <input {...common} type="number" className="field" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />; break
     case 'date': input = <input {...common} type="date" className="field" value={value || ''} onChange={(e) => onChange(e.target.value)} />; break
@@ -145,7 +147,7 @@ export default function EntryEditor({ cols }) {
 
   // Ctrl/⌘ + S saves the draft
   useEffect(() => {
-    const fn = (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save().then((x) => x && toast('Draft saved')) } }
+    const fn = (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save().then((x) => x && toast(def?.internal ? 'Saved' : 'Draft saved')) } }
     window.addEventListener('keydown', fn)
     return () => window.removeEventListener('keydown', fn)
   }, [save, toast])
@@ -200,7 +202,7 @@ export default function EntryEditor({ cols }) {
       {confirmEl}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <Link to={`/admin/content/${collection}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink"><ArrowLeft size={16} />{def.label}</Link>
-        <span className="text-sm text-muted" aria-live="polite">{busy === 'save' ? 'Saving…' : dirty ? <span className="text-amber-700">● Unsaved changes</span> : entry ? `Draft saved ${fmtDate(entry.updatedAt)}` : ''}</span>
+        <span className="text-sm text-muted" aria-live="polite">{busy === 'save' ? 'Saving…' : dirty ? <span className="text-amber-700">● Unsaved changes</span> : entry ? `${def.internal ? 'Saved' : 'Draft saved'} ${fmtDate(entry.updatedAt)}` : ''}</span>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -223,7 +225,35 @@ export default function EntryEditor({ cols }) {
           ))}
         </div>
 
-        {/* Publish panel */}
+        {/* Publish panel (internal collections just save) */}
+        {def.internal ? (
+          <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
+            <section className="rounded-xl border border-line bg-white p-5">
+              <h2 className="font-display text-base font-semibold">Internal record</h2>
+              <p className="mt-2 rounded-lg bg-paper p-3 text-xs text-muted">Only signed-in team members see this. It is never shown on the website.</p>
+              <dl className="mt-4 text-sm"><div className="flex justify-between gap-3"><dt className="text-muted">Last edited</dt><dd className="text-right">{fmtDate(entry?.updatedAt)}{entry?.updatedByName && <span className="block text-xs text-muted">{entry.updatedByName}</span>}</dd></div></dl>
+              <div className="mt-4 grid gap-2">
+                <button type="button" className="btn-primary w-full" onClick={() => save().then((x) => x && toast('Saved'))} disabled={!!busy || (!dirty && !isNew)}>
+                  {busy === 'save' ? <Spinner /> : <Save size={17} />}Save<kbd className="kbd ml-auto hidden sm:inline-flex">Ctrl S</kbd>
+                </button>
+                {collection === 'apps' && <Link to="/admin/tracker" className="btn-secondary w-full">Open tracker</Link>}
+              </div>
+              {entry && (
+                <div className="mt-4 grid gap-1 border-t border-line pt-4 text-sm">
+                  {entry.status !== 'archived' && (
+                    <button type="button" className="flex min-h-[40px] items-center gap-2 rounded-lg px-2 text-left hover:bg-paper" disabled={!!busy}
+                      onClick={() => action('archive', { done: 'Archived', confirm: { title: 'Archive?', message: 'Archived records are hidden from the tracker.', confirm: 'Archive' } })}>
+                      <Archive size={16} />Archive
+                    </button>
+                  )}
+                  {user.role === 'admin' && (
+                    <button type="button" onClick={remove} className="flex min-h-[40px] items-center gap-2 rounded-lg px-2 text-left text-red-700 hover:bg-red-50"><Trash2 size={16} />Delete permanently</button>
+                  )}
+                </div>
+              )}
+            </section>
+          </aside>
+        ) : (
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
           <section className="rounded-xl border border-line bg-white p-5">
             <h2 className="font-display text-base font-semibold">Publishing</h2>
@@ -297,6 +327,7 @@ export default function EntryEditor({ cols }) {
             </section>
           )}
         </aside>
+        )}
       </div>
     </>
   )

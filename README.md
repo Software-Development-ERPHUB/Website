@@ -73,6 +73,17 @@ so clients never see an HTML file name. To add or replace a demo, put the HTML f
 placeholder page; `'live'` products (the CRM) open their `liveUrl` in a new tab. Old `/products` links redirect.
 `/demo/` and the viewer pages are excluded from search engines in `robots.txt`.
 
+## Development tracker (internal)
+
+Sign in to the CMS at `/admin` and open **Development → Development tracker**. It replaces the Excel sheet: every application has 10 stages (client discussion, SRS, MOM sign-off, client suggestions, HTML demo, client review, frontend, backend, testing, deployment), and each stage records who did it, its status, dates and a note.
+
+- **First run:** an admin presses **Load catalogue**. This adds Voltech Enterprise, suites A–E and modules 1–33 from the ERP catalogue (`server/src/cms/catalogue.js`), plus five placeholder developers. Pressing it again only adds what is missing.
+- **Team members:** rename the placeholders under Development → Team members. Untick "Currently on the team" when someone leaves; their credits stay.
+- **Pipeline** shows every application by suite, with the initials of the person on each stage. Filter by suite or developer, or download a CSV for Excel.
+- **Team credits** counts every stage marked Done for each person, so the manager can see who built what.
+- Applications and team members are internal collections: the public API refuses them (`/api/public/apps` → 404) and they have no Publish step.
+- Add new applications (future modules) with **New application**: pick Type (Enterprise application, Suite or Module) and the suite letter.
+
 ## Search and languages
 - **Global search** — header search button, `Ctrl/⌘ + K` or `/`. Index is built from `src/content/*` and `src/data/companies.js` (`src/lib/searchIndex.js`), so new content is searchable automatically.
 - **Language menu** — 23 languages via Google Website Translator (`src/lib/translate.js`). Loaded only when a visitor picks a non-English language.

@@ -15,6 +15,7 @@ import entryRoutes from './cms/entries.js'
 import mediaRoutes from './cms/media.js'
 import userRoutes from './cms/users.js'
 import publicRoutes from './cms/public.js'
+import trackerRoutes from './cms/tracker.js'
 import { MEDIA_ROOT } from './storage/index.js'
 
 const app = express()
@@ -63,6 +64,7 @@ app.use('/api/public', publicRoutes)       // published content for the website
 app.use('/api/auth', authRoutes)           // dashboard sign-in
 app.use('/api/cms/media', mediaRoutes)
 app.use('/api/cms/users', userRoutes)
+app.use('/api/cms/tracker', trackerRoutes) // development tracker (internal)
 app.use('/api/cms', entryRoutes)
 app.use('/api/admin', adminRoutes)         // enquiries + internship applications
 

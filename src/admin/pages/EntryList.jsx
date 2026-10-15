@@ -31,7 +31,7 @@ export default function EntryList({ cols }) {
     if (j < 0 || j >= rows.length) return
     ;[rows[i], rows[j]] = [rows[j], rows[i]]
     setData({ ...data, rows })
-    try { await cms(`/cms/entries/${collection}/reorder`, { method: 'PUT', body: { ids: rows.map((r) => r.id) } }); toast('Order saved — it applies to published entries straight away.') }
+    try { await cms(`/cms/entries/${collection}/reorder`, { method: 'PUT', body: { ids: rows.map((r) => r.id) } }); toast(def.internal ? 'Order saved' : 'Order saved — it applies to published entries straight away.') }
     catch (e) { toast(e.message, 'error'); load() }
   }
 
@@ -39,12 +39,12 @@ export default function EntryList({ cols }) {
 
   return (
     <>
-      <PageTitle title={def.label} desc={`Create and manage ${def.label.toLowerCase()} shown on the website.`}
+      <PageTitle title={def.label} desc={def.internal ? 'Internal: only signed-in team members see these. Never shown on the website.' : `Create and manage ${def.label.toLowerCase()} shown on the website.`}
         actions={<Link to={`/admin/content/${collection}/new`} className="btn-primary !min-h-[42px]"><Plus size={18} />New {def.singular.toLowerCase()}</Link>} />
 
       <div className="mb-4 flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div className="flex flex-wrap gap-1.5" role="tablist" aria-label="Filter by status">
-          {FILTERS.map(([v, l]) => (
+          {(def.internal ? [['', 'All'], ['archived', 'Archived']] : FILTERS).map(([v, l]) => (
             <button key={v} type="button" role="tab" aria-selected={status === v} onClick={() => { setStatus(v); setPage(1) }}
               className={`rounded-full px-3.5 py-1.5 text-sm font-medium transition-colors ${status === v ? 'bg-ink text-white' : 'bg-white text-ink ring-1 ring-line hover:ring-ink/30'}`}>{l}</button>
           ))}
@@ -69,7 +69,7 @@ export default function EntryList({ cols }) {
                     {ordered && <th className="w-20 px-4 py-3 font-semibold">Order</th>}
                     <th className="px-4 py-3 font-semibold">Title</th>
                     {listCols.map((f) => <th key={f.name} className="px-4 py-3 font-semibold">{f.label}</th>)}
-                    <th className="px-4 py-3 font-semibold">Status</th>
+                    {!def.internal && <th className="px-4 py-3 font-semibold">Status</th>}
                     <th className="px-4 py-3 font-semibold">Last edited</th>
                   </tr>
                 </thead>
@@ -89,7 +89,7 @@ export default function EntryList({ cols }) {
                         <p className="text-xs text-muted">/{r.slug}</p>
                       </td>
                       {listCols.map((f) => <td key={f.name} className="px-4 py-3 text-muted">{String(r.draft?.[f.name] || '—')}</td>)}
-                      <td className="px-4 py-3"><StatusBadge status={r.status} hasChanges={r.hasChanges} /></td>
+                      {!def.internal && <td className="px-4 py-3"><StatusBadge status={r.status} hasChanges={r.hasChanges} /></td>}
                       <td className="px-4 py-3 text-muted">{fmtDate(r.updatedAt)}{r.updatedByName && <span className="block text-xs">{r.updatedByName}</span>}</td>
                     </tr>
                   ))}

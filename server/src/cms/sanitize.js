@@ -43,6 +43,22 @@ export function cleanData(collection, input = {}) {
       case 'boolean': out[f.name] = !!v; break
       case 'date': out[f.name] = /^\d{4}-\d{2}-\d{2}/.test(v || '') ? String(v).slice(0, 10) : ''; break
       case 'select': out[f.name] = f.options.includes(v) ? v : ''; break
+      case 'stages': {
+        // { [stageId]: { owner, status, start, end, notes } } — only known stages are kept
+        const src = v && typeof v === 'object' ? v : {}
+        const date = (d) => (/^\d{4}-\d{2}-\d{2}/.test(d || '') ? String(d).slice(0, 10) : '')
+        out[f.name] = {}
+        for (const st of f.stages) {
+          const x = src[st.id] || {}
+          const row = {
+            owner: slugify(str(x.owner, 160)),
+            status: f.statuses.includes(x.status) ? x.status : f.statuses[0],
+            start: date(x.start), end: date(x.end), notes: str(x.notes, 300),
+          }
+          if (row.owner || row.status !== f.statuses[0] || row.start || row.end || row.notes) out[f.name][st.id] = row
+        }
+        break
+      }
       case 'image': {
         const id = Number(v?.id) || null
         const url = str(v?.url, 500)
