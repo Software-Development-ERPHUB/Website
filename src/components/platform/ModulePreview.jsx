@@ -209,7 +209,7 @@ export function MiniPreview({ m }) {
       <div className="flex items-center gap-2">
         <span className="h-2.5 w-2.5 rounded-full" style={{ background: m.color, boxShadow: `0 0 12px ${m.color}` }} />
         <span className="font-display text-sm font-semibold">{m.name}</span>
-        <span className="ml-auto text-[10px] text-white/50">Live preview</span>
+        <span className="ml-auto text-[10px] text-white/50">Sample data</span>
       </div>
       <dl className="mt-3 space-y-1.5 text-[12px]">
         {rows.map(([k, v]) => <div key={k} className="flex justify-between"><dt className="text-white/60">{k}</dt><dd className="font-semibold">{v}</dd></div>)}
