@@ -106,18 +106,18 @@ export default function Products() {
   const ready = PRODUCTS.filter((p) => p.status !== 'soon').length
 
   const SLIDES = [
-    { icon: LayoutGrid, tag: 'Ready-made business applications', title: 'Products built from a decade of real ERP work',
+    { icon: LayoutGrid, tag: 'Client Demo', title: 'Try the applications before you decide',
       body: 'The applications we built and run for our own group, now packaged for your business. Try a demo, then we tailor it to the way you work.',
-      primary: { label: 'Browse products', on: () => scrollTo('hrms') } },
+      primary: { label: 'Browse demos', on: () => scrollTo('hrms') } },
     { icon: Users, tag: 'HRMS', title: 'Attendance, payroll and performance in one suite',
       body: 'Biometric attendance through to payroll, plus KRA & KPI performance reviews you can add when you need them.',
-      primary: { label: 'See HRMS products', on: () => scrollTo('hrms') } },
+      primary: { label: 'See HRMS demos', on: () => scrollTo('hrms') } },
     { icon: Wallet, tag: 'Finance', title: 'Books, billing and budgets that stay in sync',
       body: 'Accounts, invoicing, employee claims and budget control, with approvals and audit trails built in.',
-      primary: { label: 'See finance products', on: () => scrollTo('finance') } },
+      primary: { label: 'See finance demos', on: () => scrollTo('finance') } },
     { icon: Factory, tag: 'Manufacturing', title: 'From customer enquiry to purchase order',
       body: 'A CRM for your sales team, procurement for your buyers and EHS for every site. Open the live CRM demo or click through the others.',
-      primary: { label: 'See manufacturing products', on: () => scrollTo('manufacturing') } },
+      primary: { label: 'See manufacturing demos', on: () => scrollTo('manufacturing') } },
   ]
 
   const STATS = [
@@ -129,7 +129,7 @@ export default function Products() {
 
   return (
     <>
-      <Seo title="Products — HRMS, Finance & Manufacturing Applications" description="Ready-made business applications for HR, payroll, finance, CRM and procurement. Try a live demo and see how it fits your business." />
+      <Seo title="Client Demo — HRMS, Finance & Manufacturing Applications" description="Ready-made business applications for HR, payroll, finance, CRM and procurement. Try a live demo and see how it fits your business." />
 
       {/* ── HERO: slider + suite stack ── */}
       <section className="relative isolate overflow-hidden bg-ink text-white">
@@ -140,7 +140,7 @@ export default function Products() {
         <div className="container-page grid grid-cols-1 items-center gap-10 pb-12 pt-10 lg:grid-cols-[1.2fr_1fr] lg:gap-14 lg:pb-16 lg:pt-14">
           <div className="min-w-0">
             <nav aria-label="Breadcrumb" className="mb-6 text-sm text-white/60">
-              <Link to="/" className="hover:text-white hover:underline">Home</Link><span className="mx-1.5">/</span><span className="text-white" aria-current="page">Products</span>
+              <Link to="/" className="hover:text-white hover:underline">Home</Link><span className="mx-1.5">/</span><span className="text-white" aria-current="page">Client Demo</span>
             </nav>
             <Slider dark interval={6000} accent="rgb(var(--c-accent))">
               {SLIDES.map((s, i) => (
@@ -155,7 +155,7 @@ export default function Products() {
                   <p className="hs-anim mt-5 max-w-xl text-[clamp(1rem,.95rem+.3vw,1.15rem)] leading-relaxed text-white/75">{s.body}</p>
                   <div className="hs-anim mt-7 flex flex-col gap-3 xs:flex-row">
                     <button type="button" onClick={s.primary.on} className="btn-on-dark ia">{s.primary.label}<span className="ai ai-nudge"><ArrowRight size={17} /></span></button>
-                    <Link to="/contact" className="btn-ghost-dark">Request a walkthrough</Link>
+                    <Link to="/contact?demo=platform" className="btn-ghost-dark">Request a walkthrough</Link>
                   </div>
                 </div>
               ))}
@@ -180,7 +180,7 @@ export default function Products() {
       </section>
 
       {/* ── suite subnav ── */}
-      <nav aria-label="Product suites" className="sticky top-[var(--header-h)] z-40 border-b border-line bg-white/90 backdrop-blur">
+      <nav aria-label="Demo suites" className="sticky top-[var(--header-h)] z-40 border-b border-line bg-white/90 backdrop-blur">
         <ul className="container-page flex gap-1 overflow-x-auto py-2 [scrollbar-width:none]">
           {PRODUCT_CATEGORIES.map((c) => {
             const I = icon(c.icon)
@@ -211,6 +211,7 @@ export default function Products() {
                   <h2 className="h-section mt-4">{c.title}</h2>
                   <p className="lead mt-4">{c.summary}</p>
                 </div>
+                <Link to={`/solutions/${c.id}`} className="link inline-flex shrink-0 items-center gap-1.5">About {c.title}<ArrowRight size={16} aria-hidden="true" /></Link>
               </Reveal>
               <ul className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {productsIn(c.id).map((p, i) => (
@@ -222,7 +223,7 @@ export default function Products() {
         )
       })}
 
-      <CtaBand title="Need a product tailored to your business?" body="Tell us how your team works today. We will walk you through the right product and the changes it needs to fit you." />
+      <CtaBand title="Want a guided walkthrough?" body="Tell us how your team works today. We will walk you through the right product and the changes it needs to fit you." />
     </>
   )
 }

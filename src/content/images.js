@@ -22,7 +22,20 @@ import ceoPortrait from '../assets/img/leader-ceo-portrait.webp'
 import ceoBanner from '../assets/img/leader-ceo-banner.webp'
 import ceoBannerSm from '../assets/img/leader-ceo-banner-sm.webp'
 
+// Voltech Group site photos used by the industries carousel (370×254).
+// Replace with larger licensed photos when available — keep the same keys.
+import indManufacturing from '../assets/companies/asia_power.jpg'
+import indEngineering from '../assets/companies/vmcl.jpg'
+import indProjects from '../assets/companies/vepl.jpg'
+import indOperations from '../assets/companies/voms.jpg'
+import indShared from '../assets/companies/vhrs.jpg'
+
 export const IMAGES = {
+  indManufacturing: { src: indManufacturing, w: 370, h: 254 },
+  indEngineering: { src: indEngineering, w: 370, h: 254 },
+  indProjects: { src: indProjects, w: 370, h: 254 },
+  indOperations: { src: indOperations, w: 370, h: 254 },
+  indShared: { src: indShared, w: 370, h: 254 },
   siteVg: { src: siteVg, w: 1000, h: 594 },
   siteVmcl: { src: siteVmcl, w: 1000, h: 598 },
   siteVipra: { src: siteVipra, w: 1000, h: 478 },

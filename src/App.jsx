@@ -26,9 +26,17 @@ const AdminApp = lazy(() => import('./admin/AdminApp'))
 const ErpHome = lazy(() => import('./pages/erp/ErpHome'))
 const ErpCompany = lazy(() => import('./pages/erp/ErpCompany'))
 const ErpWebsites = lazy(() => import('./pages/erp/ErpWebsites'))
-// Client product catalogue + full-screen demo viewer
+// Client Demo catalogue + full-screen demo viewer
 const Products = lazy(() => import('./pages/Products'))
 const ProductDemo = lazy(() => import('./pages/ProductDemo'))
+// Enterprise platform + standalone module pages
+const Platform = lazy(() => import('./pages/Platform'))
+const SolutionPage = lazy(() => import('./pages/SolutionPage'))
+
+function LegacyDemoRedirect() {
+  const { slug } = useParams()
+  return <Navigate to={`/client-demo/${slug}`} replace />
+}
 
 function LegacyCompanyRedirect() {
   const { id } = useParams()
@@ -40,7 +48,8 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/admin/*" element={<Suspense fallback={null}><AdminApp /></Suspense>} />
-        <Route path="/products/:slug/demo" element={<Suspense fallback={null}><ProductDemo /></Suspense>} />
+        <Route path="/client-demo/:slug" element={<Suspense fallback={null}><ProductDemo /></Suspense>} />
+        <Route path="/products/:slug/demo" element={<LegacyDemoRedirect />} />
         <Route element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
@@ -60,7 +69,10 @@ export default function App() {
           <Route path="privacy-policy" element={<Legal kind="privacy" />} />
           <Route path="terms" element={<Legal kind="terms" />} />
 
-          <Route path="products" element={<Products />} />
+          <Route path="client-demo" element={<Products />} />
+          <Route path="products" element={<Navigate to="/client-demo" replace />} />
+          <Route path="platform" element={<Platform />} />
+          <Route path="solutions/:moduleId" element={<SolutionPage />} />
 
           <Route path="erp" element={<ErpHome />} />
           <Route path="erp/companies/:companyId" element={<ErpCompany />} />

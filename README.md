@@ -57,13 +57,21 @@ SPA — unknown paths must serve `index.html`. `public/.htaccess` handles Apache
 
 Old routes `/companies`, `/companies/:id`, `/websites` redirect to `/projects`.
 
-## Products and client demos
-`/products` lists the products by suite (HRMS, Finance, Manufacturing). Edit them in `src/content/products.js`.
-Each demo opens at `/products/<slug>/demo`, a full-screen viewer that loads `public/demo/<slug>/index.html`,
+## Enterprise platform pages
+- `/` home: cinematic hero, Chairman & MD feature, services, module cards, platform diagram, HRMS/Finance/Manufacturing previews, client demo, industries, Why Voltech.
+- `/platform`: integrated platform overview. `/solutions/hrms`, `/solutions/finance`, `/solutions/manufacturing`: standalone module pages (one reusable `pages/SolutionPage.jsx`).
+- All module names, colours, routes and features live in `src/content/platform.js`; components are in `src/components/platform/`.
+- Brand colours are CSS variables at the top of `src/index.css` (the previous green values are noted there).
+- "Request a Demo" buttons open `/contact?demo=<hrms|finance|manufacturing|platform>`, which preselects the demo in the existing contact form.
+- Dashboard previews are illustrative sample data. Industry photos are the group's existing site images (`content/images.js`, keys `ind*`); replace with larger licensed photos using the same keys.
+
+## Client Demo
+`/client-demo` lists the demos by suite (HRMS, Finance, Manufacturing). Edit them in `src/content/products.js`.
+Each demo opens at `/client-demo/<slug>`, a full-screen viewer that loads `public/demo/<slug>/index.html`,
 so clients never see an HTML file name. To add or replace a demo, put the HTML file at
 `public/demo/<slug>/index.html` and set the product's `status` to `'demo'`. Products marked `'soon'` show a
-placeholder page; `'live'` products (the CRM) open their `liveUrl` in a new tab. `/demo/` is excluded from
-search engines in `robots.txt`.
+placeholder page; `'live'` products (the CRM) open their `liveUrl` in a new tab. Old `/products` links redirect.
+`/demo/` and the viewer pages are excluded from search engines in `robots.txt`.
 
 ## Search and languages
 - **Global search** — header search button, `Ctrl/⌘ + K` or `/`. Index is built from `src/content/*` and `src/data/companies.js` (`src/lib/searchIndex.js`), so new content is searchable automatically.

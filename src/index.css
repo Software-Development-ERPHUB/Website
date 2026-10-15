@@ -6,16 +6,25 @@
    Change these to rebrand. Values are space-separated RGB so Tailwind
    opacity modifiers (bg-brand/10) keep working. */
 :root {
-  --c-ink: 15 42 34;             /* #0F2A22 deep forest slate — text, dark bands */
-  --c-primary: 0 116 56;         /* #007438 existing Voltech green */
-  --c-primary-strong: 0 88 42;   /* #00582A hover / pressed */
-  --c-primary-soft: 230 243 236; /* #E6F3EC tints */
-  --c-accent: 56 198 108;        /* #38C66C existing light green — use on dark only */
+  /* Voltech Integrated Enterprise Solutions palette.
+     To go back to the previous green brand: ink 15 42 34, primary 0 116 56,
+     primary-strong 0 88 42, primary-soft 230 243 236, accent 56 198 108,
+     paper 245 247 246, line 220 227 223, muted 78 94 88. */
+  --c-ink: 16 35 63;             /* #10233F deep navy — text, dark bands */
+  --c-charcoal: 23 35 51;        /* #172333 */
+  --c-primary: 194 65 12;        /* #C2410C deep safety orange — buttons, links (5.2:1 with white) */
+  --c-primary-strong: 154 52 18; /* #9A3412 hover / pressed */
+  --c-primary-soft: 255 241 234; /* #FFF1EA tints */
+  --c-accent: 255 107 44;        /* #FF6B2C warm safety orange — highlights, use on dark */
   --c-secondary: 43 91 132;      /* #2B5B84 steel blue */
   --c-secondary-soft: 234 240 246;
-  --c-paper: 245 247 246;        /* #F5F7F6 */
-  --c-line: 220 227 223;         /* #DCE3DF */
-  --c-muted: 78 94 88;           /* #4E5E58 — 6.5:1 on white */
+  --c-paper: 245 247 250;        /* #F5F7FA */
+  --c-line: 221 227 236;         /* #DDE3EC */
+  --c-muted: 81 94 114;          /* #515E72 — 6.3:1 on white */
+  /* module accents — mirrored in src/content/platform.js */
+  --m-hrms: 219 39 119;          /* #DB2777 rose */
+  --m-finance: 13 148 136;       /* #0D9488 teal */
+  --m-mfg: 79 70 229;            /* #4F46E5 indigo */
   --header-h: 68px;
 }
 
@@ -284,3 +293,46 @@ font { background: transparent !important; box-shadow: none !important; }
 .cms-prose p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: rgb(var(--c-muted) / .7); float: left; height: 0; pointer-events: none; }
 .btn-danger { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; padding: 0 1.25rem; border-radius: .5rem; background: #b91c1c; color: #fff; font-weight: 600; transition: background .2s; }
 .btn-danger:hover { background: #991b1b; }
+
+/* ───────────── ENTERPRISE PLATFORM (home, /platform, /solutions/*) ───────────── */
+.hero-word { display: inline-block; opacity: 0; transform: translateY(.45em); animation: hero-word .9s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes hero-word { to { opacity: 1; transform: none } }
+.float-in { opacity: 0; animation: float-in 1s cubic-bezier(.22,1,.36,1) forwards; }
+@keyframes float-in { from { opacity: 0; transform: translateY(28px) scale(.96) } to { opacity: 1; transform: none } }
+.bob { animation: bob 7s ease-in-out infinite; }
+.bob-2 { animation: bob 8.5s ease-in-out -2s infinite; }
+.bob-3 { animation: bob 9.5s ease-in-out -4s infinite; }
+@keyframes bob { 0%, 100% { translate: 0 0 } 50% { translate: 0 -10px } }
+.light-sweep { animation: light-sweep 9s ease-in-out infinite; }
+@keyframes light-sweep { 0%, 100% { transform: translateX(-30%) rotate(18deg); opacity: .0 } 40%, 60% { opacity: .55 } 50% { transform: translateX(30%) rotate(18deg) } }
+.spin-slow { animation: spin-slow 60s linear infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes spin-slow { to { transform: rotate(360deg) } }
+.dash-flow { stroke-dasharray: 6 8; animation: dash-flow 1.6s linear infinite; }
+@keyframes dash-flow { to { stroke-dashoffset: -28 } }
+.pulse-ring { animation: pulse-ring 2.8s ease-out infinite; transform-origin: center; transform-box: fill-box; }
+@keyframes pulse-ring { 0% { transform: scale(.8); opacity: .7 } 100% { transform: scale(1.6); opacity: 0 } }
+.bar-grow { transform-origin: bottom; transform: scaleY(.05); transition: transform 1.1s cubic-bezier(.22,1,.36,1); }
+.is-in .bar-grow { transform: scaleY(1); }
+.line-draw { stroke-dasharray: 600; stroke-dashoffset: 600; transition: stroke-dashoffset 1.8s cubic-bezier(.22,1,.36,1) .2s; }
+.is-in .line-draw { stroke-dashoffset: 0; }
+.meter-fill { transform-origin: left; transform: scaleX(0); transition: transform 1.3s cubic-bezier(.22,1,.36,1) .25s; }
+.is-in .meter-fill { transform: scaleX(1); }
+.scan-line { animation: scan-line 3.6s ease-in-out infinite; }
+@keyframes scan-line { 0% { transform: translateX(-100%) } 100% { transform: translateX(400%) } }
+.hero-fade { background: linear-gradient(to bottom, transparent, rgb(var(--c-paper))); }
+.mod-card { --m: var(--m-hrms); }
+.mod-card:focus-visible { outline: 3px solid rgb(var(--m)); outline-offset: 4px; }
+.mod-card .mod-extra { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .45s ease; }
+.mod-card:hover .mod-extra, .mod-card:focus-visible .mod-extra { grid-template-rows: 1fr; }
+.accent-line { transform-origin: left; transform: scaleX(.18); transition: transform .5s cubic-bezier(.22,1,.36,1); }
+.mod-card:hover .accent-line, .mod-card:focus-visible .accent-line { transform: scaleX(1); }
+.snap-row { scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.snap-row::-webkit-scrollbar { display: none; }
+.snap-row > * { scroll-snap-align: start; }
+.mega-anim { animation: search-in .22s cubic-bezier(.22,1,.36,1) both; }
+@media (prefers-reduced-motion: reduce) {
+  .hero-word, .float-in { opacity: 1; transform: none; animation: none; }
+  .bob, .bob-2, .bob-3, .light-sweep, .spin-slow, .dash-flow, .pulse-ring, .scan-line { animation: none; }
+  .bar-grow, .line-draw, .meter-fill { transition: none; transform: none; stroke-dashoffset: 0; }
+  .mod-card .mod-extra { transition: none; }
+}

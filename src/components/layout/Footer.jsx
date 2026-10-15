@@ -6,6 +6,16 @@ import { SITE, CONTACT, MAP } from '../../content/site'
 
 const COLS = [
   {
+    title: 'Enterprise Platform',
+    links: [
+      { to: '/platform', label: 'Platform overview' },
+      { to: '/solutions/hrms', label: 'HRMS' },
+      { to: '/solutions/finance', label: 'Finance' },
+      { to: '/solutions/manufacturing', label: 'Manufacturing' },
+      { to: '/client-demo', label: 'Client Demo' },
+    ],
+  },
+  {
     title: 'Company',
     links: [
       { to: '/about', label: 'About Us' },
@@ -28,16 +38,6 @@ const COLS = [
     ],
   },
   {
-    title: 'Solutions',
-    links: [
-      { to: '/solutions#erp', label: 'Business Applications' },
-      { to: '/solutions#automation', label: 'Workflow Automation' },
-      { to: '/solutions#documents', label: 'Document Management' },
-      { to: '/solutions#project-cost', label: 'Project Management' },
-      { to: '/projects', label: 'Case Studies' },
-    ],
-  },
-  {
     title: 'ERP Portfolio',
     links: [
       { to: '/erp', label: 'ERP overview' },
@@ -56,10 +56,11 @@ export default function Footer() {
       <div className="container-page grid gap-12 py-14 sm:py-16 lg:grid-cols-[1fr_2.4fr]">
         <div className="max-w-sm">
           <Logo tone="light" />
-          <p className="mt-5 text-[0.95rem] leading-relaxed">
-            Custom software, web applications, websites and ERP business applications — built and supported from Chennai. A Voltech Group company.
+          <p className="mt-5 font-display text-lg font-semibold text-white">Integrated Enterprise Solutions</p>
+          <p className="mt-2 text-[0.95rem] leading-relaxed">
+            HRMS, Finance and Manufacturing applications, plus custom software and websites — built and supported from Chennai. A Voltech Group company.
           </p>
-          <Link to="/contact" className="btn-on-dark mt-6">Start a project</Link>
+          <Link to="/contact?demo=platform" className="btn mt-6 bg-accent text-ink hover:bg-white">Request a Demo</Link>
           <p className="mt-8 text-sm font-semibold text-white">Follow us</p>
           <SocialLinks tone="light" size={40} className="mt-3" />
         </div>

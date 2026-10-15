@@ -145,32 +145,35 @@ export const CAREERS = {
 }
 
 export const NAV = [
-  { to: '/services', label: 'Services' },
-  { to: '/solutions', label: 'Solutions' },
-  { to: '/products', label: 'Products' },
-  { to: '/industries', label: 'Industries' },
-  { to: '/projects', label: 'Projects' },
   {
-    label: 'ERP Portfolio',
+    label: 'Enterprise Platform',
+    mega: true, // rendered as the module mega menu in Header.jsx (data from content/platform.js)
     children: [
-      { to: '/erp', label: 'ERP overview' },
-      { to: '/erp#companies', label: 'Group companies' },
-      { to: '/erp/websites', label: 'Group websites' },
+      { to: '/platform', label: 'Platform overview' },
+      { to: '/solutions/hrms', label: 'HRMS' },
+      { to: '/solutions/finance', label: 'Finance' },
+      { to: '/solutions/manufacturing', label: 'Manufacturing' },
     ],
   },
+  { to: '/client-demo', label: 'Client Demo' },
+  { to: '/services', label: 'Services' },
+  { to: '/industries', label: 'Industries' },
   {
     label: 'Company',
     children: [
       { to: '/about', label: 'About Us' },
-      { to: '/technology', label: 'Technology' },
       { to: '/leadership', label: 'Leadership' },
+      { to: '/erp', label: 'ERP Portfolio' },
+      { to: '/projects', label: 'Projects' },
+      { to: '/solutions', label: 'Business Solutions' },
+      { to: '/technology', label: 'Technology' },
       { to: '/team', label: 'Our Team' },
       { to: '/news', label: 'News & insights' },
       { to: '/careers', label: 'Careers' },
       { to: '/faq', label: 'FAQ' },
     ],
   },
-  { to: '/contact', label: 'Contact Us' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 export const BUDGETS = ['Not sure yet', 'Under ₹1 lakh', '₹1–3 lakh', '₹3–10 lakh', 'Above ₹10 lakh']
