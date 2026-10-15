@@ -36,7 +36,7 @@ export const PRODUCT_CATEGORIES = [
     icon: 'Factory',
     color: '#B45309',
     gradient: 'linear-gradient(135deg,#9A3412 0%,#F59E0B 100%)',
-    summary: 'From the first customer enquiry to the purchase order on the shop floor.',
+    summary: 'From the first customer enquiry to the purchase order, with safety and compliance on every site.',
   },
 ]
 
@@ -54,26 +54,16 @@ export const PRODUCTS = [
     features: ['Attendance & shifts', 'Leave management', 'Biometric devices', 'Payroll run', 'Statutory reports', 'Employee app (ESS)', 'AI assistant'],
   },
   {
-    slug: 'kpi',
+    slug: 'kra-kpi',
+    aliases: ['kpi', 'kri'], // old links from when these were separate apps
     category: 'hrms',
-    name: 'KPI Management',
-    code: 'KPI',
+    name: 'KRA & KPI Performance',
+    code: 'PMS',
     icon: 'Target',
-    status: 'soon',
-    tagline: 'Set goals, track performance, review with evidence.',
-    description: 'Define key performance indicators per role, collect monthly scores, and run appraisal reviews with manager and HR sign-off.',
-    features: ['Goal library', 'Role-wise scorecards', 'Monthly reviews', 'Appraisal cycles', 'Dashboards'],
-  },
-  {
-    slug: 'kri',
-    category: 'hrms',
-    name: 'KRI Management',
-    code: 'KRI',
-    icon: 'TrendingUp',
-    status: 'soon',
-    tagline: 'Measure the results that matter for every team.',
-    description: 'Track key result indicators against targets for departments and individuals, with alerts when results drift off course.',
-    features: ['Result targets', 'Department rollups', 'Threshold alerts', 'Trend reports', 'Action tracking'],
+    status: 'demo',
+    tagline: 'Goals, scorecards and appraisals in one performance system.',
+    description: 'Cascade company goals into KRAs and KPIs for every role, score them each cycle with self, manager and 360° reviews, then calibrate ratings with clear rules.',
+    features: ['KRA & KPI goal sheets', 'Weighted scorecards', 'Self & manager review', '360° feedback', 'Competency assessment', 'Calibration', 'Balanced Scorecard'],
   },
 
   // ── Finance ──
@@ -146,10 +136,21 @@ export const PRODUCTS = [
     description: 'Raise indents and requisitions, send RFQs to vendors, compare quotations with AI help and issue approved purchase orders.',
     features: ['Indents & requisitions', 'RFQ / enquiry', 'Quotation comparison', 'Purchase orders', 'Vendor & item master', 'Approval workflow', 'Users & roles', 'Reports'],
   },
+  {
+    slug: 'ehs',
+    category: 'manufacturing',
+    name: 'EHS Management',
+    code: 'EHS',
+    icon: 'HardHat',
+    status: 'demo',
+    tagline: 'Safety, health and environment compliance for every site.',
+    description: 'Report and investigate incidents, issue work permits, run audits and inspections, track PPE, training and legal licences, all with corrective actions to closure.',
+    features: ['Incident reporting', 'Work permits', 'HIRA & JSA', 'Audits & inspections', 'PPE & safety assets', 'Training', 'Legal register', 'Reports & MIS'],
+  },
 ]
 
 export const productsIn = (categoryId) => PRODUCTS.filter((p) => p.category === categoryId)
-export const findProduct = (slug) => PRODUCTS.find((p) => p.slug === slug)
+export const findProduct = (slug) => PRODUCTS.find((p) => p.slug === slug || p.aliases?.includes(slug))
 
 /** Where a product's card button goes. Live products open their own site. */
 export const productHref = (p) => (p.status === 'live' ? p.liveUrl : `/products/${p.slug}/demo`)
