@@ -17,6 +17,7 @@ export default function ProductDemo() {
   const [loaded, setLoaded] = useState(false)
 
   if (!p) return <Navigate to="/products" replace />
+  if (p.slug !== slug) return <Navigate to={`/products/${p.slug}/demo`} replace />
   if (p.status === 'live') { window.location.replace(p.liveUrl); return null }
   const cat = PRODUCT_CATEGORIES.find((c) => c.id === p.category)
 

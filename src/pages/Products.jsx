@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import {
   ArrowRight, ArrowUpRight, Play, Clock, Boxes, LayoutGrid, MonitorPlay, Headset,
-  Users, Wallet, Factory, Timer, Target, TrendingUp, BookOpen, Receipt, CreditCard, PieChart, Handshake, ShoppingCart,
+  HardHat, Users, Wallet, Factory, Timer, Target, TrendingUp, BookOpen, Receipt, CreditCard, PieChart, Handshake, ShoppingCart,
 } from 'lucide-react'
 import Seo from '../components/ui/Seo'
 import CtaBand from '../components/sections/CtaBand'
@@ -9,7 +9,7 @@ import { AnimIcon } from '../components/erp/AnimIcon'
 import { Reveal, CountUp, Slider } from '../components/erp/Motion'
 import { PRODUCT_CATEGORIES, PRODUCTS, productsIn, productHref } from '../content/products'
 
-const ICONS = { Users, Wallet, Factory, Timer, Target, TrendingUp, BookOpen, Receipt, CreditCard, PieChart, Handshake, ShoppingCart }
+const ICONS = { HardHat, Users, Wallet, Factory, Timer, Target, TrendingUp, BookOpen, Receipt, CreditCard, PieChart, Handshake, ShoppingCart }
 const icon = (name) => ICONS[name] || Boxes
 const catOf = (id) => PRODUCT_CATEGORIES.find((c) => c.id === id)
 const scrollTo = (id) => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -110,13 +110,13 @@ export default function Products() {
       body: 'The applications we built and run for our own group, now packaged for your business. Try a demo, then we tailor it to the way you work.',
       primary: { label: 'Browse products', on: () => scrollTo('hrms') } },
     { icon: Users, tag: 'HRMS', title: 'Attendance, payroll and performance in one suite',
-      body: 'Biometric attendance through to payroll, plus KPI and KRI tracking as separate apps you can add when you need them.',
+      body: 'Biometric attendance through to payroll, plus KRA & KPI performance reviews you can add when you need them.',
       primary: { label: 'See HRMS products', on: () => scrollTo('hrms') } },
     { icon: Wallet, tag: 'Finance', title: 'Books, billing and budgets that stay in sync',
       body: 'Accounts, invoicing, employee claims and budget control, with approvals and audit trails built in.',
       primary: { label: 'See finance products', on: () => scrollTo('finance') } },
     { icon: Factory, tag: 'Manufacturing', title: 'From customer enquiry to purchase order',
-      body: 'A CRM for your sales team and a procurement system for your buyers. Open the live CRM demo or click through ProcureX.',
+      body: 'A CRM for your sales team, procurement for your buyers and EHS for every site. Open the live CRM demo or click through the others.',
       primary: { label: 'See manufacturing products', on: () => scrollTo('manufacturing') } },
   ]
 
