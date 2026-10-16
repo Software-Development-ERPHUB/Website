@@ -7,11 +7,13 @@ import { StatusBadge, Spinner, useToast, useConfirm } from '../ui'
 import RichTextEditor from '../fields/RichTextEditor'
 import MediaPicker from '../fields/MediaPicker'
 import TagsInput from '../fields/TagsInput'
+import StagesField, { useTeam } from '../fields/StagesField'
+import AppHistory from '../tracker/AppHistory'
 
 const slugify = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150)
 
 function emptyData(def) {
-  return Object.fromEntries(def.fields.map((f) => [f.name, f.type === 'tags' ? [] : f.type === 'image' ? null : f.type === 'boolean' ? false : f.default || '']))
+  return Object.fromEntries(def.fields.map((f) => [f.name, f.type === 'tags' || f.type === 'people' ? [] : f.type === 'image' ? null : f.type === 'boolean' ? (f.default ?? false) : f.type === 'stages' ? {} : f.default || '']))
 }
 
 function ImageField({ id, value, onChange }) {
@@ -39,6 +41,39 @@ function ImageField({ id, value, onChange }) {
   )
 }
 
+function PeopleField({ id, f, value, onChange }) {
+  const team = useTeam(f.people)
+  const arr = Array.isArray(value) ? value : (value ? [value] : [])
+  const toggle = (slug) => {
+    const set = new Set(arr)
+    if (set.has(slug)) set.delete(slug); else set.add(slug)
+    onChange([...set])
+  }
+  const gone = arr.filter((s) => !team.some((t) => t.slug === s))
+  return (
+    <div id={id} className="rounded-lg border border-line bg-white p-3">
+      <div className="flex flex-wrap gap-2">
+        {team.map((t) => {
+          const on = arr.includes(t.slug)
+          return (
+            <label key={t.slug} className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${on ? 'border-brand bg-brand-soft text-brand' : 'border-line text-ink hover:border-brand'}`}>
+              <input type="checkbox" className="sr-only" checked={on} onChange={() => toggle(t.slug)} />
+              <span className={`grid h-4 w-4 place-items-center rounded-full border text-[10px] ${on ? 'border-brand bg-brand text-white' : 'border-line'}`}>{on ? '✓' : ''}</span>
+              {t.name}
+            </label>
+          )
+        })}
+        {gone.map((s) => (
+          <button key={s} type="button" onClick={() => toggle(s)} className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800" title="No longer on the team — click to remove">
+            {s} (removed) ×
+          </button>
+        ))}
+      </div>
+      {!team.length && <p className="text-xs text-muted">Add people under Team members to assign leads.</p>}
+    </div>
+  )
+}
+
 function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
   const id = `fld-${f.name}`
   const common = { id, 'aria-invalid': error ? 'true' : undefined, 'aria-describedby': error ? `${id}-err` : f.help ? `${id}-help` : undefined }
@@ -51,6 +86,8 @@ function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
         <option value="">Choose…</option>{f.options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>); break
     case 'tags': input = <TagsInput id={id} value={value || []} onChange={onChange} />; break
+    case 'stages': input = <StagesField id={id} f={f} value={value} onChange={onChange} />; break
+    case 'people': input = <PeopleField id={id} f={f} value={value} onChange={onChange} />; break
     case 'image': input = <ImageField id={id} value={value} onChange={onChange} />; break
     case 'number': input = <input {...common} type="number" className="field" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />; break
     case 'date': input = <input {...common} type="date" className="field" value={value || ''} onChange={(e) => onChange(e.target.value)} />; break
@@ -145,7 +182,7 @@ export default function EntryEditor({ cols }) {
 
   // Ctrl/⌘ + S saves the draft
   useEffect(() => {
-    const fn = (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save().then((x) => x && toast('Draft saved')) } }
+    const fn = (e) => { if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); save().then((x) => x && toast(def?.internal ? 'Saved' : 'Draft saved')) } }
     window.addEventListener('keydown', fn)
     return () => window.removeEventListener('keydown', fn)
   }, [save, toast])
@@ -200,7 +237,7 @@ export default function EntryEditor({ cols }) {
       {confirmEl}
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <Link to={`/admin/content/${collection}`} className="inline-flex items-center gap-1.5 text-sm font-semibold text-muted hover:text-ink"><ArrowLeft size={16} />{def.label}</Link>
-        <span className="text-sm text-muted" aria-live="polite">{busy === 'save' ? 'Saving…' : dirty ? <span className="text-amber-700">● Unsaved changes</span> : entry ? `Draft saved ${fmtDate(entry.updatedAt)}` : ''}</span>
+        <span className="text-sm text-muted" aria-live="polite">{busy === 'save' ? 'Saving…' : dirty ? <span className="text-amber-700">● Unsaved changes</span> : entry ? `${def.internal ? 'Saved' : 'Draft saved'} ${fmtDate(entry.updatedAt)}` : ''}</span>
       </div>
 
       <div className="grid gap-6 lg:grid-cols-[1fr_320px]">
@@ -221,9 +258,38 @@ export default function EntryEditor({ cols }) {
               ))}
             </section>
           ))}
+          {collection === 'apps' && entry && <AppHistory appId={entry.id} stages={def.fields.find((f) => f.type === 'stages').stages} version={entry.updatedAt} />}
         </div>
 
-        {/* Publish panel */}
+        {/* Publish panel (internal collections just save) */}
+        {def.internal ? (
+          <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
+            <section className="rounded-xl border border-line bg-white p-5">
+              <h2 className="font-display text-base font-semibold">Internal record</h2>
+              <p className="mt-2 rounded-lg bg-paper p-3 text-xs text-muted">Only signed-in team members see this. It is never shown on the website.</p>
+              <dl className="mt-4 text-sm"><div className="flex justify-between gap-3"><dt className="text-muted">Last edited</dt><dd className="text-right">{fmtDate(entry?.updatedAt)}{entry?.updatedByName && <span className="block text-xs text-muted">{entry.updatedByName}</span>}</dd></div></dl>
+              <div className="mt-4 grid gap-2">
+                <button type="button" className="btn-primary w-full" onClick={() => save().then((x) => x && toast('Saved'))} disabled={!!busy || (!dirty && !isNew)}>
+                  {busy === 'save' ? <Spinner /> : <Save size={17} />}Save<kbd className="kbd ml-auto hidden sm:inline-flex">Ctrl S</kbd>
+                </button>
+                {collection === 'apps' && <Link to="/admin/tracker" className="btn-secondary w-full">Open tracker</Link>}
+              </div>
+              {entry && (
+                <div className="mt-4 grid gap-1 border-t border-line pt-4 text-sm">
+                  {entry.status !== 'archived' && (
+                    <button type="button" className="flex min-h-[40px] items-center gap-2 rounded-lg px-2 text-left hover:bg-paper" disabled={!!busy}
+                      onClick={() => action('archive', { done: 'Archived', confirm: { title: 'Archive?', message: 'Archived records are hidden from the tracker.', confirm: 'Archive' } })}>
+                      <Archive size={16} />Archive
+                    </button>
+                  )}
+                  {user.role === 'admin' && (
+                    <button type="button" onClick={remove} className="flex min-h-[40px] items-center gap-2 rounded-lg px-2 text-left text-red-700 hover:bg-red-50"><Trash2 size={16} />Delete permanently</button>
+                  )}
+                </div>
+              )}
+            </section>
+          </aside>
+        ) : (
         <aside className="space-y-4 lg:sticky lg:top-20 lg:self-start">
           <section className="rounded-xl border border-line bg-white p-5">
             <h2 className="font-display text-base font-semibold">Publishing</h2>
@@ -297,6 +363,7 @@ export default function EntryEditor({ cols }) {
             </section>
           )}
         </aside>
+        )}
       </div>
     </>
   )

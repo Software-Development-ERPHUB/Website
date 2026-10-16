@@ -4,8 +4,28 @@
  * except for other plain-data files.
  */
 export const PAGE_SEO = {
-  '/products': {
-    title: 'Products — HRMS, Finance & Manufacturing Applications',
+  '/platform': {
+    title: 'Enterprise Platform — HRMS, Finance & Manufacturing',
+    description: 'Voltech Integrated Enterprise Solutions: HRMS, Finance and Manufacturing as one connected platform or as standalone applications.',
+    priority: '0.9',
+  },
+  '/solutions/hrms': {
+    title: 'HRMS — Human Resource Management Software',
+    description: 'Manage the complete employee lifecycle: attendance, leave, payroll, performance, recruitment, training and statutory compliance.',
+    priority: '0.9',
+  },
+  '/solutions/finance': {
+    title: 'Finance — Finance & Accounts Software',
+    description: 'General ledger, payables, receivables, budgets, fixed assets, tax and financial reporting in one connected system.',
+    priority: '0.9',
+  },
+  '/solutions/manufacturing': {
+    title: 'Manufacturing — Production & Inventory Software',
+    description: 'Production planning, inventory, procurement, quality, maintenance and shop-floor operations for industrial businesses.',
+    priority: '0.9',
+  },
+  '/client-demo': {
+    title: 'Client Demo — HRMS, Finance & Manufacturing Applications',
     description: 'Ready-made business applications for HR, payroll, finance, CRM and procurement. Try a live demo and see how it fits your business.',
     priority: '0.9',
   },

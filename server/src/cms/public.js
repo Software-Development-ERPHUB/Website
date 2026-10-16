@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { pool } from '../db.js'
-import { COLLECTIONS, isCollection } from './collections.js'
+import { COLLECTIONS, isPublic } from './collections.js'
 
 /**
  * Public, read-only API used by the website. Only PUBLISHED data is ever returned.
@@ -15,7 +15,7 @@ router.use((req, res, next) => { res.set('Cache-Control', 'public, max-age=60');
 router.get('/:collection', async (req, res, next) => {
   try {
     const c = req.params.collection
-    if (!isCollection(c)) return res.status(404).json({ ok: false, message: 'Not found' })
+    if (!isPublic(c)) return res.status(404).json({ ok: false, message: 'Not found' })
     const limit = Math.min(Math.max(parseInt(req.query.limit, 10) || 50, 1), 100)
     const page = Math.max(parseInt(req.query.page, 10) || 1, 1)
     const order = COLLECTIONS[c].sort === 'order' ? 'sort_order ASC, id ASC' : 'published_at DESC'
@@ -36,7 +36,7 @@ router.get('/:collection', async (req, res, next) => {
 router.get('/:collection/:slug', async (req, res, next) => {
   try {
     const c = req.params.collection
-    if (!isCollection(c)) return res.status(404).json({ ok: false, message: 'Not found' })
+    if (!isPublic(c)) return res.status(404).json({ ok: false, message: 'Not found' })
     const [[r]] = await pool.query(
       `SELECT id, slug, published_data, published_at FROM cms_entries WHERE collection = ? AND slug = ? AND status = 'published' AND published_data IS NOT NULL`,
       [c, req.params.slug])

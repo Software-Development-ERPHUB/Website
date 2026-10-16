@@ -6,8 +6,8 @@ export default defineConfig({
   server: {
     // Forward /api calls to the Express server in /server during development
     proxy: {
-      '/api': { target: 'http://localhost:5000', changeOrigin: true },
-      '/uploads/media': { target: 'http://localhost:5000', changeOrigin: true },
+      '/api': { target: 'http://localhost:5001', changeOrigin: true },
+      '/uploads/media': { target: 'http://localhost:5001', changeOrigin: true },
     },
   },
   build: {

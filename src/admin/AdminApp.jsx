@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Newspaper, Briefcase, HelpCircle, Image as ImageIcon, Inbox, GraduationCap, Users, LogOut,
-  ExternalLink, Menu, X, KeyRound, FileText,
+  ExternalLink, Menu, X, KeyRound, FileText, Layers, KanbanSquare, ListChecks,
 } from 'lucide-react'
 import { AuthProvider, useAuth } from './auth'
 import { ToastProvider, Spinner } from './ui'
@@ -16,18 +16,25 @@ import Enquiries from './pages/Enquiries'
 import Applications from './pages/Applications'
 import UsersPage from './pages/Users'
 import Account from './pages/Account'
+import Tracker from './pages/Tracker'
+import MyWork from './pages/MyWork'
 
-const ICONS = { newspaper: Newspaper, briefcase: Briefcase, help: HelpCircle }
+const ICONS = { newspaper: Newspaper, briefcase: Briefcase, help: HelpCircle, layers: Layers, users: Users }
 
-function useCollections() {
+function useCollections(enabled) {
   const [cols, setCols] = useState(null)
-  useEffect(() => { cms('/cms/collections').then((d) => setCols(d.collections)).catch(() => setCols([])) }, [])
+  useEffect(() => {
+    if (!enabled) { setCols([]); return }
+    cms('/cms/collections').then((d) => setCols(d.collections)).catch(() => setCols([]))
+  }, [enabled])
   return cols
 }
 
 function Shell() {
   const { user, logout } = useAuth()
-  const cols = useCollections()
+  // developers only get the Development tracker, their own work and their account
+  const dev = user.role === 'developer'
+  const cols = useCollections(!dev)
   const [open, setOpen] = useState(false)
   const loc = useLocation()
   const navigate = useNavigate()
@@ -35,6 +42,9 @@ function Shell() {
 
   const item = ({ isActive }) =>
     `group flex min-h-[42px] items-center gap-3 rounded-lg px-3 text-[0.93rem] font-medium transition-colors ${isActive ? 'bg-white/10 text-white' : 'text-white/65 hover:bg-white/5 hover:text-white'}`
+  const colLinks = (internal) => (cols || []).filter((c) => !!c.internal === internal).map((c) => { const I = ICONS[c.icon] || FileText; return (
+    <NavLink key={c.id} to={`/admin/content/${c.id}`} className={item}><I size={18} />{c.label}</NavLink>
+  ) })
   const Section = ({ children }) => <p className="mb-1 mt-5 px-3 text-[11px] font-semibold uppercase tracking-wider text-white/40">{children}</p>
 
   const nav = (
@@ -44,17 +54,30 @@ function Shell() {
         <span className="leading-tight"><span className="block font-display font-semibold text-white">Voltech CMS</span><span className="block text-xs text-white/50">Content dashboard</span></span>
       </Link>
       <div className="flex-1 overflow-y-auto px-2 pb-4">
+        {dev ? (
+          <>
+        <Section>Development</Section>
+        <NavLink to="/admin" end className={item}><ListChecks size={18} />My work</NavLink>
+        <NavLink to="/admin/tracker" className={item}><KanbanSquare size={18} />Team dashboard</NavLink>
+        <Section>Settings</Section>
+          </>
+        ) : (
+          <>
         <NavLink to="/admin" end className={item}><LayoutDashboard size={18} />Dashboard</NavLink>
         <Section>Content</Section>
-        {(cols || []).map((c) => { const I = ICONS[c.icon] || FileText; return (
-          <NavLink key={c.id} to={`/admin/content/${c.id}`} className={item}><I size={18} />{c.label}</NavLink>
-        ) })}
+        {colLinks(false)}
         <NavLink to="/admin/media" className={item}><ImageIcon size={18} />Media library</NavLink>
+        <Section>Development</Section>
+        <NavLink to="/admin/tracker" className={item}><KanbanSquare size={18} />Development tracker</NavLink>
+        <NavLink to="/admin/my-work" className={item}><ListChecks size={18} />My work</NavLink>
+        {colLinks(true)}
         <Section>Inbox</Section>
         <NavLink to="/admin/enquiries" className={item}><Inbox size={18} />Enquiries</NavLink>
         <NavLink to="/admin/applications" className={item}><GraduationCap size={18} />Internship applications</NavLink>
         <Section>Settings</Section>
         {user.role === 'admin' && <NavLink to="/admin/users" className={item}><Users size={18} />Users</NavLink>}
+          </>
+        )}
         <NavLink to="/admin/account" className={item}><KeyRound size={18} />My account</NavLink>
       </div>
       <div className="border-t border-white/10 p-3">
@@ -86,18 +109,29 @@ function Shell() {
           <a href="/" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:underline">View website<ExternalLink size={14} /></a>
         </header>
         <main className="mx-auto max-w-6xl p-4 sm:p-6 lg:p-8">
+          {dev ? (
+            <Routes>
+              <Route index element={<MyWork />} />
+              <Route path="tracker" element={<Tracker />} />
+              <Route path="account" element={<Account />} />
+              <Route path="*" element={<Navigate to="/admin" replace />} />
+            </Routes>
+          ) : (
           <Routes>
             <Route index element={<Dashboard cols={cols} />} />
+            <Route path="my-work" element={<MyWork />} />
             <Route path="content/:collection" element={<EntryList cols={cols} />} />
             <Route path="content/:collection/new" element={<EntryEditor cols={cols} />} />
             <Route path="content/:collection/:id" element={<EntryEditor cols={cols} />} />
             <Route path="media" element={<MediaLibrary />} />
+            <Route path="tracker" element={<Tracker />} />
             <Route path="enquiries" element={<Enquiries />} />
             <Route path="applications" element={<Applications />} />
             <Route path="users" element={user.role === 'admin' ? <UsersPage /> : <Navigate to="/admin" replace />} />
             <Route path="account" element={<Account />} />
             <Route path="*" element={<Navigate to="/admin" replace />} />
           </Routes>
+          )}
         </main>
       </div>
     </div>

@@ -70,7 +70,7 @@ CREATE TABLE IF NOT EXISTS cms_users (
   name           VARCHAR(120)  NOT NULL,
   email          VARCHAR(190)  NOT NULL,
   password_hash  VARCHAR(100)  NOT NULL,
-  role           ENUM('admin','editor') NOT NULL DEFAULT 'editor',
+  role           ENUM('admin','editor','developer') NOT NULL DEFAULT 'editor',
   active         TINYINT(1)    NOT NULL DEFAULT 1,
   last_login_at  DATETIME      NULL,
   created_at     TIMESTAMP     NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -114,6 +114,42 @@ CREATE TABLE IF NOT EXISTS cms_revisions (
   created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
   KEY idx_cms_rev_entry (entry_id, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Databases created before the Developer role existed
+ALTER TABLE cms_users MODIFY role ENUM('admin','editor','developer') NOT NULL DEFAULT 'editor';
+
+-- Development tracker: who changed which stage, and files uploaded per stage
+CREATE TABLE IF NOT EXISTS tracker_activity (
+  id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  app_id      INT UNSIGNED NOT NULL,
+  app_name    VARCHAR(255) NOT NULL,
+  stage       VARCHAR(30)  NOT NULL DEFAULT '',
+  owner       VARCHAR(160) NOT NULL DEFAULT '',
+  message     VARCHAR(500) NOT NULL,
+  user_id     INT UNSIGNED NULL,
+  user_name   VARCHAR(120) NULL,
+  created_at  TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_tracker_act_time (created_at),
+  KEY idx_tracker_act_app (app_id, stage, created_at),
+  KEY idx_tracker_act_owner (owner, created_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Stored in uploads/tracker (never served publicly; downloaded through the API when signed in)
+CREATE TABLE IF NOT EXISTS tracker_files (
+  id             INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  app_id         INT UNSIGNED NOT NULL,
+  stage          VARCHAR(30)  NOT NULL,
+  original_name  VARCHAR(255) NOT NULL,
+  stored_name    VARCHAR(120) NOT NULL,
+  mime           VARCHAR(120) NOT NULL,
+  size           INT UNSIGNED NOT NULL,
+  uploaded_by    INT UNSIGNED NULL,
+  uploaded_name  VARCHAR(120) NULL,
+  created_at     TIMESTAMP    NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_tracker_files_app (app_id, stage)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- Media library (images / PDFs). `storage` lets files move to cloud storage later.

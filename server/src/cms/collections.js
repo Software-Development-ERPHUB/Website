@@ -10,7 +10,36 @@
  *   from       — (slug) field the slug is generated from
  *   options    — (select) allowed values
  *   list       — shown as a column in the entry list
+ *
+ * Collections marked  internal: true  are for the team only: the public API
+ * never returns them and they have no Publish step (saving is enough).
  */
+
+/** Lifecycle every application goes through, in order (Development tracker). */
+export const STAGES = [
+  { id: 'discussion', label: 'Client discussion', short: 'Discuss' },
+  { id: 'srs', label: 'SRS document', short: 'SRS' },
+  { id: 'mom', label: 'MOM sign-off', short: 'MOM' },
+  { id: 'suggestions', label: 'Client suggestions', short: 'Suggest' },
+  { id: 'html', label: 'HTML demo', short: 'Demo' },
+  { id: 'review', label: 'Client review', short: 'Review' },
+  { id: 'frontend', label: 'Frontend', short: 'FE' },
+  { id: 'backend', label: 'Backend', short: 'BE' },
+  { id: 'testing', label: 'Testing', short: 'Test' },
+  { id: 'deploy', label: 'Deployment', short: 'Deploy' },
+]
+export const STAGE_STATUSES = ['Not started', 'In progress', 'Done', 'On hold']
+
+/** Catalogue sections. A = suite letter; each numbered product is its own application. */
+export const SUITES = [
+  'A. Finance, Procurement & Supply Chain',
+  'B. HRMS, Workforce & Employee Productivity',
+  'C. Assets, Field Operations & Service Management',
+  'D. Governance, Automation & Business Intelligence',
+  'E. Customer, Projects & Digital',
+]
+export const APP_KINDS = ['Enterprise application', 'Suite', 'Module']
+
 export const COLLECTIONS = {
   news: {
     label: 'News & insights',
@@ -62,9 +91,51 @@ export const COLLECTIONS = {
       { name: 'a', label: 'Answer', type: 'textarea', required: true, max: 1500 },
     ],
   },
+
+  /* ── Development tracker (internal) ── */
+  apps: {
+    label: 'Applications',
+    singular: 'Application',
+    icon: 'layers',
+    internal: true,
+    titleField: 'name',
+    sort: 'order',
+    fields: [
+      { name: 'name', label: 'Application name', type: 'text', required: true, max: 120 },
+      { name: 'slug', label: 'Slug', type: 'slug', from: 'name', required: true },
+      { name: 'code', label: 'Catalogue no.', type: 'text', max: 10, list: true, help: 'Suite letter (A, B …) or product number (1, 2 …).' },
+      { name: 'kind', label: 'Type', type: 'select', options: APP_KINDS, required: true, list: true, default: 'Module',
+        help: 'Enterprise application = everything together · Suite = a lettered section · Module = one standalone application.' },
+      { name: 'suite', label: 'Suite', type: 'select', options: SUITES, list: true },
+      { name: 'priority', label: 'Priority', type: 'select', options: ['P1', 'P2', 'P3'] },
+      { name: 'leads', label: 'Lead developers', type: 'people', people: 'team',
+        help: 'One or more team members responsible for this application overall. Shown on the tracker and in the CSV export.' },
+      { name: 'summary', label: 'Core capabilities', type: 'textarea', max: 600 },
+      { name: 'note', label: 'Portfolio note', type: 'text', max: 160 },
+      { name: 'demoUrl', label: 'Demo link', type: 'text', max: 300, help: 'e.g. /client-demo/procurement or a live https:// link.' },
+      { name: 'stages', label: 'Lifecycle', type: 'stages', stages: STAGES, statuses: STAGE_STATUSES, people: 'team', group: 'Development stages' },
+    ],
+  },
+  team: {
+    label: 'Team members',
+    singular: 'Team member',
+    icon: 'users',
+    internal: true,
+    titleField: 'name',
+    sort: 'order',
+    fields: [
+      { name: 'name', label: 'Name', type: 'text', required: true, max: 80 },
+      { name: 'slug', label: 'Slug', type: 'slug', from: 'name', required: true },
+      { name: 'role', label: 'Role', type: 'text', max: 80, list: true, default: 'Developer' },
+      { name: 'email', label: 'Login email', type: 'text', max: 190, list: true,
+        help: 'The email this person signs in with (Settings → Users, role Developer). Links their login to their stages.' },
+      { name: 'active', label: 'Currently on the team', type: 'boolean', default: true },
+    ],
+  },
 }
 
 export const isCollection = (c) => Object.prototype.hasOwnProperty.call(COLLECTIONS, c)
+export const isPublic = (c) => isCollection(c) && !COLLECTIONS[c].internal
 
 export function slugify(s) {
   return String(s || '')

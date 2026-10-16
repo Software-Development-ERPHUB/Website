@@ -1,8 +1,8 @@
 /**
- * PRODUCTS — ready-made applications shown to clients on /products.
+ * PRODUCTS — ready-made applications shown to clients on /client-demo.
  *
  * Each product's clickable demo lives in public/demo/<slug>/index.html and is
- * opened through /products/<slug>/demo, so the client never sees a file name.
+ * opened through /client-demo/<slug>, so the client never sees a file name.
  * To add or replace a demo: drop the HTML in public/demo/<slug>/index.html.
  *
  *   status: 'live'   — demo hosted elsewhere (`liveUrl`), opens in a new tab
@@ -16,8 +16,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'HRMS',
     full: 'Human Resource Management',
     icon: 'Users',
-    color: '#007438',
-    gradient: 'linear-gradient(135deg,#007438 0%,#38C66C 100%)',
+    color: '#BE185D',
+    gradient: 'linear-gradient(135deg,#831843 0%,#DB2777 60%,#F472B6 100%)',
     summary: 'Run your people operations end to end: attendance, payroll, performance and results tracking.',
   },
   {
@@ -25,8 +25,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Finance',
     full: 'Finance & Accounts',
     icon: 'Wallet',
-    color: '#2B5B84',
-    gradient: 'linear-gradient(135deg,#1E4466 0%,#4F8CC0 100%)',
+    color: '#0F766E',
+    gradient: 'linear-gradient(135deg,#064E3B 0%,#0D9488 60%,#34D399 100%)',
     summary: 'Accounting, billing, expenses and budgets in one place, with approvals and audit trails built in.',
   },
   {
@@ -34,8 +34,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Manufacturing',
     full: 'Manufacturing & Sales',
     icon: 'Factory',
-    color: '#B45309',
-    gradient: 'linear-gradient(135deg,#9A3412 0%,#F59E0B 100%)',
+    color: '#4338CA',
+    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#4F46E5 60%,#38BDF8 100%)',
     summary: 'From the first customer enquiry to the purchase order, with safety and compliance on every site.',
   },
 ]
@@ -153,4 +153,4 @@ export const productsIn = (categoryId) => PRODUCTS.filter((p) => p.category === 
 export const findProduct = (slug) => PRODUCTS.find((p) => p.slug === slug || p.aliases?.includes(slug))
 
 /** Where a product's card button goes. Live products open their own site. */
-export const productHref = (p) => (p.status === 'live' ? p.liveUrl : `/products/${p.slug}/demo`)
+export const productHref = (p) => (p.status === 'live' ? p.liveUrl : `/client-demo/${p.slug}`)

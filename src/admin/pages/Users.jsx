@@ -45,7 +45,7 @@ export default function Users() {
                     <td className="px-4 py-3 font-semibold">{u.name}{u.id === user.id && <span className="ml-1 text-xs font-normal text-muted">(you)</span>}<span className="block text-xs font-normal text-muted">{u.email}</span></td>
                     <td className="px-4 py-3">
                       <select value={u.role} disabled={u.id === user.id} onChange={(e) => patch(u, { role: e.target.value }, 'Role updated')} className="field !min-h-[38px] !w-32" aria-label={`Role for ${u.name}`}>
-                        <option value="editor">Editor</option><option value="admin">Admin</option>
+                        <option value="editor">Editor</option><option value="admin">Admin</option><option value="developer">Developer</option>
                       </select>
                     </td>
                     <td className="px-4 py-3 text-muted">{fmtDate(u.last_login_at)}</td>
@@ -76,6 +76,7 @@ export default function Users() {
               <select id="u-role" className="field" value={form.role} onChange={(e) => setForm({ ...form, role: e.target.value })}>
                 <option value="editor">Editor — create, edit and publish content</option>
                 <option value="admin">Admin — everything, plus users and deleting</option>
+                <option value="developer">Developer — only their own work in the Development tracker</option>
               </select>
             </div>
             <button type="submit" className="btn-primary">Create user</button>

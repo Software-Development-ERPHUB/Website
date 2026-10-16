@@ -5,6 +5,10 @@ import { CONTACT } from '../../content/site'
 import { postJSON, ApiError } from '../../lib/api'
 import { SERVICES } from '../../content/services'
 import { BUDGETS } from '../../content/company'
+import { MODULES } from '../../content/platform'
+
+// Demo requests from the platform pages arrive as /contact?demo=<module id | platform>
+const DEMO_OPTIONS = [{ id: 'platform', title: 'Product demo — Integrated Enterprise Platform' }, ...MODULES.map((m) => ({ id: m.id, title: `Product demo — ${m.name}` }))]
 
 const EMPTY = { name: '', company: '', email: '', phone: '', service: '', budget: '', message: '', website: '' }
 
@@ -23,7 +27,7 @@ const LABELS = { name: 'Name', email: 'Email', phone: 'Phone', service: 'Service
 
 export default function ContactForm() {
   const [params] = useSearchParams()
-  const pre = SERVICES.find((s) => s.id === params.get('service'))
+  const pre = SERVICES.find((s) => s.id === params.get('service')) || DEMO_OPTIONS.find((d) => d.id === params.get('demo'))
   const [v, setV] = useState({ ...EMPTY, service: pre ? pre.title : '' })
   const [errors, setErrors] = useState({})
   const [touched, setTouched] = useState(false)
@@ -158,6 +162,9 @@ export default function ContactForm() {
           <select {...fieldProps('service')} required>
             <option value="">Choose a service</option>
             {SERVICES.map((s) => <option key={s.id} value={s.title}>{s.title}</option>)}
+            <optgroup label="Request a product demo">
+              {DEMO_OPTIONS.map((d) => <option key={d.id} value={d.title}>{d.title}</option>)}
+            </optgroup>
             <option value="Other / not sure">Other / not sure</option>
           </select>
           <Err k="service" />
