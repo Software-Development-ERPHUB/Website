@@ -125,6 +125,8 @@ export const COLLECTIONS = {
       { name: 'name', label: 'Name', type: 'text', required: true, max: 80 },
       { name: 'slug', label: 'Slug', type: 'slug', from: 'name', required: true },
       { name: 'role', label: 'Role', type: 'text', max: 80, list: true, default: 'Developer' },
+      { name: 'email', label: 'Login email', type: 'text', max: 190, list: true,
+        help: 'The email this person signs in with (Settings → Users, role Developer). Links their login to their stages.' },
       { name: 'active', label: 'Currently on the team', type: 'boolean', default: true },
     ],
   },

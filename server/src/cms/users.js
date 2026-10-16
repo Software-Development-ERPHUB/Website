@@ -5,6 +5,7 @@ import { requireUser } from './auth.js'
 import { EMAIL_RE } from '../middleware/validate.js'
 
 /** Dashboard user management — admins only. */
+const ROLES = ['admin', 'editor', 'developer']
 const router = Router()
 router.use(requireUser(['admin']))
 
@@ -19,7 +20,7 @@ router.post('/', async (req, res, next) => {
   try {
     const name = String(req.body?.name || '').trim().slice(0, 120)
     const email = String(req.body?.email || '').trim().toLowerCase().slice(0, 190)
-    const role = req.body?.role === 'admin' ? 'admin' : 'editor'
+    const role = ROLES.includes(req.body?.role) ? req.body.role : 'editor'
     const password = String(req.body?.password || '')
     const e = {}
     if (!name) e.name = 'Enter a name.'
@@ -38,7 +39,7 @@ router.patch('/:id', async (req, res, next) => {
   try {
     const id = Number(req.params.id) || 0
     const sets = [], args = []
-    if (req.body?.role) { sets.push('role = ?'); args.push(req.body.role === 'admin' ? 'admin' : 'editor') }
+    if (req.body?.role) { sets.push('role = ?'); args.push(ROLES.includes(req.body.role) ? req.body.role : 'editor') }
     if (typeof req.body?.active === 'boolean') {
       if (id === req.user.id && !req.body.active) return res.status(422).json({ ok: false, message: 'You cannot deactivate yourself.' })
       sets.push('active = ?'); args.push(req.body.active ? 1 : 0)

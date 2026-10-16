@@ -8,6 +8,7 @@ import RichTextEditor from '../fields/RichTextEditor'
 import MediaPicker from '../fields/MediaPicker'
 import TagsInput from '../fields/TagsInput'
 import StagesField from '../fields/StagesField'
+import AppHistory from '../tracker/AppHistory'
 
 const slugify = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150)
 
@@ -223,6 +224,7 @@ export default function EntryEditor({ cols }) {
               ))}
             </section>
           ))}
+          {collection === 'apps' && entry && <AppHistory appId={entry.id} stages={def.fields.find((f) => f.type === 'stages').stages} version={entry.updatedAt} />}
         </div>
 
         {/* Publish panel (internal collections just save) */}

@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Award, Download, ExternalLink, KanbanSquare, Plus, Search, Users } from 'lucide-react'
+import { Award, Download, ExternalLink, KanbanSquare, LayoutDashboard, Plus, Search, Users } from 'lucide-react'
 import { cms } from '../api'
 import { useAuth } from '../auth'
 import { PageTitle, Empty, Spinner, useToast } from '../ui'
 import { STATUS_STYLE } from '../fields/StagesField'
+import Overview from './TrackerOverview'
 
 const initials = (name = '') => name.split(/\s+/).filter(Boolean).map((p) => p[0]).slice(0, 2).join('').toUpperCase() || '?'
 const num = (code) => (/^\d+$/.test(code || '') ? Number(code) : -1)
@@ -13,20 +14,19 @@ const num = (code) => (/^\d+$/.test(code || '') ? Number(code) : -1)
  * Development tracker — who did which stage of every application.
  * Data: CMS collections "apps" (applications + their 10 stages) and "team".
  */
-export default function Tracker({ cols }) {
+export default function Tracker() {
   const { user } = useAuth()
   const toast = useToast()
   const [data, setData] = useState(null)
-  const [tab, setTab] = useState('pipeline')
+  const [tab, setTab] = useState('overview')
   const [suite, setSuite] = useState('')
   const [person, setPerson] = useState('')
   const [q, setQ] = useState('')
   const [seeding, setSeeding] = useState(false)
 
-  const def = cols?.find((c) => c.id === 'apps')
-  const stageField = def?.fields.find((f) => f.type === 'stages')
-  const STAGES = stageField?.stages || []
-  const SUITES = def?.fields.find((f) => f.name === 'suite')?.options || []
+  const STAGES = data?.stages || []
+  const SUITES = data?.suites || []
+  const staff = user.role !== 'developer'
 
   const load = useCallback(() => cms('/cms/tracker').then(setData).catch((e) => { toast(e.message, 'error'); setData({ apps: [], team: [] }) }), [toast])
   useEffect(() => { load() }, [load])
@@ -106,9 +106,9 @@ export default function Tracker({ cols }) {
     el.click(); URL.revokeObjectURL(url)
   }
 
-  if (!def || !data) return <p className="flex items-center gap-2 text-muted"><Spinner />Loading…</p>
+  if (!data) return <p className="flex items-center gap-2 text-muted"><Spinner />Loading…</p>
 
-  const actions = (
+  const actions = staff && (
     <>
       <Link to="/admin/content/team" className="btn-secondary !min-h-[42px]"><Users size={17} />Team members</Link>
       <Link to="/admin/content/apps/new" className="btn-primary !min-h-[42px]"><Plus size={18} />New application</Link>
@@ -141,7 +141,7 @@ export default function Tracker({ cols }) {
 
       <div className="mb-4 flex flex-col gap-3">
         <div className="flex gap-1.5" role="tablist" aria-label="View">
-          {[['pipeline', 'Pipeline', KanbanSquare], ['credits', 'Team credits', Award]].map(([v, l, I]) => (
+          {[['overview', 'Overview', LayoutDashboard], ['pipeline', 'Pipeline', KanbanSquare], ['credits', 'Team credits', Award]].map(([v, l, I]) => (
             <button key={v} type="button" role="tab" aria-selected={tab === v} onClick={() => setTab(v)}
               className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-3.5 py-1.5 text-sm font-medium ${tab === v ? 'bg-ink text-white' : 'bg-white text-ink ring-1 ring-line hover:ring-ink/30'}`}><I size={15} />{l}</button>
           ))}
@@ -165,10 +165,10 @@ export default function Tracker({ cols }) {
         )}
       </div>
 
-      {tab === 'pipeline' ? (
+      {tab === 'overview' ? <Overview data={data} staff={staff} /> : tab === 'pipeline' ? (
         <>
           <ul className="mb-3 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted" aria-label="Legend">
-            {stageField.statuses.map((s) => <li key={s} className="flex items-center gap-1.5"><span className={`h-3.5 w-3.5 rounded ring-1 ${STATUS_STYLE[s]}`} />{s}</li>)}
+            {data.statuses.map((s) => <li key={s} className="flex items-center gap-1.5"><span className={`h-3.5 w-3.5 rounded ring-1 ${STATUS_STYLE[s]}`} />{s}</li>)}
             <li>Letters = who did the stage. Hover a box for details.</li>
           </ul>
           {!groups.length ? <Empty icon={Search} title="Nothing matches">Try another filter.</Empty> : (
@@ -195,7 +195,8 @@ export default function Tracker({ cols }) {
                             <td className="px-3 py-2.5 font-semibold text-muted">{a.code || '—'}</td>
                             <td className="px-3 py-2.5">
                               <span className="flex items-center gap-1.5">
-                                <Link to={`/admin/content/apps/${a.id}`} className={`text-ink hover:text-brand hover:underline ${strong ? 'font-bold' : 'font-semibold'}`}>{a.name}</Link>
+                                {staff ? <Link to={`/admin/content/apps/${a.id}`} className={`text-ink hover:text-brand hover:underline ${strong ? 'font-bold' : 'font-semibold'}`}>{a.name}</Link>
+                                  : <span className={`text-ink ${strong ? 'font-bold' : 'font-semibold'}`}>{a.name}</span>}
                                 {a.demoUrl && <a href={a.demoUrl} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-brand" title="Open demo" aria-label={`Open ${a.name} demo`}><ExternalLink size={13} /></a>}
                               </span>
                               {strong && <span className="text-xs text-muted">{a.kind}</span>}
@@ -239,7 +240,7 @@ export default function Tracker({ cols }) {
                 <li key={t.slug} className="rounded-xl border border-line bg-white p-5">
                   <div className="flex items-center gap-3">
                     <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-soft font-semibold text-brand">{initials(t.name)}</span>
-                    <span className="min-w-0 flex-1"><Link to={`/admin/content/team/${t.id}`} className="block truncate font-display text-lg font-semibold hover:underline">{t.name}</Link><span className="block text-sm text-muted">{t.role || 'Team member'}{t.active === false ? ' · left the team' : ''}</span></span>
+                    <span className="min-w-0 flex-1">{staff ? <Link to={`/admin/content/team/${t.id}`} className="block truncate font-display text-lg font-semibold hover:underline">{t.name}</Link> : <span className="block truncate font-display text-lg font-semibold">{t.name}</span>}<span className="block text-sm text-muted">{t.role || 'Team member'}{t.active === false ? ' · left the team' : ''}</span></span>
                     <span className="text-right"><span className="block font-display text-2xl font-semibold">{c.done.length}</span><span className="block text-xs text-muted">stages done</span></span>
                   </div>
                   {c.active > 0 && <p className="mt-3 text-sm text-amber-800">{c.active} stage{c.active > 1 ? 's' : ''} in progress</p>}

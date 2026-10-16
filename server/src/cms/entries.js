@@ -3,6 +3,7 @@ import { pool } from '../db.js'
 import { requireUser } from './auth.js'
 import { COLLECTIONS, isCollection, slugify } from './collections.js'
 import { cleanData, publishErrors } from './sanitize.js'
+import { logStageChanges } from './tracker.js'
 
 /**
  * Dashboard API for content entries.
@@ -146,6 +147,7 @@ router.put('/entries/:collection/:id', async (req, res, next) => {
     await pool.execute(
       `UPDATE cms_entries SET title = ?, draft_data = ?, has_changes = ?, updated_by = ?, slug = IF(status = 'published', slug, ?) WHERE id = ?`,
       [title.slice(0, 255), draftJson, changed ? 1 : 0, req.user.id, data.slug, row.id])
+    if (c === 'apps') await logStageChanges({ id: row.id, name: title }, parse(row.draft_data).stages, data.stages, req.user)
     res.json({ ok: true, entry: shape(await getRow(c, row.id)) })
   } catch (err) { next(err) }
 })

@@ -84,6 +84,14 @@ Sign in to the CMS at `/admin` and open **Development → Development tracker**.
 - Applications and team members are internal collections: the public API refuses them (`/api/public/apps` → 404) and they have no Publish step.
 - Add new applications (future modules) with **New application**: pick Type (Enterprise application, Suite or Module) and the suite letter.
 
+### Developer logins
+
+- After updating the code, run `npm run db:init` in `server/` once. It adds the Developer role and two tables (`tracker_activity`, `tracker_files`) without touching existing data.
+- For each developer: **Settings → Users → Add user** with role **Developer**, then **Development → Team members → their name → Login email** set to the same email. That links their login to their stages.
+- Developers see only **My work** (their stages: status, dates, note, file uploads, and "Pick up a stage" for unassigned work), the **Team dashboard** (read-only) and **My account**. They cannot change other people's stages or any website content, enquiries, media or users.
+- **Overview** tab (Development tracker): who is working on what, projects in progress, stages "In progress" with no update for 7 days, and recent activity. Each application's editor page shows its stage files and full history.
+- Files (PDF, Word, Excel, PowerPoint, JPG/PNG/WEBP, ZIP; 20 MB max) are saved in `server/uploads/tracker/`, which is never served publicly. They download through the API for signed-in users only. Back this folder up with the database.
+
 ## Search and languages
 - **Global search** — header search button, `Ctrl/⌘ + K` or `/`. Index is built from `src/content/*` and `src/data/companies.js` (`src/lib/searchIndex.js`), so new content is searchable automatically.
 - **Language menu** — 23 languages via Google Website Translator (`src/lib/translate.js`). Loaded only when a visitor picks a non-English language.

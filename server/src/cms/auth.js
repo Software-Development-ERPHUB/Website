@@ -40,17 +40,21 @@ export async function loadUser(req) {
   }
 }
 
+export const STAFF = ['admin', 'editor']
+export const EVERYONE = ['admin', 'editor', 'developer']
+
 /**
- * Requires a signed-in dashboard user.
+ * Requires a signed-in dashboard user. Without `roles` only staff (admin, editor)
+ * get in: developers can only reach the Development tracker and their own account.
  * Write requests must also send  X-Requested-With: cms  — browsers never add this
  * header on cross-site requests, which blocks CSRF alongside the SameSite cookie.
  */
-export function requireUser(roles) {
+export function requireUser(roles = STAFF) {
   return async (req, res, next) => {
     try {
       const user = await loadUser(req)
       if (!user) return res.status(401).json({ ok: false, message: 'Please sign in.' })
-      if (roles && !roles.includes(user.role)) return res.status(403).json({ ok: false, message: 'You do not have permission for this.' })
+      if (!roles.includes(user.role)) return res.status(403).json({ ok: false, message: 'You do not have permission for this.' })
       if (!['GET', 'HEAD', 'OPTIONS'].includes(req.method) && req.get('x-requested-with') !== 'cms') {
         return res.status(403).json({ ok: false, message: 'Missing request header.' })
       }
@@ -96,7 +100,7 @@ router.get('/me', async (req, res, next) => {
 })
 
 /** Change own password */
-router.post('/password', requireUser(), async (req, res, next) => {
+router.post('/password', requireUser(EVERYONE), async (req, res, next) => {
   try {
     const { current, next: nextPw } = req.body || {}
     if (String(nextPw || '').length < 10) return res.status(422).json({ ok: false, errors: { next: 'Use at least 10 characters.' } })

@@ -10,6 +10,7 @@ export async function requireAdmin(req, res, next) {
   try {
     const user = await loadUser(req).catch(() => null)
     if (user) {
+      if (user.role === 'developer') return res.status(403).json({ ok: false, message: 'You do not have permission for this.' })
       if (!['GET', 'HEAD'].includes(req.method) && req.get('x-requested-with') !== 'cms') return res.status(403).json({ ok: false, message: 'Missing request header.' })
       req.user = user
       return next()
