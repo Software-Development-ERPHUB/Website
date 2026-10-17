@@ -6,25 +6,25 @@
    Change these to rebrand. Values are space-separated RGB so Tailwind
    opacity modifiers (bg-brand/10) keep working. */
 :root {
-  /* Voltech Integrated Enterprise Solutions palette.
-     To go back to the previous green brand: ink 15 42 34, primary 0 116 56,
-     primary-strong 0 88 42, primary-soft 230 243 236, accent 56 198 108,
-     paper 245 247 246, line 220 227 223, muted 78 94 88. */
+  /* Voltech Integrated Enterprise Solutions palette — Capgemini-style blue.
+     One blue family: deep navy bands, #0070AD primary, #12ABDB accent.
+     To go back to the previous brands: green ink 15 42 34, primary 0 116 56,
+     accent 56 198 108; orange primary 194 65 12, accent 255 107 44. */
   --c-ink: 16 35 63;             /* #10233F deep navy — text, dark bands */
   --c-charcoal: 23 35 51;        /* #172333 */
-  --c-primary: 194 65 12;        /* #C2410C deep safety orange — buttons, links (5.2:1 with white) */
-  --c-primary-strong: 154 52 18; /* #9A3412 hover / pressed */
-  --c-primary-soft: 255 241 234; /* #FFF1EA tints */
-  --c-accent: 255 107 44;        /* #FF6B2C warm safety orange — highlights, use on dark */
+  --c-primary: 0 112 173;        /* #0070AD Capgemini blue — buttons, links (5.6:1 with white) */
+  --c-primary-strong: 0 88 137;  /* #005889 hover / pressed */
+  --c-primary-soft: 232 244 252; /* #E8F4FC tints */
+  --c-accent: 18 171 219;        /* #12ABDB bright blue — highlights, use on dark */
   --c-secondary: 43 91 132;      /* #2B5B84 steel blue */
   --c-secondary-soft: 234 240 246;
   --c-paper: 245 247 250;        /* #F5F7FA */
   --c-line: 221 227 236;         /* #DDE3EC */
   --c-muted: 81 94 114;          /* #515E72 — 6.3:1 on white */
   /* module accents — mirrored in src/content/platform.js */
-  --m-hrms: 219 39 119;          /* #DB2777 rose */
-  --m-finance: 13 148 136;       /* #0D9488 teal */
-  --m-mfg: 79 70 229;            /* #4F46E5 indigo */
+  --m-hrms: 0 112 173;           /* #0070AD blue */
+  --m-finance: 14 116 144;       /* #0E7490 deep cyan */
+  --m-mfg: 55 48 163;            /* #3730A3 indigo */
   --header-h: 68px;
 }
 
@@ -64,8 +64,8 @@
   .field-error { @apply mt-1.5 text-sm text-red-700; }
 
   /* engineering grid used behind hero / dark bands */
-  .grid-bg { background-image: linear-gradient(rgb(var(--c-ink) / .05) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--c-ink) / .05) 1px, transparent 1px); background-size: 32px 32px; }
-  .grid-bg-dark { background-image: linear-gradient(rgb(255 255 255 / .05) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / .05) 1px, transparent 1px); background-size: 32px 32px; }
+  /* the square grid pattern was removed: banners use photos instead */
+  .grid-bg, .grid-bg-dark { background-image: none; }
 }
 
 
@@ -129,9 +129,9 @@
    Shorthand colour aliases so ERP components share the brand tokens above.
    ════════════════════════════════════════════════════════════════ */
 :root {
-  --g1: rgb(var(--c-primary)); --g2: #00923F; --g3: rgb(var(--c-accent));
-  --g4: rgb(var(--c-primary-soft)); --g5: #F2F8F4;
-  --text1: rgb(var(--c-ink)); --text2: #33463F; --text3: rgb(var(--c-muted));
+  --g1: rgb(var(--c-primary)); --g2: #0070AD; --g3: rgb(var(--c-accent));
+  --g4: rgb(var(--c-primary-soft)); --g5: #EAF4FB;
+  --text1: rgb(var(--c-ink)); --text2: #33465F; --text3: rgb(var(--c-muted));
   --border: rgb(var(--c-line)); --page: rgb(var(--c-paper)); --navy: rgb(var(--c-ink));
 }
 
@@ -237,7 +237,7 @@
 .lift { transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .3s; }
 .lift:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgb(15 42 34 / .06), 0 20px 40px -18px rgb(15 42 34 / .28); }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--c-accent)); display: inline-block; animation: live-pulse 2s ease-in-out infinite; }
-@keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgb(56 198 108 / .55) } 50% { box-shadow: 0 0 0 6px rgb(56 198 108 / 0) } }
+@keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgb(18 171 219 / .55) } 50% { box-shadow: 0 0 0 6px rgb(18 171 219 / 0) } }
 @keyframes ring-pulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .6 } }
 @keyframes orbit-spin { to { transform: rotate(360deg) } }
 @keyframes orbit-counter { to { transform: rotate(-360deg) } }
@@ -269,6 +269,7 @@ font { background: transparent !important; box-shadow: none !important; }
 /* ── Global search dialog ── */
 .search-backdrop { animation: fade-in .2s ease both; }
 .search-panel { animation: search-in .28s cubic-bezier(.22,1,.36,1) both; }
+.fade-in { animation: fade-in .45s ease both; }
 @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
 @keyframes search-in { from { opacity: 0; transform: translateY(-12px) scale(.97) } to { opacity: 1; transform: none } }
 .kbd:not(.hidden) { display: inline-flex; }
@@ -288,7 +289,7 @@ font { background: transparent !important; box-shadow: none !important; }
 .cms-prose img.ProseMirror-selectednode { outline: 3px solid rgb(var(--c-primary)); }
 .cms-prose hr { border: 0; border-top: 1px solid rgb(var(--c-line)); margin: 2em 0; }
 .cms-prose code { background: rgb(var(--c-paper)); padding: .1em .4em; border-radius: 4px; font-size: .9em; }
-.cms-prose pre { background: #0F2A22; color: #e6f2ec; padding: 1em; border-radius: 10px; overflow-x: auto; }
+.cms-prose pre { background: #10233F; color: #e6eef7; padding: 1em; border-radius: 10px; overflow-x: auto; }
 .cms-prose pre code { background: none; padding: 0; }
 .cms-prose p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: rgb(var(--c-muted) / .7); float: left; height: 0; pointer-events: none; }
 .btn-danger { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; padding: 0 1.25rem; border-radius: .5rem; background: #b91c1c; color: #fff; font-weight: 600; transition: background .2s; }
@@ -336,3 +337,25 @@ font { background: transparent !important; box-shadow: none !important; }
   .bar-grow, .line-draw, .meter-fill { transition: none; transform: none; stroke-dashoffset: 0; }
   .mod-card .mod-extra { transition: none; }
 }
+
+/* ── Client Demo: suite tree (root → modules) ─────────────────────── */
+.suite-tree { --g: 1.75rem; }
+.suite-tree .tree-root::after { content: ''; position: absolute; left: 1.5rem; bottom: calc(-1 * var(--g)); width: 2px; height: var(--g); background: var(--tree-c); }
+.tree-branches { display: flex; flex-direction: column; margin-top: var(--g); padding-left: 3rem; }
+.tree-branches > li { position: relative; padding-block: .4rem; }
+.tree-branches > li::before, .tree-branches > li::after { content: ''; position: absolute; background: var(--tree-c); }
+.tree-branches > li::before { left: -1.5rem; top: 50%; width: 1.5rem; height: 2px; }
+.tree-branches > li::after { left: -1.5rem; top: 0; bottom: 0; width: 2px; }
+.tree-branches > li:last-child::after { bottom: 50%; }
+@media (min-width: 1024px) {
+  .suite-tree .tree-root::after { left: 50%; }
+  .tree-branches { flex-direction: row; justify-content: center; padding-left: 0; }
+  .tree-branches > li { flex: 0 1 190px; min-width: 0; padding: var(--g) .35rem 0; }
+  .tree-branches > li::before { left: 50%; top: 0; width: 2px; height: var(--g); }
+  .tree-branches > li::after { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 2px; }
+  .tree-branches > li:first-child::after { left: 50%; }
+  .tree-branches > li:last-child::after { right: 50%; bottom: auto; }
+  .tree-branches > li:only-child::after { display: none; }
+}
+/* sideways reveals push past the screen edge on phones: rise instead */
+@media (max-width: 767px) { .erp-rv-left, .erp-rv-right { transform: translateY(30px); } }

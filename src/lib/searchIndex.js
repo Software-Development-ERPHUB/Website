@@ -55,7 +55,7 @@ function build() {
       to: `/erp/companies/${c.id}`, badge: a.code, keywords: [a.code, a.modules, c.name, 'application erp'],
     }))
   })
-  ERP_PRODUCTS.forEach((p) => add({ id: 'ep-' + p.code, cat: 'erp', icon: 'layers', title: p.full, subtitle: 'Voltech ERP product suite', to: '/erp', badge: p.code, keywords: [p.code, 'product suite'] }))
+  ERP_PRODUCTS.forEach((p) => add({ id: 'ep-' + p.code, cat: 'erp', icon: 'layers', title: p.full, subtitle: 'Voltech Prime product suite', to: '/erp', badge: p.code, keywords: [p.code, 'product suite'] }))
   add({ id: 'hrms', cat: 'erp', icon: 'users', title: 'HR Management System — modules', subtitle: HRMS_MODULES.map((m) => m.label).join(', '), to: '/erp#shared-systems', keywords: HRMS_MODULES.map((m) => m.desc) })
   add({ id: 'audit', cat: 'erp', icon: 'shield', title: 'Audit Management System — modules', subtitle: AUDIT_MODULES.map((m) => m.label).join(', '), to: '/erp#shared-systems', keywords: AUDIT_MODULES.map((m) => m.desc) })
   GROUP_SITES.forEach((s) => add({ id: 'gs-' + s.id, cat: 'erp', icon: 'globe', title: `${s.name} website`, subtitle: s.tagline, to: '/erp/websites', href: s.url, keywords: [s.tags, s.seoKw, 'website'] }))

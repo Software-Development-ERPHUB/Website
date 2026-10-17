@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { ArrowRight, ChevronRight } from 'lucide-react'
 import Seo from '../components/ui/Seo'
 import Reveal from '../components/ui/Reveal'
-import HeroArt from '../components/platform/HeroArt'
+import { ScreenBackdrop } from '../components/platform/ModulePreview'
 import { HeroHeadline } from '../components/platform/HeroSection'
 import { MiniPreview } from '../components/platform/ModulePreview'
 import { ModulesShowcase, EnterpriseArchitecture, DeploymentOptions, BenefitsSection, DemoCTA } from '../components/platform/sections'
@@ -17,7 +17,7 @@ export default function Platform() {
       <Seo title="Enterprise Platform — HRMS, Finance & Manufacturing" description={PLATFORM.summary} />
 
       <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-ink pt-[var(--header-h)] text-white" aria-labelledby="pf-h">
-        <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><HeroArt className="h-full w-full" /></div></div>
+        <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><ScreenBackdrop pk="banner-platform" /></div></div>
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0B1830]/95 via-[#10233F]/80 to-[#10233F]/30" aria-hidden="true" />
         <div className="container-page py-16 lg:py-24">
           <nav aria-label="Breadcrumb" className="float-in mb-6 text-sm text-white/60">

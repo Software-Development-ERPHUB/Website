@@ -16,8 +16,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'HRMS',
     full: 'Human Resource Management',
     icon: 'Users',
-    color: '#BE185D',
-    gradient: 'linear-gradient(135deg,#831843 0%,#DB2777 60%,#F472B6 100%)',
+    color: '#005A8B',
+    gradient: 'linear-gradient(135deg,#0B3B5C 0%,#0070AD 60%,#12ABDB 100%)',
     summary: 'Run your people operations end to end: attendance, payroll, performance and results tracking.',
   },
   {
@@ -25,8 +25,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Finance',
     full: 'Finance & Accounts',
     icon: 'Wallet',
-    color: '#0F766E',
-    gradient: 'linear-gradient(135deg,#064E3B 0%,#0D9488 60%,#34D399 100%)',
+    color: '#155E75',
+    gradient: 'linear-gradient(135deg,#083344 0%,#0E7490 60%,#22D3EE 100%)',
     summary: 'Accounting, billing, expenses and budgets in one place, with approvals and audit trails built in.',
   },
   {
@@ -34,8 +34,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Manufacturing',
     full: 'Manufacturing & Sales',
     icon: 'Factory',
-    color: '#4338CA',
-    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#4F46E5 60%,#38BDF8 100%)',
+    color: '#312E81',
+    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#3730A3 60%,#0EA5E9 100%)',
     summary: 'From the first customer enquiry to the purchase order, with safety and compliance on every site.',
   },
 ]

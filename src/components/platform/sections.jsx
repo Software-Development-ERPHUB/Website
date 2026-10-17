@@ -2,8 +2,9 @@ import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Layers, Box, MonitorPlay } from 'lucide-react'
 import Reveal from '../ui/Reveal'
-import { BrowserFrame, ModuleDashboard } from './ModulePreview'
-import HeroArt from './HeroArt'
+import { ScreenBackdrop, moduleScreen } from './ModulePreview'
+import Scene from '../art/Scene'
+import { photo as dropIn } from '../../content/photos'
 import { PIcon, Eyebrow, useParallax } from './shared'
 import { MODULES, DEPLOYMENT, INDUSTRY_SHOWCASE, BENEFITS } from '../../content/platform'
 import { findProduct, productHref } from '../../content/products'
@@ -19,17 +20,13 @@ export function SolutionCard({ m, index = 0 }) {
     <Reveal delay={index * 120} className="h-full">
       <Link to={m.route} className="mod-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-lift transition-[transform,box-shadow] duration-500 hover:-translate-y-2 hover:shadow-pop"
         style={{ '--m': m.rgb }} aria-label={`Explore ${m.name}: ${m.description}`}>
-        <div className="relative h-44 overflow-hidden" style={{ background: m.gradient }}>
+        <div className="relative h-52 overflow-hidden bg-ink">
           <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
-            <svg viewBox="0 0 400 180" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <g fill="none" stroke="#fff" strokeOpacity=".18">
-                {[60, 100, 140, 180].map((r) => <circle key={r} cx="360" cy="10" r={r} />)}
-              </g>
-              <g fill="#fff" fillOpacity=".14">
-                {[30, 56, 42, 70, 52, 84, 66].map((h, i) => <rect key={i} x={30 + i * 26} y={150 - h} width="16" height={h} rx="3" />)}
-              </g>
-            </svg>
+            {dropIn(`suite-${m.id}`) ? <img src={dropIn(`suite-${m.id}`)} alt="" className="h-full w-full object-cover" />
+              : moduleScreen(m) ? <img src={moduleScreen(m)} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
+              : <Scene kind={m.id} color={m.color} soft={m.soft} tiles={false} />}
           </div>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-ink/10" aria-hidden="true" />
           <span className="absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white ring-1 ring-white/30 backdrop-blur transition-transform duration-500 group-hover:rotate-[-6deg] group-hover:scale-110">
             <PIcon name={m.icon} size={24} />
           </span>
@@ -164,10 +161,11 @@ export function ModuleSpotlight({ m, flip = false, photo = null }) {
               <img ref={art} src={photo.src} alt="" aria-hidden="true" loading="lazy" className="h-[120%] w-full object-cover" />
             </div>
           )}
-          <BrowserFrame url={`app.voltech/${m.id}/overview`} color={m.color}>
-            <ModuleDashboard m={m} />
-          </BrowserFrame>
-          <p className="mt-3 text-center text-xs text-muted">Illustrative dashboard with sample data.</p>
+          <div className="aspect-[16/11] overflow-hidden rounded-3xl shadow-pop ring-1 ring-line">
+            {dropIn(`suite-${m.id}`) ? <img src={dropIn(`suite-${m.id}`)} alt="" loading="lazy" className="h-full w-full object-cover" />
+              : moduleScreen(m) ? <img src={moduleScreen(m)} alt="" loading="lazy" className="h-full w-full object-cover object-top" />
+              : <Scene kind={m.id} color={m.color} soft={m.soft} />}
+          </div>
         </Reveal>
       </div>
     </section>
@@ -367,7 +365,7 @@ export function DemoCTA({ m = null, title = "See What's Possible with Voltech.",
   const bg = useParallax(0.12)
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white" aria-labelledby="cta-h">
-      <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><HeroArt accent={m?.color || '#FF6B2C'} className="h-full w-full" /></div></div>
+      <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><ScreenBackdrop m={m} /></div></div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/40" aria-hidden="true" />
       <div className="container-page flex flex-col gap-10 py-20 sm:py-24 lg:flex-row lg:items-center lg:justify-between">
         <Reveal className="max-w-2xl">

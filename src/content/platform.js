@@ -24,11 +24,11 @@ export const MODULES = [
     full: 'Human Resource Management',
     route: '/solutions/hrms',
     icon: 'Users',
-    color: '#DB2777', // rose
-    text: '#BE185D', // accessible text shade on white
-    soft: '#FDF2F8',
+    color: '#0070AD', // Capgemini blue
+    text: '#005A8B', // accessible text shade on white
+    soft: '#E8F4FC',
     rgb: 'var(--m-hrms)',
-    gradient: 'linear-gradient(135deg,#831843 0%,#DB2777 55%,#F472B6 100%)',
+    gradient: 'linear-gradient(135deg,#0B3B5C 0%,#0070AD 55%,#12ABDB 100%)',
     tagline: 'People, managed beautifully.',
     description: 'Manage the complete employee lifecycle through one connected people-management platform.',
     emphasis: 'Workforce management',
@@ -57,11 +57,11 @@ export const MODULES = [
     full: 'Finance & Accounts',
     route: '/solutions/finance',
     icon: 'Landmark',
-    color: '#0D9488', // teal
-    text: '#0F766E',
-    soft: '#F0FDFA',
+    color: '#0E7490', // deep cyan
+    text: '#155E75',
+    soft: '#ECFEFF',
     rgb: 'var(--m-finance)',
-    gradient: 'linear-gradient(135deg,#064E3B 0%,#0D9488 55%,#34D399 100%)',
+    gradient: 'linear-gradient(135deg,#083344 0%,#0E7490 55%,#22D3EE 100%)',
     tagline: 'Clarity in every number.',
     description: 'Improve financial visibility, control costs and make better business decisions with connected finance operations.',
     emphasis: 'Financial control and reporting',
@@ -90,11 +90,11 @@ export const MODULES = [
     full: 'Manufacturing Operations',
     route: '/solutions/manufacturing',
     icon: 'Factory',
-    color: '#4F46E5', // indigo
-    text: '#4338CA',
+    color: '#3730A3', // indigo
+    text: '#312E81',
     soft: '#EEF2FF',
     rgb: 'var(--m-mfg)',
-    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#4F46E5 55%,#38BDF8 100%)',
+    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#3730A3 55%,#0EA5E9 100%)',
     tagline: 'Production, perfectly in sync.',
     description: 'Connect production, inventory, quality and maintenance for efficient industrial operations.',
     emphasis: 'Production, inventory and operational performance',

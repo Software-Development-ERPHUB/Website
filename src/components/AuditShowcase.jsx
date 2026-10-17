@@ -9,7 +9,7 @@ const MODULES = [
 
 export default function AuditShowcase() {
   return (
-    <div style={{borderRadius:20,overflow:'hidden',border:'1px solid rgba(0,107,51,0.15)',boxShadow:'0 6px 28px rgba(0,107,51,0.08)',marginBottom:8}}>
+    <div style={{borderRadius:20,overflow:'hidden',border:'1px solid rgba(0,112,173,0.18)',boxShadow:'0 6px 28px rgba(0,112,173,0.10)',marginBottom:8}}>
       {/* Scoped styles for the modules grid below — kept in this file so
           the component is self-contained and never depends on an
           external stylesheet being imported correctly. */}
@@ -55,14 +55,14 @@ export default function AuditShowcase() {
       `}</style>
 
       {/* Header */}
-      <div style={{background:'linear-gradient(135deg,#004d22,#006B33,#00923F)',padding:'clamp(18px,3vw,26px) clamp(16px,3vw,28px) clamp(14px,2.5vw,22px)',position:'relative',overflow:'hidden'}}>
+      <div style={{background:'linear-gradient(135deg,#0B3B5C,#005889,#0070AD)',padding:'clamp(18px,3vw,26px) clamp(16px,3vw,28px) clamp(14px,2.5vw,22px)',position:'relative',overflow:'hidden'}}>
         {[240,160,90].map((s,i)=>(
           <div key={i} style={{position:'absolute',top:-s*.3,right:-s*.25,width:s,height:s,borderRadius:'50%',border:`1px solid rgba(255,255,255,${0.06+i*.03})`,pointerEvents:'none'}}/>
         ))}
         <div style={{position:'relative',display:'flex',alignItems:'flex-start',gap:16,flexWrap:'wrap'}}>
           <div style={{flex:1,minWidth:220}}>
             <div style={{display:'inline-flex',alignItems:'center',gap:7,background:'rgba(255,255,255,0.15)',backdropFilter:'blur(8px)',border:'1px solid rgba(255,255,255,0.25)',borderRadius:20,padding:'4px 12px',marginBottom:12}}>
-              <span style={{width:7,height:7,borderRadius:'50%',background:'#4ade80',display:'inline-block',boxShadow:'0 0 8px #4ade80'}}/>
+              <span style={{width:7,height:7,borderRadius:'50%',background:'#12ABDB',display:'inline-block',boxShadow:'0 0 8px #12ABDB'}}/>
               <span style={{color:'rgba(255,255,255,0.9)',fontSize:10,fontWeight:700,letterSpacing:2,textTransform:'uppercase'}}>Common to All Companies</span>
             </div>
             <div style={{display:'flex',alignItems:'center',gap:13,marginBottom:10}}>
@@ -78,15 +78,15 @@ export default function AuditShowcase() {
             <div style={{display:'flex',gap:10,flexWrap:'wrap',marginBottom:16}}>
               {[{v:'17',l:'Users'},{v:'5',l:'Companies'},{v:String(MODULES.length),l:'Modules'},{v:'24×7',l:'Monitoring'}].map(s=>(
                 <div key={s.l} style={{background:'rgba(255,255,255,0.12)',border:'1px solid rgba(255,255,255,0.18)',borderRadius:10,padding:'7px 12px',textAlign:'center'}}>
-                  <div style={{color:'#4ade80',fontWeight:900,fontSize:16,lineHeight:1}}>{s.v}</div>
+                  <div style={{color:'#12ABDB',fontWeight:900,fontSize:16,lineHeight:1}}>{s.v}</div>
                   <div style={{color:'rgba(255,255,255,0.55)',fontSize:9,fontWeight:600,textTransform:'uppercase',letterSpacing:.8,marginTop:3}}>{s.l}</div>
                 </div>
               ))}
             </div>
             <a href="https://vmsc.voltechgroup.com/" target="_blank" rel="noopener noreferrer"
-              style={{display:'inline-flex',alignItems:'center',gap:8,background:'#4ade80',color:'#004d22',fontWeight:800,fontSize:13,padding:'9px 20px',borderRadius:10,textDecoration:'none',boxShadow:'0 4px 16px rgba(74,222,128,0.4)',transition:'all .22s'}}
-              onMouseEnter={e=>{e.currentTarget.style.background='#22c55e';e.currentTarget.style.transform='translateY(-2px)'}}
-              onMouseLeave={e=>{e.currentTarget.style.background='#4ade80';e.currentTarget.style.transform='translateY(0)'}}>
+              style={{display:'inline-flex',alignItems:'center',gap:8,background:'#12ABDB',color:'#0B3B5C',fontWeight:800,fontSize:13,padding:'9px 20px',borderRadius:10,textDecoration:'none',boxShadow:'0 4px 16px rgba(18,171,219,0.4)',transition:'all .22s'}}
+              onMouseEnter={e=>{e.currentTarget.style.background='#0891c4';e.currentTarget.style.transform='translateY(-2px)'}}
+              onMouseLeave={e=>{e.currentTarget.style.background='#12ABDB';e.currentTarget.style.transform='translateY(0)'}}>
               ↗ Open Audit System
             </a>
           </div>

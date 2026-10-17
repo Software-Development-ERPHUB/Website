@@ -37,7 +37,7 @@ export default function News() {
   return (
     <>
       <Seo />
-      <PageHero title="News & insights" lead="Company news, project updates and what we are learning while building software for real businesses." crumbs={[{ label: 'News' }]} art="faq" />
+      <PageHero title="News & insights" lead="Company news, project updates and what we are learning while building software for real businesses." crumbs={[{ label: 'News' }]}         art="news" />
       <section className="section !pt-10 sm:!pt-14">
         <div className="container-page">
           {cats.length > 2 && (

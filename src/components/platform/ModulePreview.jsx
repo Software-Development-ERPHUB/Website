@@ -1,3 +1,7 @@
+import { screen } from '../../content/screens'
+import { photo } from '../../content/photos'
+import { img } from '../../content/images'
+import Scene from '../art/Scene'
 import { Bell, Search, AlertTriangle, CheckCircle2, Clock, TrendingUp, TrendingDown } from 'lucide-react'
 import { useInView, Counter } from './shared'
 
@@ -6,6 +10,32 @@ import { useInView, Counter } from './shared'
  * crisp and animate as they scroll into view. All figures are illustrative
  * sample data — never real Voltech or customer numbers.
  */
+
+/** Real application screen per module (content/screens.js). */
+export const MODULE_SCREEN = { hrms: 'hr-dashboard', finance: 'fin-accounts', manufacturing: 'pr-dashboard' }
+export const moduleScreen = (m) => (m && MODULE_SCREEN[m.id] ? screen(MODULE_SCREEN[m.id]) : null)
+
+/** Topic banner photo per module: HR people / finance accounts / factory. */
+export const MODULE_PHOTO = { hrms: 'cdHrms', finance: 'cdFinance', manufacturing: 'cdMfg' }
+export const modulePhoto = (m) => (m && MODULE_PHOTO[m.id] ? img(MODULE_PHOTO[m.id]) : null)
+
+/** Real screen for a module when one exists, otherwise the illustrative dashboard. */
+export function ModuleShot({ m }) {
+  const src = moduleScreen(m)
+  return src ? <img src={src} alt={`${m.name} dashboard`} loading="lazy" className="aspect-[16/10] w-full object-cover object-top" /> : <ModuleDashboard m={m} />
+}
+export const shotCaption = (m) => (moduleScreen(m) ? `Real screen from the ${m.name} demo, with sample data.` : 'Illustrative dashboard with sample data.')
+
+/** Banner background: a dropped-in photo (pk) when there is one, else the module's topic photo, else a real application screen, else a drawn scene. */
+export function ScreenBackdrop({ m, pk, className = '' }) {
+  const ph = photo(pk || (m && `suite-${m.id}`))
+  if (ph) return <img src={ph} alt="" aria-hidden="true" className={`h-full w-full object-cover ${className}`} />
+  const topic = modulePhoto(m)
+  if (topic) return <img src={topic.src} alt="" aria-hidden="true" className={`h-full w-full object-cover ${className}`} />
+  const src = moduleScreen(m)
+  if (src) return <img src={src} alt="" aria-hidden="true" className={`h-full w-full object-cover object-top ${className}`} />
+  return <Scene kind={m?.id || 'services'} color={m?.color || '#0070AD'} dark tiles={false} className={className} />
+}
 
 export function BrowserFrame({ url, color, children, className = '' }) {
   return (

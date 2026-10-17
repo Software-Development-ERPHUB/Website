@@ -22,6 +22,13 @@ import ceoPortrait from '../assets/img/leader-ceo-portrait.webp'
 import ceoBanner from '../assets/img/leader-ceo-banner.webp'
 import ceoBannerSm from '../assets/img/leader-ceo-banner-sm.webp'
 
+// Client-demo photography (added as reference imagery). Used as banners and
+// module pictures on /client-demo and the home client-demo band.
+import cdBanner from '../assets/images/client-demo-hero.png' // client-demo hero (professional output)
+import cdHrms from '../assets/images/1.jpeg'       // HRMS suite — people/HR
+import cdFinance from '../assets/images/3.jpeg'    // Finance suite — accounts
+import cdMfg from '../assets/images/7.png'         // Manufacturing suite — factory
+
 // Voltech Group site photos used by the industries carousel (370×254).
 // Replace with larger licensed photos when available — keep the same keys.
 import indManufacturing from '../assets/companies/asia_power.jpg'
@@ -31,6 +38,10 @@ import indOperations from '../assets/companies/voms.jpg'
 import indShared from '../assets/companies/vhrs.jpg'
 
 export const IMAGES = {
+  cdBanner: { src: cdBanner, w: 1366, h: 768 },
+  cdHrms: { src: cdHrms, w: 1216, h: 832 },
+  cdFinance: { src: cdFinance, w: 1536, h: 1024 },
+  cdMfg: { src: cdMfg, w: 1536, h: 1024 },
   indManufacturing: { src: indManufacturing, w: 370, h: 254 },
   indEngineering: { src: indEngineering, w: 370, h: 254 },
   indProjects: { src: indProjects, w: 370, h: 254 },

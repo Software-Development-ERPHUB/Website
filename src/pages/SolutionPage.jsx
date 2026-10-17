@@ -3,11 +3,11 @@ import { ArrowRight, Check, ChevronRight, MonitorPlay } from 'lucide-react'
 import Seo from '../components/ui/Seo'
 import Reveal from '../components/ui/Reveal'
 import NotFound from './NotFound'
-import HeroArt from '../components/platform/HeroArt'
 import { HeroHeadline } from '../components/platform/HeroSection'
-import { BrowserFrame, ModuleDashboard } from '../components/platform/ModulePreview'
+import { BrowserFrame, ModuleShot, ScreenBackdrop, modulePhoto } from '../components/platform/ModulePreview'
 import { DeploymentOptions, DemoLinks, DemoCTA } from '../components/platform/sections'
 import { PIcon, Eyebrow, useParallax } from '../components/platform/shared'
+import { photo } from '../content/photos'
 import { findModule, MODULES } from '../content/platform'
 
 /**
@@ -21,6 +21,7 @@ export default function SolutionPage() {
   const bg = useParallax(0.18)
   if (!m) return <NotFound />
   const others = MODULES.filter((x) => x.id !== m.id)
+  const heroImg = photo(`suite-${m.id}`) || modulePhoto(m)?.src
 
   return (
     <div style={{ '--m': m.rgb }}>
@@ -28,7 +29,7 @@ export default function SolutionPage() {
 
       {/* ── module hero ── */}
       <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-ink pt-[var(--header-h)] text-white" aria-labelledby="sol-h">
-        <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><HeroArt accent={m.color} className="h-full w-full" /></div></div>
+        <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><ScreenBackdrop m={m} /></div></div>
         <div className="absolute inset-0 -z-10" style={{ background: `linear-gradient(100deg, #0B1830 0%, rgb(16 35 63 / .88) 45%, ${m.color}33 100%)` }} aria-hidden="true" />
         <div className="container-page grid items-center gap-12 py-16 lg:min-h-[640px] lg:grid-cols-[1fr_1.15fr] lg:py-20">
           <div>
@@ -51,8 +52,14 @@ export default function SolutionPage() {
             </div>
           </div>
           <div className="float-in" style={{ animationDelay: '.35s' }}>
-            <BrowserFrame url={`app.voltech/${m.id}`} color={m.color}><ModuleDashboard m={m} /></BrowserFrame>
-            <p className="mt-3 text-center text-xs text-white/55">Illustrative dashboard with sample data.</p>
+            {heroImg
+              ? (
+                <div className="overflow-hidden rounded-2xl shadow-[0_40px_80px_-30px_rgb(16_35_63/.7)] ring-4 ring-white/10">
+                  <img src={heroImg} alt={`${m.name} — ${m.full}`} className="aspect-[16/10] w-full object-cover" />
+                </div>
+                )
+              : <BrowserFrame url={`app.voltech/${m.id}`} color={m.color}><ModuleShot m={m} /></BrowserFrame>}
+            <p className="mt-3 text-center text-xs text-white/55">{m.name} · {m.full}</p>
           </div>
         </div>
       </section>
