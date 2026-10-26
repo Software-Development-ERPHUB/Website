@@ -9,7 +9,6 @@ import ErpCompanyCard from '../../components/erp/ErpCompanyCard'
 import ModulePanel from '../../components/erp/ModulePanel'
 import { AnimIcon, IconTile } from '../../components/erp/AnimIcon'
 import { Reveal, CountUp, Slider, CardRail, Marquee } from '../../components/erp/Motion'
-import ProductOrbit from '../../components/erp/ProductOrbit'
 import { COMPANIES } from '../../data/companies'
 import { ERP_PRODUCTS, ERP_HIGHLIGHTS, ERP_FEATURES, HRMS_MODULES, AUDIT_MODULES, GROUP_SITES, ERP_CONFIG, HRMS_TECH } from '../../content/erp'
 
@@ -77,7 +76,21 @@ export default function ErpHome() {
               ))}
             </Slider>
           </div>
-          <div className="slide-in" style={{ animationDelay: '.15s' }}><ProductOrbit /></div>
+          {/* group companies at a glance (the spinning product ring now lives on the home page) */}
+          <ul className="slide-in grid grid-cols-2 gap-3" style={{ animationDelay: '.15s' }}>
+            {COMPANIES.slice(0, 4).map((co) => (
+              <li key={co.id}>
+                <Link to={`/erp/companies/${co.id}`} className="group relative block aspect-[4/3] overflow-hidden rounded-2xl ring-1 ring-white/15">
+                  <img src={co.image} alt="" loading="lazy" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                  <span className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" aria-hidden="true" />
+                  <span className="absolute bottom-3 left-3 right-3 flex items-center gap-2">
+                    <CompanyLogo companyId={co.id} size={32} rounded={6} padding={2} />
+                    <span translate="no" className="notranslate truncate font-display text-sm font-semibold text-white">{co.name}</span>
+                  </span>
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
 
         {/* stats strip */}

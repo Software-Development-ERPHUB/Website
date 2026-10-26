@@ -4,14 +4,14 @@
  * with glowing data nodes. Pure SVG, so it is sharp at any size and
  * needs no download. `accent` tints the glow for module pages.
  */
-export default function HeroArt({ accent = '#FF6B2C', secondary = '#3B82F6', className = '' }) {
+export default function HeroArt({ accent = '#1A7CFF', secondary = '#3B82F6', className = '' }) {
   const id = accent.replace('#', '')
   return (
     <svg className={className} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" aria-hidden="true">
       <defs>
         <linearGradient id={`sky-${id}`} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0" stopColor="#0B1830" />
-          <stop offset=".55" stopColor="#10233F" />
+          <stop offset="0" stopColor="#000E38" />
+          <stop offset=".55" stopColor="#00144E" />
           <stop offset="1" stopColor="#172333" />
         </linearGradient>
         <radialGradient id={`sun-${id}`} cx=".72" cy=".62" r=".5">
@@ -82,7 +82,7 @@ export default function HeroArt({ accent = '#FF6B2C', secondary = '#3B82F6', cla
 
       {/* data nodes */}
       <g className="hidden sm:inline">
-        {[[620, 250, accent], [1120, 490, secondary], [370, 352, accent], [1500, 322, secondary], [190, 310, '#F472B6']].map(([x, y, c], i) => (
+        {[[620, 250, accent], [1120, 490, secondary], [370, 352, accent], [1500, 322, secondary], [190, 310, '#7FB2FF']].map(([x, y, c], i) => (
           <g key={i}>
             <circle cx={x} cy={y} r="14" fill={c} opacity=".25" className="pulse-ring" style={{ animationDelay: `${i * 0.6}s` }} />
             <circle cx={x} cy={y} r="4" fill={c} />

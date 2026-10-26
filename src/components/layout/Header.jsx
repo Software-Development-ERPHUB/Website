@@ -14,7 +14,7 @@ import { MODULES, PLATFORM } from '../../content/platform'
 import { PIcon } from '../platform/shared'
 
 // Pages whose first section is a dark full-bleed hero: the header starts transparent over it
-const OVER_HERO = /^\/(platform|solutions\/(hrms|finance|manufacturing))?$/
+const OVER_HERO = /^\/(platform|solutions\/(hrms|finance|manufacturing))$/
 
 const linkCls = (light) => ({ isActive }) =>
   `nav-u relative inline-flex min-h-[44px] items-center whitespace-nowrap rounded-md px-3 text-[0.94rem] font-medium transition-colors ${light ? 'hover:text-accent' : 'hover:text-brand'} ${
@@ -81,7 +81,7 @@ function MegaMenu() {
     <div className="container-page grid gap-6 py-7 lg:grid-cols-[0.8fr_2.2fr]">
       <div className="flex flex-col justify-between rounded-2xl bg-ink p-6 text-white">
         <div>
-          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-ink"><Layers size={20} aria-hidden="true" /></span>
+          <span className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent text-white"><Layers size={20} aria-hidden="true" /></span>
           <p className="mt-4 font-display text-lg font-semibold">{PLATFORM.identity}</p>
           <p className="mt-2 text-sm text-white/70">HRMS, Finance and Manufacturing as one platform or as standalone applications.</p>
         </div>
@@ -140,6 +140,8 @@ export default function Header() {
   const panelRef = useRef(null)
   const { pathname } = useLocation()
   const light = OVER_HERO.test(pathname) && !scrolled && !open
+  // home starts over a light sky banner: see-through header with dark text
+  const sky = pathname === '/' && !scrolled && !open
 
   useEffect(() => {
     const fn = () => {
@@ -177,7 +179,7 @@ export default function Header() {
   }, [open])
 
   return (
-    <header className={`sticky top-0 z-50 transition-[background,box-shadow,border-color] duration-300 ${open ? 'border-b border-line bg-white' : light ? 'border-b border-white/10 bg-transparent' : scrolled ? 'border-b border-line bg-white/90 shadow-[0_8px_30px_-18px_rgb(16_35_63/.35)] backdrop-blur-md' : 'border-b border-transparent bg-white'}`}>
+    <header className={`sticky top-0 z-50 transition-[background,box-shadow,border-color] duration-300 ${open ? 'border-b border-line bg-white' : light ? 'border-b border-white/10 bg-transparent' : scrolled ? 'border-b border-line bg-white/90 shadow-[0_8px_30px_-18px_rgb(16_35_63/.35)] backdrop-blur-md' : sky ? 'border-b border-transparent bg-transparent' : 'border-b border-transparent bg-white'}`}>
       <span className="scroll-progress w-full" style={{ transform: `scaleX(${progress})` }} aria-hidden="true" />
       <div className="container-page flex h-[var(--header-h)] items-center justify-between gap-4">
         <Logo tone={light ? 'light' : 'dark'} onClick={() => setOpen(false)} />
@@ -204,7 +206,7 @@ export default function Header() {
             <kbd className="kbd notranslate hidden" translate="no">{isMac ? '⌘' : 'Ctrl'} K</kbd>
           </button>
           <div className={`hidden sm:block ${light ? '[&_button]:border-white/25 [&_button]:text-white' : ''}`}><LanguageSwitcher /></div>
-          <Link to="/contact?demo=platform" className={`group hidden !min-h-[44px] whitespace-nowrap !px-4 sm:inline-flex lg:hidden xl:inline-flex ${light ? 'btn bg-accent text-ink hover:bg-white' : 'btn-primary'}`}>Request a Demo<ArrowRight size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" /></Link>
+          <Link to="/contact?demo=platform" className={`group hidden !min-h-[44px] whitespace-nowrap !px-4 sm:inline-flex lg:hidden xl:inline-flex ${light ? 'btn bg-accent text-white hover:bg-white hover:text-ink' : 'btn-primary'}`}>Request a Demo<ArrowRight size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:translate-x-1" /></Link>
           <button
             ref={toggleRef}
             type="button"

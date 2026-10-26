@@ -1,9 +1,11 @@
 import { useRef } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Layers, Box, MonitorPlay } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Check, ChevronLeft, ChevronRight, Layers, Box, MonitorPlay, SlidersHorizontal, ShieldCheck, Headset } from 'lucide-react'
+import modulesArt from '../../assets/img/modules-art.webp'
 import Reveal from '../ui/Reveal'
-import { BrowserFrame, ModuleDashboard } from './ModulePreview'
-import HeroArt from './HeroArt'
+import { ScreenBackdrop } from './ModulePreview'
+import Scene from '../art/Scene'
+import { photo as dropIn } from '../../content/photos'
 import { PIcon, Eyebrow, useParallax } from './shared'
 import { MODULES, DEPLOYMENT, INDUSTRY_SHOWCASE, BENEFITS } from '../../content/platform'
 import { findProduct, productHref } from '../../content/products'
@@ -19,17 +21,9 @@ export function SolutionCard({ m, index = 0 }) {
     <Reveal delay={index * 120} className="h-full">
       <Link to={m.route} className="mod-card group relative flex h-full flex-col overflow-hidden rounded-2xl border border-line bg-white shadow-lift transition-[transform,box-shadow] duration-500 hover:-translate-y-2 hover:shadow-pop"
         style={{ '--m': m.rgb }} aria-label={`Explore ${m.name}: ${m.description}`}>
-        <div className="relative h-44 overflow-hidden" style={{ background: m.gradient }}>
-          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
-            <svg viewBox="0 0 400 180" className="h-full w-full" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-              <g fill="none" stroke="#fff" strokeOpacity=".18">
-                {[60, 100, 140, 180].map((r) => <circle key={r} cx="360" cy="10" r={r} />)}
-              </g>
-              <g fill="#fff" fillOpacity=".14">
-                {[30, 56, 42, 70, 52, 84, 66].map((h, i) => <rect key={i} x={30 + i * 26} y={150 - h} width="16" height={h} rx="3" />)}
-              </g>
-            </svg>
-          </div>
+        <div className="relative h-52 overflow-hidden bg-ink">
+          <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">{dropIn(`suite-${m.id}`) ? <img src={dropIn(`suite-${m.id}`)} alt="" className="h-full w-full object-cover" /> : <Scene kind={m.id} color={m.color} soft={m.soft} tiles={false} />}</div>
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/20 to-transparent" aria-hidden="true" />
           <span className="absolute left-5 top-5 flex h-12 w-12 items-center justify-center rounded-xl bg-white/20 text-white ring-1 ring-white/30 backdrop-blur transition-transform duration-500 group-hover:rotate-[-6deg] group-hover:scale-110">
             <PIcon name={m.icon} size={24} />
           </span>
@@ -58,18 +52,74 @@ export function SolutionCard({ m, index = 0 }) {
   )
 }
 
+/** The three promises under the modules section (from the Voltech ERP reference banner). */
+const PROMISES = [
+  { icon: SlidersHorizontal, title: 'Customisable for your needs', body: 'Adapt each module to your own processes.', color: '#7C3AED' },
+  { icon: Layers, title: 'One platform, shared data', body: 'HR, finance and production use the same masters.', color: '#049D83' },
+  { icon: ShieldCheck, title: 'Secure access by role', body: 'Each user sees only what their role allows.', color: '#1A7CFF' },
+  { icon: Headset, title: 'Support from our team', body: 'The people who built it help you run it.', color: '#7C3AED' },
+]
+
+/**
+ * "Three modules. One enterprise." Left: the modules as rows with icon, name and
+ * key features, each linking to its page. Right: the Voltech ERP artwork
+ * (people, finance, factory and the dashboard). Below: a strip of four promises.
+ */
 export function ModulesShowcase({ title = 'Three modules. One enterprise.', lead = 'Choose the module your business needs today, or bring them together as one integrated platform.' }) {
+  const [first, ...rest] = title.split('. ')
   return (
-    <section id="solutions" className="section scroll-mt-20 bg-white" aria-labelledby="modules-h">
-      <div className="container-page">
-        <Reveal className="mx-auto mb-12 max-w-2xl text-center">
+    <section id="solutions" className="modules-sky relative isolate scroll-mt-20 overflow-hidden pb-14 pt-16 sm:pt-20 lg:pt-24" aria-labelledby="modules-h">
+      <div className="container-page grid items-center gap-10 lg:grid-cols-[1fr_1.1fr] lg:gap-8">
+        <Reveal>
           <Eyebrow>Enterprise Modules</Eyebrow>
-          <h2 id="modules-h" className="h-section mt-4">{title}</h2>
-          <p className="lead mt-4">{lead}</p>
+          <h2 id="modules-h" className="mt-4 font-display text-[clamp(2rem,1.3rem+2.6vw,3.3rem)] font-bold leading-[1.06] tracking-[-0.03em] text-ink">
+            {rest.length ? <>{first}.<br /><span className="text-accent">{rest.join('. ')}</span></> : title}
+          </h2>
+          <p className="lead mt-4 max-w-xl">{lead}</p>
+          <ul className="mt-8 space-y-3">
+            {MODULES.map((m, i) => (
+              <Reveal as="li" key={m.id} delay={120 + i * 100}>
+                <Link to={m.route} className="group flex items-center gap-4 rounded-2xl bg-white/80 p-3.5 pr-5 shadow-lift ring-1 ring-line backdrop-blur transition hover:-translate-y-0.5 hover:bg-white hover:shadow-pop">
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full text-white shadow-md transition-transform duration-300 group-hover:scale-110" style={{ background: m.color }}><PIcon name={m.icon} size={24} /></span>
+                  <span className="min-w-0 flex-1">
+                    <span className="flex flex-wrap items-baseline gap-x-2">
+                      <span className="font-display text-xl font-semibold text-ink">{m.name}</span>
+                      <span className="text-sm text-muted">{m.full}</span>
+                    </span>
+                    <span className="mt-1.5 flex flex-wrap gap-1.5">
+                      {m.features.slice(0, 4).map((f) => <span key={f} className="rounded-full px-2.5 py-0.5 text-xs font-medium" style={{ background: m.soft, color: m.text }}>{f}</span>)}
+                    </span>
+                  </span>
+                  <ArrowRight size={20} aria-hidden="true" className="shrink-0 text-muted transition-transform group-hover:translate-x-1 group-hover:text-brand" />
+                  <span className="sr-only">Explore {m.name}</span>
+                </Link>
+              </Reveal>
+            ))}
+          </ul>
+          <div className="mt-8 flex flex-col gap-3 xs:flex-row">
+            <Link to="/contact?demo=platform" className="btn-primary group rounded-full px-6">Request a Demo<ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" /></Link>
+            <Link to="/platform" className="btn rounded-full border-2 border-brand bg-white/70 px-6 text-brand hover:bg-white">Explore our solutions</Link>
+          </div>
         </Reveal>
-        <div className="grid gap-6 md:grid-cols-3">
-          {MODULES.map((m, i) => <SolutionCard key={m.id} m={m} index={i} />)}
-        </div>
+        <Reveal delay={150}>
+          <img src={modulesArt} width="947" height="692" loading="lazy"
+            alt="HRMS, Finance and Manufacturing pictured above a laptop and phone showing the Voltech ERP dashboard (sample figures)"
+            className="modules-art mx-auto w-full max-w-[680px]" />
+        </Reveal>
+      </div>
+
+      <div className="container-page mt-12">
+        <ul className="grid gap-px overflow-hidden rounded-2xl bg-line shadow-lift ring-1 ring-line sm:grid-cols-2 lg:grid-cols-4">
+          {PROMISES.map((p, i) => (
+            <Reveal as="li" key={p.title} delay={i * 80} className="flex items-start gap-4 bg-white p-5 lg:p-6">
+              <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl" style={{ background: `${p.color}14`, color: p.color }}><p.icon size={24} aria-hidden="true" /></span>
+              <span>
+                <span className="block font-display font-semibold text-ink">{p.title}</span>
+                <span className="mt-1 block text-sm text-muted">{p.body}</span>
+              </span>
+            </Reveal>
+          ))}
+        </ul>
       </div>
     </section>
   )
@@ -121,7 +171,7 @@ export function EnterpriseArchitecture({ cta = true }) {
               <path d="M70 390 Q 100 160 260 70" fill="none" stroke="#fff" strokeOpacity=".14" strokeWidth="1.5" className="dash-flow" />
             </svg>
             {/* core */}
-            <div className="absolute left-1/2 top-1/2 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-accent to-[#C2410C] text-center shadow-[0_0_60px_rgb(255_107_44/.45)]">
+            <div className="absolute left-1/2 top-1/2 flex h-32 w-32 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-gradient-to-br from-accent to-[#002E7E] text-center shadow-[0_0_60px_rgb(255_107_44/.45)]">
               <Layers size={26} aria-hidden="true" />
               <span className="mt-1 font-display text-sm font-bold leading-tight">VOLTECH<br />Platform</span>
             </div>
@@ -164,10 +214,9 @@ export function ModuleSpotlight({ m, flip = false, photo = null }) {
               <img ref={art} src={photo.src} alt="" aria-hidden="true" loading="lazy" className="h-[120%] w-full object-cover" />
             </div>
           )}
-          <BrowserFrame url={`app.voltech/${m.id}/overview`} color={m.color}>
-            <ModuleDashboard m={m} />
-          </BrowserFrame>
-          <p className="mt-3 text-center text-xs text-muted">Illustrative dashboard with sample data.</p>
+          <div className="aspect-[16/11] overflow-hidden rounded-3xl shadow-pop ring-1 ring-line">
+            {dropIn(`suite-${m.id}`) ? <img src={dropIn(`suite-${m.id}`)} alt="" loading="lazy" className="h-full w-full object-cover" /> : <Scene kind={m.id} color={m.color} soft={m.soft} />}
+          </div>
         </Reveal>
       </div>
     </section>
@@ -367,7 +416,7 @@ export function DemoCTA({ m = null, title = "See What's Possible with Voltech.",
   const bg = useParallax(0.12)
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white" aria-labelledby="cta-h">
-      <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><HeroArt accent={m?.color || '#FF6B2C'} className="h-full w-full" /></div></div>
+      <div className="absolute inset-0 -z-20"><div ref={bg} className="absolute -inset-y-16 inset-x-0"><ScreenBackdrop m={m} /></div></div>
       <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/40" aria-hidden="true" />
       <div className="container-page flex flex-col gap-10 py-20 sm:py-24 lg:flex-row lg:items-center lg:justify-between">
         <Reveal className="max-w-2xl">
@@ -375,7 +424,7 @@ export function DemoCTA({ m = null, title = "See What's Possible with Voltech.",
           <p className="mt-5 text-lg text-white/75">{body}</p>
         </Reveal>
         <Reveal delay={120} className="flex flex-col gap-3 xs:flex-row">
-          <Link to={m ? `/contact?demo=${m.id}` : '/contact?demo=platform'} className="btn group bg-accent text-ink hover:bg-white">Request a Demo<ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" /></Link>
+          <Link to={m ? `/contact?demo=${m.id}` : '/contact?demo=platform'} className="btn group bg-accent text-white hover:bg-white hover:text-ink">Request a Demo<ArrowRight size={17} aria-hidden="true" className="transition-transform group-hover:translate-x-1" /></Link>
           <Link to={m ? '/platform' : '/#solutions'} className="btn-ghost-dark">{m ? 'Explore the Platform' : 'Explore All Solutions'}</Link>
         </Reveal>
       </div>

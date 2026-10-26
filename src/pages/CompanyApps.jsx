@@ -125,8 +125,8 @@ export default function CompanyApps() {
           /* VOMS coming soon section */
           <div>
             <div style={{
-              background:'linear-gradient(135deg,#0f766e08,#14b8a608)',
-              border:'1.5px dashed #0f766e30',
+              background:'linear-gradient(135deg,#047A6608,#14b8a608)',
+              border:'1.5px dashed #047A6630',
               borderRadius:20,padding:'40px 32px',textAlign:'center',marginBottom:32,
             }}>
               <div style={{fontSize:56,marginBottom:16}}>🚀</div>
@@ -137,7 +137,7 @@ export default function CompanyApps() {
               }}>
                 <span style={{width:7,height:7,borderRadius:'50%',background:'#14b8a6',
                   display:'inline-block',boxShadow:'0 0 6px #14b8a6'}}/>
-                <span style={{color:'#0f766e',fontSize:10,fontWeight:700,
+                <span style={{color:'#047A66',fontSize:10,fontWeight:700,
                   letterSpacing:2,textTransform:'uppercase'}}>In Development</span>
               </div>
               <h2 style={{fontSize:24,fontWeight:800,color:'var(--text1)',margin:'0 0 12px'}}>
@@ -148,7 +148,7 @@ export default function CompanyApps() {
               </p>
               {/* Planned modules */}
               <div style={{textAlign:'left',maxWidth:560,margin:'0 auto'}}>
-                <div style={{fontSize:11,fontWeight:700,color:'#0f766e',
+                <div style={{fontSize:11,fontWeight:700,color:'#047A66',
                   textTransform:'uppercase',letterSpacing:1.5,marginBottom:14}}>
                   {t('voms_modules_h')}
                 </div>
@@ -161,14 +161,14 @@ export default function CompanyApps() {
                       borderRadius:10,padding:'9px 13px',
                     }}>
                       <span style={{width:7,height:7,borderRadius:'50%',
-                        background:'#0f766e',flexShrink:0,display:'inline-block'}}/>
+                        background:'#047A66',flexShrink:0,display:'inline-block'}}/>
                       <span style={{fontSize:12,color:'var(--text2)',fontWeight:500}}>{m}</span>
                     </div>
                   ))}
                 </div>
               </div>
               <button onClick={()=>navigate('/contact')} style={{
-                marginTop:28,background:'linear-gradient(135deg,#0f766e,#14b8a6)',
+                marginTop:28,background:'linear-gradient(135deg,#047A66,#14b8a6)',
                 color:'#fff',fontWeight:700,padding:'12px 28px',borderRadius:12,
                 border:'none',cursor:'pointer',fontSize:13,
                 boxShadow:'0 5px 18px rgba(15,118,110,0.35)',

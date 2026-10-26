@@ -16,8 +16,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'HRMS',
     full: 'Human Resource Management',
     icon: 'Users',
-    color: '#BE185D',
-    gradient: 'linear-gradient(135deg,#831843 0%,#DB2777 60%,#F472B6 100%)',
+    color: '#1D5FD1',
+    gradient: 'linear-gradient(135deg,#0B3A8C 0%,#3686FC 60%,#7FB2FF 100%)',
     summary: 'Run your people operations end to end: attendance, payroll, performance and results tracking.',
   },
   {
@@ -25,8 +25,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Finance',
     full: 'Finance & Accounts',
     icon: 'Wallet',
-    color: '#0F766E',
-    gradient: 'linear-gradient(135deg,#064E3B 0%,#0D9488 60%,#34D399 100%)',
+    color: '#047A66',
+    gradient: 'linear-gradient(135deg,#064E3B 0%,#049D83 60%,#34D399 100%)',
     summary: 'Accounting, billing, expenses and budgets in one place, with approvals and audit trails built in.',
   },
   {
@@ -34,8 +34,8 @@ export const PRODUCT_CATEGORIES = [
     title: 'Manufacturing',
     full: 'Manufacturing & Sales',
     icon: 'Factory',
-    color: '#4338CA',
-    gradient: 'linear-gradient(135deg,#1E1B4B 0%,#4F46E5 60%,#38BDF8 100%)',
+    color: '#B9530B',
+    gradient: 'linear-gradient(135deg,#7C2D12 0%,#FE8428 60%,#FDBA74 100%)',
     summary: 'From the first customer enquiry to the purchase order, with safety and compliance on every site.',
   },
 ]
@@ -146,6 +146,17 @@ export const PRODUCTS = [
     tagline: 'Safety, health and environment compliance for every site.',
     description: 'Report and investigate incidents, issue work permits, run audits and inspections, track PPE, training and legal licences, all with corrective actions to closure.',
     features: ['Incident reporting', 'Work permits', 'HIRA & JSA', 'Audits & inspections', 'PPE & safety assets', 'Training', 'Legal register', 'Reports & MIS'],
+  },
+  {
+    slug: 'ehs-2',
+    category: 'manufacturing',
+    name: 'EHS 2 — HSE Platform',
+    code: 'EHS 2',
+    icon: 'HardHat',
+    status: 'demo',
+    tagline: 'The second-generation health, safety and environment platform.',
+    description: 'A newer HSE platform across companies, divisions and sites: set up masters, assess risk with HIRA and JSA, run training, issue work permits and track audits and inspections.',
+    features: ['Master setup', 'HIRA & risk registers', 'Training management', 'Work permits', 'Audit & inspection', 'Dashboard'],
   },
 ]
 

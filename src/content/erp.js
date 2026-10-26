@@ -9,7 +9,7 @@
  *   showUserCounts — user numbers on cards and stats
  * Set either to false if management does not want them on the public site.
  */
-import { Layers, Palette, Calculator, Truck, Users, Handshake, UserCog, Database, ShieldCheck, Boxes, Smartphone } from 'lucide-react'
+import { Palette, Calculator, Truck, Users, Handshake, UserCog, Database, ShieldCheck, Boxes, Smartphone } from 'lucide-react'
 import webVg from '../assets/img/site-vg.webp'
 import webVmcl from '../assets/img/site-vmcl.webp'
 import webVipra from '../assets/img/site-vipra.webp'
@@ -25,17 +25,17 @@ export const ERP_CONFIG = {
 export const HRMS_TECH = ['React', 'Node.js', 'Express.js', 'MySQL']
 
 export const ERP_PRODUCTS = [
-  { code: 'Voltech ERP', color: '#007438', full: 'Voltech ERP — Full Suite', icon: Layers, anim: 'pop' },
-  { code: 'VDMS', color: '#2563eb', full: 'Design Management System', icon: Palette, anim: 'wiggle' },
-  { code: 'VPMT', color: '#7c3aed', full: 'Project Cost Management', icon: Calculator, anim: 'bounce' },
-  { code: 'Prime SCM', color: '#0891b2', full: 'Prime Supply Chain Management', icon: Truck, anim: 'nudge' },
-  { code: 'HRMS', color: '#16a34a', full: 'HR Management System', icon: Users, anim: 'bounce' },
-  { code: 'CRM', color: '#dc2626', full: 'Customer Relationship Management', icon: Handshake, anim: 'pulse' },
-  { code: 'EMS', color: '#0ea5e9', full: 'Employee Management System', icon: UserCog, anim: 'spin' },
-  { code: 'IMS', color: '#a855f7', full: 'Information Management System', icon: Database, anim: 'bounce' },
-  { code: 'AUDIT', color: '#059669', full: 'Audit Management System', icon: ShieldCheck, anim: 'pop' },
-  { code: 'VAMS', color: '#d97706', full: 'Asset Management System', icon: Boxes, anim: 'swing' },
-  { code: 'VBMS', color: '#283593', full: 'Job & Field Workforce Management', icon: Smartphone, anim: 'wiggle' },
+  // `to` is the page that opens when the item is clicked in the spinning ring
+  { code: 'Voltech Prime', color: '#0891b2', full: 'Voltech Prime — Supply Chain Management', icon: Truck, anim: 'nudge', to: '/erp/companies/vmcl' },
+  { code: 'VDMS', color: '#2563eb', full: 'Voltech Design Management System', icon: Palette, anim: 'wiggle', to: '/erp/companies/vepl' },
+  { code: 'VPMT', color: '#7c3aed', full: 'Voltech Project Cost Management', icon: Calculator, anim: 'bounce', to: '/erp/companies/vepl' },
+  { code: 'HRMS', color: '#16a34a', full: 'Voltech HR Management System', icon: Users, anim: 'bounce', to: '/erp/companies/vepl' },
+  { code: 'CRM', color: '#dc2626', full: 'Customer Relationship Management', icon: Handshake, anim: 'pulse', to: '/erp/companies/vhrs' },
+  { code: 'EMS', color: '#0ea5e9', full: 'Employee Management System', icon: UserCog, anim: 'spin', to: '/erp/companies/vhrs' },
+  { code: 'IMS', color: '#a855f7', full: 'Information Management System', icon: Database, anim: 'bounce', to: '/erp/companies/vhrs' },
+  { code: 'AUDIT', color: '#059669', full: 'Voltech Audit Management System', icon: ShieldCheck, anim: 'pop', to: '/erp#shared-systems' },
+  { code: 'VAMS', color: '#d97706', full: 'Voltech Asset Management System', icon: Boxes, anim: 'swing', to: '/erp/companies/bliss' },
+  { code: 'VBMS', color: '#283593', full: 'Voltech VBMS — Job & Field Workforce Management', icon: Smartphone, anim: 'wiggle', to: '/erp/companies/vepl' },
 ]
 
 export const ERP_HIGHLIGHTS = [
@@ -63,7 +63,7 @@ export const SECTORS = [
   { icon: '🔬', title: 'Instrumentation', body: 'Precision instrumentation & automation', color: '#7c3aed' },
   { icon: '👥', title: 'HR services', body: 'Staffing, payroll & workforce management', color: '#dc2626' },
   { icon: '🛡️', title: 'Management', body: 'Facility management & security services', color: '#d97706' },
-  { icon: '🔧', title: 'Operation & maintenance', body: 'Industrial O&M and facility operations', color: '#0f766e' },
+  { icon: '🔧', title: 'Operation & maintenance', body: 'Industrial O&M and facility operations', color: '#047A66' },
 ]
 
 export const HRMS_MODULES = [

@@ -1,3 +1,6 @@
+import { screen } from '../../content/screens'
+import { photo } from '../../content/photos'
+import Scene from '../art/Scene'
 import { Bell, Search, AlertTriangle, CheckCircle2, Clock, TrendingUp, TrendingDown } from 'lucide-react'
 import { useInView, Counter } from './shared'
 
@@ -6,6 +9,23 @@ import { useInView, Counter } from './shared'
  * crisp and animate as they scroll into view. All figures are illustrative
  * sample data — never real Voltech or customer numbers.
  */
+
+/** Real application screen per module (content/screens.js); Finance has no live demo yet. */
+const MODULE_SCREEN = { hrms: 'hr-dashboard', manufacturing: 'pr-dashboard' }
+
+/** Real screen for a module when one exists, otherwise the illustrative dashboard. */
+export function ModuleShot({ m }) {
+  const src = screen(MODULE_SCREEN[m.id])
+  return src ? <img src={src} alt={`${m.name} dashboard`} loading="lazy" className="aspect-[16/10] w-full object-cover object-top" /> : <ModuleDashboard m={m} />
+}
+export const shotCaption = (m) => (MODULE_SCREEN[m.id] ? `Real screen from the ${m.name} demo, with sample data.` : 'Illustrative dashboard with sample data.')
+
+/** Banner background: a dropped-in photo (pk) when there is one, else a blurred real screen. */
+export function ScreenBackdrop({ m, pk, className = '' }) {
+  const ph = photo(pk || (m && `suite-${m.id}`))
+  if (ph) return <img src={ph} alt="" aria-hidden="true" className={`h-full w-full object-cover ${className}`} />
+  return <Scene kind={m?.id || 'services'} color={m?.color || '#1A7CFF'} dark tiles={false} className={className} />
+}
 
 export function BrowserFrame({ url, color, children, className = '' }) {
   return (

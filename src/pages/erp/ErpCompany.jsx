@@ -9,6 +9,7 @@ import ErpAppCard from '../../components/erp/ErpAppCard'
 import { AnimIcon, IconTile } from '../../components/erp/AnimIcon'
 import { Reveal, CountUp, CardRail } from '../../components/erp/Motion'
 import { COMPANIES } from '../../data/companies'
+import { photo } from '../../content/photos'
 import { ERP_CONFIG, VOMS_MODULES } from '../../content/erp'
 
 export default function ErpCompany() {
@@ -45,12 +46,10 @@ export default function ErpCompany() {
 
       {/* ── BANNER ── */}
       <section className="relative isolate overflow-hidden bg-ink text-white">
-        <div className="grid-bg-dark absolute inset-0 -z-10" aria-hidden="true" />
-        <div className="absolute -right-32 -top-32 -z-10 h-[460px] w-[460px] rounded-full blur-3xl" style={{ background: c + '66' }} aria-hidden="true" />
-        {[340, 230, 140].map((s, i) => (
-          <span key={i} aria-hidden="true" className="absolute -z-10 rounded-full border border-dashed"
-            style={{ top: -s * 0.3, right: -s * 0.2, width: s, height: s, borderColor: 'rgb(255 255 255 / .14)', animation: `orbit-spin ${50 + i * 15}s linear infinite ${i % 2 ? 'reverse' : ''}` }} />
-        ))}
+        {/* company photo: src/assets/photos/company-<id>.webp when added, else the group site photo */}
+        <img src={photo(`company-${company.id}`) || company.image} alt="" aria-hidden="true"
+          className={`absolute inset-0 -z-10 h-full w-full object-cover ${photo(`company-${company.id}`) ? '' : 'scale-105 blur-[2px]'}`} />
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/35" aria-hidden="true" />
         <div className="container-page pb-12 pt-9 sm:pb-14 sm:pt-12">
           <nav aria-label="Breadcrumb" className="mb-7">
             <ol className="flex flex-wrap items-center gap-1 text-sm text-white/60">
@@ -90,17 +89,17 @@ export default function ErpCompany() {
       <section className="section">
         <div className="container-page">
           {upcoming ? (
-            <Reveal dir="zoom" className="mx-auto max-w-3xl rounded-2xl border border-dashed border-[#0f766e]/40 bg-[#0f766e]/[.04] p-8 text-center sm:p-12">
-              <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[#0f766e] to-[#14b8a6] shadow-[0_14px_30px_rgb(15_118_110/.35)]">
+            <Reveal dir="zoom" className="mx-auto max-w-3xl rounded-2xl border border-dashed border-[#047A66]/40 bg-[#047A66]/[.04] p-8 text-center sm:p-12">
+              <span className="mx-auto flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-[#047A66] to-[#14b8a6] shadow-[0_14px_30px_rgb(15_118_110/.35)]">
                 <AnimIcon icon={Rocket} size={36} color="#fff" anim="float" always />
               </span>
-              <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#0f766e]/10 px-3 py-1 text-sm font-semibold text-[#0f766e]"><span className="live-dot !bg-[#14b8a6]" />In development</span>
+              <span className="mt-6 inline-flex items-center gap-2 rounded-full bg-[#047A66]/10 px-3 py-1 text-sm font-semibold text-[#047A66]"><span className="live-dot !bg-[#14b8a6]" />In development</span>
               <h2 className="h-section mt-4">An operations ERP is on the way</h2>
               <p className="lead mx-auto mt-4 max-w-xl">{company.name} is digitising its operation and maintenance workflows. Our team is building a dedicated operations management system.</p>
               <ul className="mx-auto mt-8 grid max-w-2xl gap-2.5 text-left sm:grid-cols-2">
                 {VOMS_MODULES.map((m, i) => (
                   <Reveal as="li" key={m} dir={i % 2 ? 'right' : 'left'} delay={i * 70} className="ia flex items-center gap-2.5 rounded-lg border border-line bg-white px-4 py-3 text-sm">
-                    <AnimIcon icon={CheckCircle2} size={17} color="#0f766e" anim="pop" />{m}
+                    <AnimIcon icon={CheckCircle2} size={17} color="#047A66" anim="pop" />{m}
                   </Reveal>
                 ))}
               </ul>

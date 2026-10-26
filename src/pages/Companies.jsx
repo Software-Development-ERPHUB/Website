@@ -21,7 +21,7 @@ export default function Companies() {
     { icon:'🔬', lk:'comp_sector_ins',  dk:'comp_sector_ins_d',  color:'#7c3aed', bg:'linear-gradient(135deg,#ede9fe,#ddd6fe)' },
     { icon:'👥', lk:'comp_sector_hr',   dk:'comp_sector_hr_d',   color:'#dc2626', bg:'linear-gradient(135deg,#fef2f2,#fee2e2)' },
     { icon:'🛡️', lk:'comp_sector_mgmt', dk:'comp_sector_mgmt_d', color:'#d97706', bg:'linear-gradient(135deg,#fef3c7,#fde68a)' },
-    { icon:'🔧', lk:'comp_sector_om',   dk:'comp_sector_om_d',   color:'#0f766e', bg:'linear-gradient(135deg,#ccfbf1,#99f6e4)' },
+    { icon:'🔧', lk:'comp_sector_om',   dk:'comp_sector_om_d',   color:'#047A66', bg:'linear-gradient(135deg,#ccfbf1,#99f6e4)' },
   ]
 
   const filtered = COMPANIES.filter(c =>

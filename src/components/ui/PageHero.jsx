@@ -1,31 +1,40 @@
 import { Link } from 'react-router-dom'
 import { ChevronRight } from 'lucide-react'
-import BannerArt from '../art/BannerArt'
 import { img } from '../../content/images'
+import { photo as dropIn } from '../../content/photos'
+import Scene from '../art/Scene'
+
+/**
+ * Drawn scene shown on the right of each banner variant until a photo named
+ * banner-<art>.webp is added to src/assets/photos. About keeps the MD photo.
+ */
+const ART_PHOTO = { about: 'cmdBanner' }
+const ART_SCENE = {
+  team: ['hrms', '#3686FC', '#EEF5FF'], projects: ['project', '#FE8428', '#FFF3E8'], services: ['services', '#1A7CFF', '#EAF3FF'],
+  contact: ['manufacturing-crm', '#049D83', '#E8F8F4'], careers: ['hrms-employees', '#3686FC', '#EEF5FF'],
+  industries: ['manufacturing', '#FE8428', '#FFF3E8'], solutions: ['hrms', '#3686FC', '#EEF5FF'], faq: ['audit', '#049D83', '#E8F8F4'],
+  legal: ['hrms-statutory', '#FE8428', '#FFF3E8'], news: ['finance-budget', '#1A7CFF', '#EAF3FF'],
+}
 
 /**
  * Inner-page banner with breadcrumb and the page's single H1.
- *   art    — illustration variant from components/art/BannerArt.jsx
- *   image  — key from content/images.js; a real photo used as the banner
- *            background instead of the illustration
+ *   A photo named banner-<art>.webp in src/assets/photos wins.
+ *   image  — key from content/images.js used as the banner photo
+ *   art    — page variant; picks the drawn scene from ART_SCENE
  *   visual — any custom node for the right-hand side (e.g. a mockup)
  */
 export default function PageHero({ title, lead, crumbs = [], children, art, image, visual }) {
-  const photo = img(image)
+  const dropped = dropIn(art && `banner-${art}`)
+  const photo = dropped ? { src: dropped } : img(image || ART_PHOTO[art])
+  const scene = !photo && (ART_SCENE[art] || ART_SCENE.services)
   return (
     <section className="relative isolate overflow-hidden bg-ink text-white">
       {photo ? (
         <>
-          <img src={photo.src} srcSet={photo.srcSet} sizes="100vw" alt="" aria-hidden="true" className="absolute inset-0 -z-10 h-full w-full object-cover" />
+          <img src={photo.src} srcSet={photo.srcSet} sizes="100vw" alt="" aria-hidden="true" className="absolute inset-0 -z-10 h-full w-full object-cover object-[75%_center]" />
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-ink via-ink/85 to-ink/30" aria-hidden="true" />
         </>
-      ) : (
-        <>
-          <div className="grid-bg-dark absolute inset-0 -z-10" aria-hidden="true" />
-          <div className="absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-brand/40 blur-3xl" aria-hidden="true" />
-          <div className="absolute -bottom-48 left-1/4 -z-10 h-[360px] w-[360px] rounded-full bg-steel/30 blur-3xl" aria-hidden="true" />
-        </>
-      )}
+      ) : <div className="absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-accent/10 blur-3xl" aria-hidden="true" />}
 
       <div className="container-page grid items-center gap-6 pb-10 pt-9 sm:pb-16 sm:pt-12 lg:min-h-[420px] lg:grid-cols-[1.15fr_1fr] lg:gap-12 lg:pb-16">
         <div className="slide-in">
@@ -45,9 +54,13 @@ export default function PageHero({ title, lead, crumbs = [], children, art, imag
           {children && <div className="mt-8">{children}</div>}
         </div>
 
-        {!photo && (visual || art) && (
-          <div className="slide-in mx-auto -mt-2 w-full max-w-[260px] sm:max-w-[440px] lg:mt-0 lg:max-w-none" style={{ animationDelay: '.15s' }}>
-            {visual || <BannerArt variant={art} />}
+        {(visual || scene) && (
+          <div className={`slide-in mx-auto -mt-2 w-full lg:mt-0 lg:max-w-none ${visual ? 'max-w-[260px] sm:max-w-[440px]' : 'hidden max-w-[440px] sm:block'}`} style={{ animationDelay: '.15s' }}>
+            {visual || (
+              <div className="aspect-[16/10] overflow-hidden rounded-3xl shadow-[0_40px_80px_-30px_rgb(0_0_0/.7)] ring-4 ring-white/10">
+                <Scene kind={scene[0]} color={scene[1]} soft={scene[2]} />
+              </div>
+            )}
           </div>
         )}
       </div>

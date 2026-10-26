@@ -6,25 +6,26 @@
    Change these to rebrand. Values are space-separated RGB so Tailwind
    opacity modifiers (bg-brand/10) keep working. */
 :root {
-  /* Voltech Integrated Enterprise Solutions palette.
+  /* Voltech palette from the Voltech ERP reference banner (6.png).
+     Previous orange palette: ink 16 35 63, primary 194 65 12, accent 255 107 44.
      To go back to the previous green brand: ink 15 42 34, primary 0 116 56,
      primary-strong 0 88 42, primary-soft 230 243 236, accent 56 198 108,
      paper 245 247 246, line 220 227 223, muted 78 94 88. */
-  --c-ink: 16 35 63;             /* #10233F deep navy — text, dark bands */
-  --c-charcoal: 23 35 51;        /* #172333 */
-  --c-primary: 194 65 12;        /* #C2410C deep safety orange — buttons, links (5.2:1 with white) */
-  --c-primary-strong: 154 52 18; /* #9A3412 hover / pressed */
-  --c-primary-soft: 255 241 234; /* #FFF1EA tints */
-  --c-accent: 255 107 44;        /* #FF6B2C warm safety orange — highlights, use on dark */
-  --c-secondary: 43 91 132;      /* #2B5B84 steel blue */
-  --c-secondary-soft: 234 240 246;
-  --c-paper: 245 247 250;        /* #F5F7FA */
-  --c-line: 221 227 236;         /* #DDE3EC */
-  --c-muted: 81 94 114;          /* #515E72 — 6.3:1 on white */
+  --c-ink: 0 20 78; /* #00144E deep navy (6.png) — text, dark bands */
+  --c-charcoal: 32 59 102; /* #203B66 */
+  --c-primary: 0 46 126; /* #002E7E royal navy — buttons, links (11:1 with white) */
+  --c-primary-strong: 0 31 92; /* #001F5C hover / pressed */
+  --c-primary-soft: 234 242 255; /* #EAF2FF tints */
+  --c-accent: 26 124 255; /* #1A7CFF bright blue — highlights */
+  --c-secondary: 0 101 188; /* #0065BC */
+  --c-secondary-soft: 232 242 252; /* #E8F2FC */
+  --c-paper: 242 247 253; /* #F2F7FD light sky */
+  --c-line: 220 230 243; /* #DCE6F3 */
+  --c-muted: 74 91 122; /* #4A5B7A — 6.4:1 on white */
   /* module accents — mirrored in src/content/platform.js */
-  --m-hrms: 219 39 119;          /* #DB2777 rose */
-  --m-finance: 13 148 136;       /* #0D9488 teal */
-  --m-mfg: 79 70 229;            /* #4F46E5 indigo */
+  --m-hrms: 54 134 252; /* #3686FC blue */
+  --m-finance: 4 157 131; /* #049D83 green */
+  --m-mfg: 254 132 40; /* #FE8428 orange */
   --header-h: 68px;
 }
 
@@ -64,8 +65,8 @@
   .field-error { @apply mt-1.5 text-sm text-red-700; }
 
   /* engineering grid used behind hero / dark bands */
-  .grid-bg { background-image: linear-gradient(rgb(var(--c-ink) / .05) 1px, transparent 1px), linear-gradient(90deg, rgb(var(--c-ink) / .05) 1px, transparent 1px); background-size: 32px 32px; }
-  .grid-bg-dark { background-image: linear-gradient(rgb(255 255 255 / .05) 1px, transparent 1px), linear-gradient(90deg, rgb(255 255 255 / .05) 1px, transparent 1px); background-size: 32px 32px; }
+  /* the square grid pattern was removed: banners use photos instead */
+  .grid-bg, .grid-bg-dark { background-image: none; }
 }
 
 
@@ -213,7 +214,7 @@
 .rail-track { display: grid; grid-auto-flow: column; overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth; padding: 6px 4px 20px; scrollbar-width: none; }
 .rail-track::-webkit-scrollbar { display: none; }
 .rail-item { scroll-snap-align: start; }
-.rail-btn { position: absolute; top: 50%; z-index: 5; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgb(var(--c-line)); background: #fff; color: rgb(var(--c-ink)); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 26px rgb(15 42 34 / .16); transform: translateY(-60%); transition: opacity .25s, background .25s, color .25s; }
+.rail-btn { position: absolute; top: 50%; z-index: 5; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgb(var(--c-line)); background: #fff; color: rgb(var(--c-ink)); display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 10px 26px rgb(0 20 78 / .16); transform: translateY(-60%); transition: opacity .25s, background .25s, color .25s; }
 .rail-btn:hover { background: rgb(var(--c-primary)); color: #fff; }
 .rail-prev { left: -16px } .rail-next { right: -16px }
 .rail-btn.hide { opacity: 0; pointer-events: none; }
@@ -235,7 +236,7 @@
 .co-card .co-go { transition: transform .35s cubic-bezier(.22,1,.36,1); }
 .co-card:hover .co-go { transform: translateX(3px) rotate(-45deg); }
 .lift { transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .3s; }
-.lift:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgb(15 42 34 / .06), 0 20px 40px -18px rgb(15 42 34 / .28); }
+.lift:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgb(0 20 78 / .06), 0 20px 40px -18px rgb(0 20 78 / .28); }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--c-accent)); display: inline-block; animation: live-pulse 2s ease-in-out infinite; }
 @keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgb(56 198 108 / .55) } 50% { box-shadow: 0 0 0 6px rgb(56 198 108 / 0) } }
 @keyframes ring-pulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .6 } }
@@ -243,7 +244,7 @@
 @keyframes orbit-counter { to { transform: rotate(-360deg) } }
 .orbit-ring { position: absolute; inset: 0; animation: orbit-spin 60s linear infinite; }
 .orbit-ring .orbit-upright { animation: orbit-counter 60s linear infinite; }
-.orbit-wrap:hover .orbit-ring, .orbit-wrap:hover .orbit-upright { animation-play-state: paused; }
+.orbit-wrap:hover .orbit-ring, .orbit-wrap:hover .orbit-upright, .orbit-wrap:focus-within .orbit-ring, .orbit-wrap:focus-within .orbit-upright { animation-play-state: paused; }
 .browser-shot img { transition: object-position 6s ease; }
 .browser-shot:hover img { object-position: bottom !important; }
 
@@ -269,6 +270,7 @@ font { background: transparent !important; box-shadow: none !important; }
 /* ── Global search dialog ── */
 .search-backdrop { animation: fade-in .2s ease both; }
 .search-panel { animation: search-in .28s cubic-bezier(.22,1,.36,1) both; }
+.fade-in { animation: fade-in .45s ease both; }
 @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
 @keyframes search-in { from { opacity: 0; transform: translateY(-12px) scale(.97) } to { opacity: 1; transform: none } }
 .kbd:not(.hidden) { display: inline-flex; }
@@ -336,3 +338,36 @@ font { background: transparent !important; box-shadow: none !important; }
   .bar-grow, .line-draw, .meter-fill { transition: none; transform: none; stroke-dashoffset: 0; }
   .mod-card .mod-extra { transition: none; }
 }
+
+/* ── Client Demo: suite tree (root → modules) ─────────────────────── */
+.suite-tree { --g: 1.75rem; }
+.suite-tree .tree-root::after { content: ''; position: absolute; left: 1.5rem; bottom: calc(-1 * var(--g)); width: 2px; height: var(--g); background: var(--tree-c); }
+.tree-branches { display: flex; flex-direction: column; margin-top: var(--g); padding-left: 3rem; }
+.tree-branches > li { position: relative; padding-block: .4rem; }
+.tree-branches > li::before, .tree-branches > li::after { content: ''; position: absolute; background: var(--tree-c); }
+.tree-branches > li::before { left: -1.5rem; top: 50%; width: 1.5rem; height: 2px; }
+.tree-branches > li::after { left: -1.5rem; top: 0; bottom: 0; width: 2px; }
+.tree-branches > li:last-child::after { bottom: 50%; }
+@media (min-width: 1024px) {
+  .suite-tree .tree-root::after { left: 50%; }
+  .tree-branches { flex-direction: row; justify-content: center; padding-left: 0; }
+  .tree-branches > li { flex: 0 1 190px; min-width: 0; padding: var(--g) .35rem 0; }
+  .tree-branches > li::before { left: 50%; top: 0; width: 2px; height: var(--g); }
+  .tree-branches > li::after { left: 0; right: 0; top: 0; bottom: auto; width: auto; height: 2px; }
+  .tree-branches > li:first-child::after { left: 50%; }
+  .tree-branches > li:last-child::after { right: 50%; bottom: auto; }
+  .tree-branches > li:only-child::after { display: none; }
+}
+/* sideways reveals push past the screen edge on phones: rise instead */
+@media (max-width: 767px) { .erp-rv-left, .erp-rv-right { transform: translateY(30px); } }
+
+/* Home hero: sky that matches the top edge of the banner image, typed-line caret */
+.hero-sky { background: radial-gradient(55% 60% at 85% 15%, #D3E8FB 0%, transparent 70%), linear-gradient(180deg, #F6FBFF 0%, #EEF6FD 55%, #E4F0FA 100%); }
+.hero-banner { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 18%); mask-image: linear-gradient(to bottom, transparent 0, #000 18%); }
+.type-caret { display: inline-block; width: 3px; height: .9em; margin-left: 4px; vertical-align: -0.08em; background: currentColor; animation: caret-blink 1s steps(1) infinite; }
+@keyframes caret-blink { 50% { opacity: 0 } }
+@media (prefers-reduced-motion: reduce) { .type-caret { animation: none; } }
+
+/* Modules section: light sky like the reference banner; artwork edges fade into it */
+.modules-sky { background: radial-gradient(60% 70% at 80% 30%, #DCEEFD 0%, transparent 70%), linear-gradient(180deg, #F5FAFF 0%, #EEF5FC 100%); }
+.modules-art { -webkit-mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 92%, transparent 100%); -webkit-mask-composite: source-in; mask-image: linear-gradient(to right, transparent 0, #000 7%, #000 93%, transparent 100%), linear-gradient(to bottom, transparent 0, #000 6%, #000 92%, transparent 100%); mask-composite: intersect; }

@@ -60,7 +60,7 @@ export default function Footer() {
           <p className="mt-2 text-[0.95rem] leading-relaxed">
             HRMS, Finance and Manufacturing applications, plus custom software and websites — built and supported from Chennai. A Voltech Group company.
           </p>
-          <Link to="/contact?demo=platform" className="btn mt-6 bg-accent text-ink hover:bg-white">Request a Demo</Link>
+          <Link to="/contact?demo=platform" className="btn mt-6 bg-accent text-white hover:bg-white hover:text-ink">Request a Demo</Link>
           <p className="mt-8 text-sm font-semibold text-white">Follow us</p>
           <SocialLinks tone="light" size={40} className="mt-3" />
         </div>

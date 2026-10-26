@@ -1,10 +1,11 @@
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, PlayCircle } from 'lucide-react'
-import HeroArt from './HeroArt'
-import { MiniPreview } from './ModulePreview'
-import { useParallax } from './shared'
+import { ArrowRight, MonitorPlay } from 'lucide-react'
+import { PIcon } from './shared'
 import { MODULES, PLATFORM } from '../../content/platform'
-
+import { LEADERS } from '../../content/leadership'
+import mdBanner from '../../assets/img/hero-md.webp'
+import { photo } from '../../content/photos'
 /** Animated headline: each word rises in; words in `accent` get the orange highlight. */
 export function HeroHeadline({ lines, accentWords = [], accent = 'rgb(var(--c-accent))', as: H = 'h1', className = '' }) {
   let i = 0
@@ -25,57 +26,92 @@ export function HeroHeadline({ lines, accentWords = [], accent = 'rgb(var(--c-ac
   )
 }
 
+/** Short line under each module name in the hero (as in the Voltech ERP reference banner). */
+const MODULE_LINE = { hrms: 'Empower your people', finance: 'Control your finances', manufacturing: 'Optimise your production' }
+
+/** Words typed one letter at a time, then erased, in a loop. Shows the first word, still, for reduced motion. */
+export function Typewriter({ words, className = '' }) {
+  const [i, setI] = useState(0)
+  const [n, setN] = useState(words[0].length)
+  const [del, setDel] = useState(false)
+  const [still, setStill] = useState(true)
+  useEffect(() => {
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    if (!reduce) { setStill(false); setN(0) }
+  }, [])
+  useEffect(() => {
+    if (still) return undefined
+    const w = words[i]
+    let t
+    if (!del && n < w.length) t = setTimeout(() => setN(n + 1), 75)
+    else if (!del) t = setTimeout(() => setDel(true), 1900)
+    else if (n > 0) t = setTimeout(() => setN(n - 1), 35)
+    else t = setTimeout(() => { setDel(false); setI((i + 1) % words.length) }, 250)
+    return () => clearTimeout(t)
+  }, [n, del, i, still, words])
+  return (
+    <span className={className} aria-hidden="true">
+      {words[i].slice(0, n)}<span className="type-caret" />
+    </span>
+  )
+}
+
+const TYPED = ['Every Possibility.', 'Smarter HR.', 'Clearer Finance.', 'Faster Production.']
+
 /**
- * Home page hero: full-bleed cinematic scene with parallax, animated
- * headline and floating HRMS / Finance / Manufacturing previews.
- * Sits under the transparent header (negative top margin).
+ * Home page hero: the message on the left with a typed second line, and on the
+ * right the Chairman & MD banner (city skyline and the three modules).
+ * Sits under the header (negative top margin). Drop a photo named
+ * `home-hero` in src/assets/photos to use a different banner.
  */
 export default function HeroSection() {
-  const bg = useParallax(0.18)
-  const cards = useParallax(-0.06)
+  const md = LEADERS.find((l) => l.id === 'cmd') || LEADERS[0]
+  const art = photo('home-hero') || mdBanner
+  const alt = `${md.name}, ${md.role} of Voltech Group, with the HRMS, Finance and Manufacturing modules over a city skyline`
   return (
-    <section className="relative isolate -mt-[var(--header-h)] overflow-hidden bg-ink pt-[var(--header-h)] text-white" aria-labelledby="hero-h">
-      <div className="absolute inset-0 -z-20">
-        <div ref={bg} className="absolute -inset-y-16 inset-x-0 will-change-transform">
-          <HeroArt className="h-full w-full" />
-        </div>
-      </div>
-      <div className="absolute inset-0 -z-10 bg-gradient-to-r from-[#0B1830]/95 via-[#10233F]/75 to-[#10233F]/20" aria-hidden="true" />
-      <div className="light-sweep pointer-events-none absolute -top-1/2 left-1/3 -z-10 h-[200%] w-40 bg-gradient-to-r from-transparent via-white/10 to-transparent" aria-hidden="true" />
-
-      <div className="container-page grid min-h-[min(92vh,860px)] items-center gap-12 py-16 lg:grid-cols-[1.25fr_1fr] lg:py-20">
+    <section className="hero-sky relative isolate -mt-[var(--header-h)] overflow-hidden pt-[var(--header-h)]" aria-labelledby="hero-h">
+      <div className="container-page grid items-center gap-10 pb-14 pt-10 sm:pt-14 lg:min-h-[640px] lg:grid-cols-[1fr_1.08fr] lg:gap-12 lg:pb-20 lg:pt-12">
         <div className="max-w-2xl">
-          <p className="float-in mb-6 inline-flex items-center gap-2 rounded-full bg-white/10 px-3.5 py-1.5 text-[0.82rem] font-semibold tracking-wide text-white/85 ring-1 ring-white/15">
+          <p className="float-in mb-5 inline-flex items-center gap-2 rounded-full bg-white/80 px-3.5 py-1.5 text-[0.8rem] font-semibold tracking-wide text-brand shadow-sm ring-1 ring-brand/10">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />{PLATFORM.brand} · {PLATFORM.identity}
           </p>
-          <HeroHeadline lines={PLATFORM.headline} accentWords={['Possibility']} className="text-[clamp(2.5rem,1.5rem+4vw,4.6rem)]" />
-          <span id="hero-h" className="sr-only">{PLATFORM.headline.join(' ')}</span>
-          <p className="float-in mt-7 max-w-xl text-[clamp(1.05rem,.98rem+.35vw,1.25rem)] leading-relaxed text-white/80" style={{ animationDelay: '.55s' }}>{PLATFORM.lead}</p>
-          <div className="float-in mt-9 flex flex-col gap-3 xs:flex-row" style={{ animationDelay: '.7s' }}>
-            <a href="#solutions" className="btn group bg-accent text-ink hover:bg-white">Explore Solutions<ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" /></a>
-            <Link to="/platform" className="btn-ghost-dark group"><PlayCircle size={18} aria-hidden="true" className="transition-transform group-hover:scale-110" />Watch Platform Overview</Link>
-          </div>
-          <ul className="float-in mt-10 flex flex-wrap gap-x-6 gap-y-2 text-sm text-white/70" style={{ animationDelay: '.85s' }} aria-label="Modules">
+          <h1 id="hero-h" className="font-display text-[clamp(2.2rem,1.4rem+2.9vw,3.7rem)] font-bold leading-[1.06] tracking-[-0.03em] text-ink">
+            <span className="sr-only">One Enterprise. Every Possibility.</span>
+            <span className="float-in block" aria-hidden="true">One Enterprise.</span>
+            <Typewriter words={TYPED} className="block min-h-[1.06em] text-accent" />
+          </h1>
+          <p className="float-in mt-5 max-w-xl text-[clamp(1rem,.95rem+.3vw,1.15rem)] leading-relaxed text-ink/80" style={{ animationDelay: '.35s' }}>{PLATFORM.lead}</p>
+          <ul className="float-in mt-7 flex flex-wrap gap-x-6 gap-y-4" style={{ animationDelay: '.5s' }} aria-label="Modules">
             {MODULES.map((m) => (
-              <li key={m.id}><Link to={m.route} className="inline-flex items-center gap-2 hover:text-white"><span className="h-2 w-2 rounded-full" style={{ background: m.color }} aria-hidden="true" />{m.name}</Link></li>
+              <li key={m.id}>
+                <Link to={m.route} className="group flex items-center gap-3">
+                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full text-white shadow-md transition-transform duration-300 group-hover:scale-110" style={{ background: m.color }}><PIcon name={m.icon} size={22} /></span>
+                  <span>
+                    <span className="block font-display text-lg font-semibold leading-tight text-ink group-hover:text-brand">{m.name}</span>
+                    <span className="block text-xs text-muted">{MODULE_LINE[m.id]}</span>
+                  </span>
+                </Link>
+              </li>
             ))}
           </ul>
+          <div className="float-in mt-8 flex flex-col gap-3 xs:flex-row" style={{ animationDelay: '.65s' }}>
+            <Link to="/client-demo" className="btn-primary group rounded-full px-6"><MonitorPlay size={18} aria-hidden="true" />See the Client Demo<ArrowRight size={18} aria-hidden="true" className="transition-transform group-hover:translate-x-1" /></Link>
+            <Link to="/platform" className="btn group rounded-full border-2 border-brand bg-white/70 px-6 text-brand hover:bg-white">Explore the platform</Link>
+          </div>
         </div>
 
-        {/* floating module previews */}
-        <div ref={cards} className="relative hidden h-[460px] lg:block" aria-hidden="true">
-          {MODULES.map((m, i) => (
-            <div key={m.id} className="float-in absolute" style={{ animationDelay: `${0.5 + i * 0.22}s`, ...[{ top: 10, left: 40 }, { top: 150, right: 0 }, { top: 300, left: 0 }][i] }}>
-              <div className={['bob', 'bob-2', 'bob-3'][i]}><MiniPreview m={m} /></div>
-            </div>
-          ))}
-          <svg className="absolute inset-0 -z-10 h-full w-full" viewBox="0 0 460 460" fill="none">
-            <path d="M150 120 C 260 140, 300 170, 330 200" stroke="rgb(255 255 255 / .25)" strokeWidth="1.5" className="dash-flow" />
-            <path d="M330 300 C 260 330, 200 330, 150 350" stroke="rgb(255 255 255 / .25)" strokeWidth="1.5" className="dash-flow" />
-          </svg>
-        </div>
+        {/* right: the Chairman & MD banner with the three modules */}
+        <figure className="float-in relative mx-auto w-full max-w-[640px]" style={{ animationDelay: '.25s' }}>
+          <div className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent/25 via-white/0 to-[#049D83]/20 blur-2xl" aria-hidden="true" />
+          <div className="overflow-hidden rounded-[1.75rem] shadow-pop ring-4 ring-white">
+            <img src={art} alt={alt} width="1160" height="658" fetchpriority="high" className="aspect-[1160/658] w-full object-cover" />
+          </div>
+          <figcaption className="mt-5 text-center">
+            <span className="block font-display font-semibold text-ink">{md.name}</span>
+            <span className="block text-xs text-muted">{md.role}, Voltech Group</span>
+          </figcaption>
+        </figure>
       </div>
-      <div className="hero-fade pointer-events-none absolute inset-x-0 bottom-0 h-20" aria-hidden="true" />
     </section>
   )
 }
