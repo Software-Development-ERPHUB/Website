@@ -49,16 +49,16 @@ export const ERP_HIGHLIGHTS = [
 ]
 
 export const ERP_FEATURES = [
-  { icon: '⚡', title: 'Live and proven', body: 'Every application is production-deployed with real users — not a demo or prototype.', color: '#007438' },
+  { icon: '⚡', title: 'Live and proven', body: 'Every application is production-deployed with real users — not a demo or prototype.', color: '#0070AD' },
   { icon: '🔧', title: 'Industry specific', body: 'Built for electrical engineering, manufacturing, HR services, instrumentation and facility management.', color: '#0891b2' },
-  { icon: '🖥️', title: 'Dedicated servers, 24×7', body: 'Applications run on dedicated servers with round-the-clock uptime and no third-party dependency.', color: '#7c3aed' },
-  { icon: '🔐', title: 'Security and privacy', body: 'Role-based access control, encrypted connections and approval trails where they matter.', color: '#dc2626' },
-  { icon: '💾', title: 'Backups you can trust', body: 'Scheduled cron-job backups and structured data models with complete audit trails.', color: '#d97706' },
-  { icon: '🔗', title: 'One connected suite', body: 'CRM to supply chain, HR to finance and audit — connected across every group company.', color: '#059669' },
+  { icon: '🖥️', title: 'Dedicated servers, 24×7', body: 'Applications run on dedicated servers with round-the-clock uptime and no third-party dependency.', color: '#3730A3' },
+  { icon: '🔐', title: 'Security and privacy', body: 'Role-based access control, encrypted connections and approval trails where they matter.', color: '#005A8B' },
+  { icon: '💾', title: 'Backups you can trust', body: 'Scheduled cron-job backups and structured data models with complete audit trails.', color: '#1D4ED8' },
+  { icon: '🔗', title: 'One connected suite', body: 'CRM to supply chain, HR to finance and audit — connected across every group company.', color: '#0E7490' },
 ]
 
 export const SECTORS = [
-  { icon: '⚡', title: 'Engineering', body: 'Transformers, switchgear & electrical products', color: '#007438' },
+  { icon: '⚡', title: 'Engineering', body: 'Transformers, switchgear & electrical products', color: '#0070AD' },
   { icon: '🏭', title: 'Manufacturing', body: 'Power equipment manufacturing & supply chain', color: '#0891b2' },
   { icon: '🔬', title: 'Instrumentation', body: 'Precision instrumentation & automation', color: '#7c3aed' },
   { icon: '👥', title: 'HR services', body: 'Staffing, payroll & workforce management', color: '#dc2626' },
@@ -95,7 +95,7 @@ export const GROUP_SITES = [
     id: 'vg', name: 'Voltech Group', url: 'https://voltechgroup.com/', thumb: webVg,
     tagline: 'Excellence in engineering products & services',
     desc: 'The main corporate website of Voltech Group — electrical engineering products, global presence, careers and community initiatives. The flagship digital identity of the group.',
-    color: '#007438', tags: ['Corporate', 'Engineering', 'Global'],
+    color: '#0070AD', tags: ['Corporate', 'Engineering', 'Global'],
     seoTitle: 'Voltech Group | Engineering Products & Services',
     seoKw: 'Voltech, electrical engineering, transformer, switchgear, Chennai',
   },
@@ -111,7 +111,7 @@ export const GROUP_SITES = [
     id: 'vipra', name: 'Voltech Vipra Engineers', url: 'https://voltechvipra.com/', thumb: webVipra,
     tagline: 'Intelligent instrumentation solutions',
     desc: 'Precision instrumentation, fire solutions, automation panel design and end-to-end project execution for industrial facilities across India.',
-    color: '#7c3aed', tags: ['Instrumentation', 'Automation', 'Fire solutions'],
+    color: '#3730A3', tags: ['Instrumentation', 'Automation', 'Fire solutions'],
     seoTitle: 'Voltech Vipra | Instrumentation & Automation | Chennai',
     seoKw: 'instrumentation, fire solutions, automation panel, Vipra, Voltech',
   },
@@ -119,17 +119,17 @@ export const GROUP_SITES = [
     id: 'bliss', name: 'Voltech Bliss Management Services', url: 'https://voltechvipra.com/bliss/', thumb: webBliss,
     tagline: 'Facility management & security solutions',
     desc: 'Facility management, security guard services, housekeeping, technical services and screening solutions for corporate and industrial clients.',
-    color: '#d97706', tags: ['Facility management', 'Security', 'HR services'],
+    color: '#1D4ED8', tags: ['Facility management', 'Security', 'HR services'],
     seoTitle: 'Voltech Bliss | Facility Management & Security | Chennai',
     seoKw: 'facility management, security services, housekeeping, Bliss, Voltech',
   },
 ]
 
 export const WEB_ANALYTICS = [
-  { icon: '👥', label: 'Monthly users', value: '12,400+', color: '#007438' },
+  { icon: '👥', label: 'Monthly users', value: '12,400+', color: '#0070AD' },
   { icon: '📄', label: 'Pages indexed', value: '280+', color: '#0891b2' },
-  { icon: '🌍', label: 'Countries reached', value: '18+', color: '#7c3aed' },
-  { icon: '📈', label: 'Organic sessions', value: '8,200+', color: '#d97706' },
+  { icon: '🌍', label: 'Countries reached', value: '18+', color: '#3730A3' },
+  { icon: '📈', label: 'Organic sessions', value: '8,200+', color: '#1D4ED8' },
 ]
 
 export const GA_FEATURES = [

@@ -16,7 +16,7 @@ export default function Companies() {
   const totalUsers = COMPANIES.reduce((s,c)=>s+c.totalUsers,0)
 
   const SECTORS = [
-    { icon:'⚡', lk:'comp_sector_eng',  dk:'comp_sector_eng_d',  color:'#007438', bg:'linear-gradient(135deg,#e8f5ee,#d1fae5)' },
+    { icon:'⚡', lk:'comp_sector_eng',  dk:'comp_sector_eng_d',  color:'#0070AD', bg:'linear-gradient(135deg,#E8F4FC,#DBEAFE)' },
     { icon:'🏭', lk:'comp_sector_mfg',  dk:'comp_sector_mfg_d',  color:'#0891b2', bg:'linear-gradient(135deg,#e0f2fe,#bae6fd)' },
     { icon:'🔬', lk:'comp_sector_ins',  dk:'comp_sector_ins_d',  color:'#7c3aed', bg:'linear-gradient(135deg,#ede9fe,#ddd6fe)' },
     { icon:'👥', lk:'comp_sector_hr',   dk:'comp_sector_hr_d',   color:'#dc2626', bg:'linear-gradient(135deg,#fef2f2,#fee2e2)' },
@@ -38,7 +38,7 @@ export default function Companies() {
       {/* BANNER */}
       <div style={{
         paddingTop:68,
-        background:'linear-gradient(145deg,#f0faf4 0%,#e8f5ee 55%,#ffffff 100%)',
+        background:'linear-gradient(145deg,#EFF7FC 0%,#E8F4FC 55%,#ffffff 100%)',
         borderBottom:'1px solid rgba(0,107,51,0.08)',
         position:'relative',overflow:'hidden',
       }}>
@@ -90,7 +90,7 @@ export default function Companies() {
               {[
                 {v:COMPANIES.length,               l:t('stat_companies'), icon:'🏢', c:'var(--g1)'},
                 {v:totalApps,                      l:t('stat_apps'),      icon:'⚙️', c:'#0891b2'},
-                {v:totalUsers.toLocaleString()+'+', l:t('stat_users'),    icon:'👥', c:'#7c3aed'},
+                {v:totalUsers.toLocaleString()+'+', l:t('stat_users'),    icon:'👥', c:'#3730A3'},
               ].map(s=>(
                 <div key={s.l} style={{display:'flex',alignItems:'center',gap:10,
                   background:'rgba(255,255,255,0.85)',border:'1px solid rgba(0,107,51,0.1)',

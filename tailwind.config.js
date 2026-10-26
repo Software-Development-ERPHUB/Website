@@ -22,8 +22,8 @@ export default {
       },
       maxWidth: { page: '1200px', prose: '68ch' },
       boxShadow: {
-        lift: '0 1px 2px rgb(15 42 34 / .06), 0 8px 24px -12px rgb(15 42 34 / .18)',
-        pop: '0 2px 4px rgb(15 42 34 / .06), 0 20px 40px -18px rgb(15 42 34 / .28)',
+        lift: '0 1px 2px rgb(16 35 63 / .06), 0 8px 24px -12px rgb(16 35 63 / .18)',
+        pop: '0 2px 4px rgb(16 35 63 / .06), 0 20px 40px -18px rgb(16 35 63 / .28)',
       },
     },
   },

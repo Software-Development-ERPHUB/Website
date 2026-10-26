@@ -14,7 +14,7 @@ export default function Websites() {
       id:'vg', name:'Voltech Group', url:'https://voltechgroup.com/', thumb:webVG,
       tagline:'Excellence in Engineering Products & Services',
       desc:'The main corporate website of Voltech Group — showcasing electrical engineering products, global presence, careers and community initiatives. The flagship digital identity of the group.',
-      color:'#007438', gradient:'linear-gradient(135deg,#005a28,#007438)',
+      color:'#0070AD', gradient:'linear-gradient(135deg,#005889,#0070AD)',
       tags:['Corporate','Engineering','Global'],
       seoTitle:'Voltech Group | Engineering Products & Services',
       seoKw:'Voltech, electrical engineering, transformer, switchgear, Chennai',
@@ -32,7 +32,7 @@ export default function Websites() {
       id:'vipra', name:'Voltech Vipra Engineers Pvt Ltd', url:'https://voltechvipra.com/', thumb:webVIPRA,
       tagline:'Intelligent Instrumentation Solutions',
       desc:'Vipra\'s engineering website covering precision instrumentation, fire solutions, automation panel design and end-to-end project execution for industrial facilities across India.',
-      color:'#7c3aed', gradient:'linear-gradient(135deg,#6d28d9,#7c3aed)',
+      color:'#3730A3', gradient:'linear-gradient(135deg,#2563EB,#3730A3)',
       tags:['Instrumentation','Automation','Fire Solutions'],
       seoTitle:'Voltech Vipra | Instrumentation & Automation | Chennai',
       seoKw:'instrumentation, fire solutions, automation panel, Vipra, Voltech',
@@ -41,7 +41,7 @@ export default function Websites() {
       id:'bliss', name:'Voltech Bliss Management Services', url:'https://voltechvipra.com/bliss/', thumb:webBLISS,
       tagline:'Excellence in Facility Management & Security Solutions',
       desc:'Bliss Management Services website featuring facility management, security guard services, housekeeping, technical services and screening solutions for corporate and industrial clients.',
-      color:'#d97706', gradient:'linear-gradient(135deg,#b45309,#d97706)',
+      color:'#1D4ED8', gradient:'linear-gradient(135deg,#1D4ED8,#1D4ED8)',
       tags:['Facility Management','Security','HR Services'],
       seoTitle:'Voltech Bliss | Facility Management & Security | Chennai',
       seoKw:'facility management, security services, housekeeping, Bliss, Voltech',
@@ -49,10 +49,10 @@ export default function Websites() {
   ]
 
   const ANALYTICS = [
-    {icon:'👥', label:'Total Monthly Users',  value:'12,400+', color:'#007438'},
+    {icon:'👥', label:'Total Monthly Users',  value:'12,400+', color:'#0070AD'},
     {icon:'📄', label:'Pages Indexed',        value:'280+',    color:'#0891b2'},
-    {icon:'🌍', label:'Countries Reached',    value:'18+',     color:'#7c3aed'},
-    {icon:'📈', label:'Organic Sessions',     value:'8,200+',  color:'#d97706'},
+    {icon:'🌍', label:'Countries Reached',    value:'18+',     color:'#3730A3'},
+    {icon:'📈', label:'Organic Sessions',     value:'8,200+',  color:'#1D4ED8'},
   ]
 
   const SEO_FEATURES = [
@@ -74,7 +74,7 @@ export default function Websites() {
       {/* BANNER */}
       <div style={{
         paddingTop:68,
-        background:'linear-gradient(145deg,#f0faf4 0%,#e8f5ee 55%,#ffffff 100%)',
+        background:'linear-gradient(145deg,#EFF7FC 0%,#E8F4FC 55%,#ffffff 100%)',
         borderBottom:'1px solid rgba(0,107,51,0.08)',
         position:'relative',overflow:'hidden',
       }}>
