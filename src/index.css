@@ -130,9 +130,9 @@
    Shorthand colour aliases so ERP components share the brand tokens above.
    ════════════════════════════════════════════════════════════════ */
 :root {
-  --g1: rgb(var(--c-primary)); --g2: #00923F; --g3: rgb(var(--c-accent));
-  --g4: rgb(var(--c-primary-soft)); --g5: #F2F8F4;
-  --text1: rgb(var(--c-ink)); --text2: #33463F; --text3: rgb(var(--c-muted));
+  --g1: rgb(var(--c-primary)); --g2: #0070AD; --g3: rgb(var(--c-accent));
+  --g4: rgb(var(--c-primary-soft)); --g5: #EAF4FB;
+  --text1: rgb(var(--c-ink)); --text2: #33465F; --text3: rgb(var(--c-muted));
   --border: rgb(var(--c-line)); --page: rgb(var(--c-paper)); --navy: rgb(var(--c-ink));
 }
 
@@ -238,7 +238,7 @@
 .lift { transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .3s; }
 .lift:hover { transform: translateY(-4px); box-shadow: 0 2px 4px rgb(0 20 78 / .06), 0 20px 40px -18px rgb(0 20 78 / .28); }
 .live-dot { width: 8px; height: 8px; border-radius: 50%; background: rgb(var(--c-accent)); display: inline-block; animation: live-pulse 2s ease-in-out infinite; }
-@keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgb(56 198 108 / .55) } 50% { box-shadow: 0 0 0 6px rgb(56 198 108 / 0) } }
+@keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgb(18 171 219 / .55) } 50% { box-shadow: 0 0 0 6px rgb(18 171 219 / 0) } }
 @keyframes ring-pulse { 0%,100% { transform: scale(1); opacity: 1 } 50% { transform: scale(1.06); opacity: .6 } }
 @keyframes orbit-spin { to { transform: rotate(360deg) } }
 @keyframes orbit-counter { to { transform: rotate(-360deg) } }
@@ -290,7 +290,7 @@ font { background: transparent !important; box-shadow: none !important; }
 .cms-prose img.ProseMirror-selectednode { outline: 3px solid rgb(var(--c-primary)); }
 .cms-prose hr { border: 0; border-top: 1px solid rgb(var(--c-line)); margin: 2em 0; }
 .cms-prose code { background: rgb(var(--c-paper)); padding: .1em .4em; border-radius: 4px; font-size: .9em; }
-.cms-prose pre { background: #0F2A22; color: #e6f2ec; padding: 1em; border-radius: 10px; overflow-x: auto; }
+.cms-prose pre { background: #10233F; color: #e6eef7; padding: 1em; border-radius: 10px; overflow-x: auto; }
 .cms-prose pre code { background: none; padding: 0; }
 .cms-prose p.is-editor-empty:first-child::before { content: attr(data-placeholder); color: rgb(var(--c-muted) / .7); float: left; height: 0; pointer-events: none; }
 .btn-danger { display: inline-flex; align-items: center; justify-content: center; gap: .5rem; min-height: 48px; padding: 0 1.25rem; border-radius: .5rem; background: #b91c1c; color: #fff; font-weight: 600; transition: background .2s; }

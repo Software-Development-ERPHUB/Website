@@ -19,7 +19,7 @@ const en = {
   sec_companies_sub:'Click any company to explore its ERP applications',
   sec_hrms_h:'Voltech HR Management System — All Companies',
   sec_audit_h:'Voltech Audit Management System — All Companies',
-  sec_why_tag:'Why Voltech ERP', sec_why_h:'Built for Industry. Purpose-Built for Clients.',
+  sec_why_tag:'Why Voltech Prime', sec_why_h:'Built for Industry. Purpose-Built for Clients.',
   sec_why_sub:'All applications are live, battle-tested, and actively serving thousands of users across Voltech Group.',
   sec_websites_tag:'Official Web Presence', sec_websites_h:'Voltech Group Websites',
   sec_websites_sub:'Visit our group websites for more information about each division',
@@ -32,7 +32,7 @@ const en = {
   f6_t:'Fully Integrated Suite', f6_d:'CRM to Supply Chain, HR to Finance, Audit across all group companies in one connected ecosystem.',
   // CTA
   cta_h:'Interested in Our ERP Solutions?',
-  cta_sub:'Our ERP products are available for licensing and customised implementation. Contact the Voltech ERP team today.',
+  cta_sub:'Our ERP products are available for licensing and customised implementation. Contact the Voltech Prime team today.',
   cta_enquiry:'Send Enquiry', cta_explore:'Explore Applications',
   // CONTACT
   contact_h:'Contact Us', contact_sub:'Interested in our ERP products? Fill the form and our ERP team will respond within 24 hours.',
@@ -63,7 +63,7 @@ const en = {
   apps_other:'Other Group Companies',
   // VOMS UPCOMING
   voms_coming_h:'ERP Application Coming Soon',
-  voms_coming_sub:'VOMS is actively planning to digitise its operation and maintenance workflows. The Voltech ERP team is currently developing a dedicated Operations Management System.',
+  voms_coming_sub:'VOMS is actively planning to digitise its operation and maintenance workflows. The Voltech Prime team is currently developing a dedicated Operations Management System.',
   voms_modules_h:'Planned Modules',
   // APP CARD
   app_open:'↗ Open Login Page',
@@ -72,7 +72,7 @@ const en = {
   app_modules:'Modules',
   app_users:'users',
   // FOOTER
-  footer_copy:'Voltech Group · ERP Products Portfolio · Built by Voltech ERP Team',
+  footer_copy:'Voltech Group · ERP Products Portfolio · Built by Voltech Prime Team',
   // WEBSITES PAGE
   web_banner_h:'Voltech Group Websites',
   web_banner_sub:'Four professionally designed and SEO-optimised websites representing Voltech Group companies — each with Google Analytics tracking, live user monitoring and dedicated digital presence.',
@@ -292,7 +292,7 @@ const zh = {
   sec_companies_sub:'点击公司查看ERP应用',
   sec_hrms_h:'Voltech HR管理系统 — 所有公司',
   sec_audit_h:'Voltech审计管理系统 — 所有公司',
-  sec_why_tag:'为什么选择Voltech ERP', sec_why_h:'为行业而建。',
+  sec_why_tag:'为什么选择Voltech Prime', sec_why_h:'为行业而建。',
   sec_why_sub:'所有应用均已上线并经过实战测试。',
   sec_websites_tag:'官方网络存在', sec_websites_h:'Voltech集团网站',
   sec_websites_sub:'访问我们的网站了解更多信息',
@@ -327,7 +327,7 @@ const zh = {
   voms_modules_h:'计划模块',
   app_open:'↗ 打开登录页面', app_contact:'🔒 联系ERP团队',
   app_coming:'🚀 开发中', app_modules:'模块', app_users:'用户',
-  footer_copy:'Voltech集团 · ERP产品组合 · Voltech ERP团队构建',
+  footer_copy:'Voltech集团 · ERP产品组合 · Voltech Prime团队构建',
   web_banner_h:'Voltech集团网站', web_banner_sub:'四个网站代表Voltech集团公司。',
   web_visit:'访问网站', web_live:'直播', web_seo_tag:'SEO详情',
   web_seo_title:'标题:', web_seo_kw:'关键词:', web_ga_active:'GA4已集成',

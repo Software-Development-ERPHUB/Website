@@ -10,6 +10,7 @@ import ModulePanel from '../../components/erp/ModulePanel'
 import { AnimIcon, IconTile } from '../../components/erp/AnimIcon'
 import { Reveal, CountUp, Slider, CardRail, Marquee } from '../../components/erp/Motion'
 import { COMPANIES } from '../../data/companies'
+import { screen } from '../../content/screens'
 import { ERP_PRODUCTS, ERP_HIGHLIGHTS, ERP_FEATURES, HRMS_MODULES, AUDIT_MODULES, GROUP_SITES, ERP_CONFIG, HRMS_TECH } from '../../content/erp'
 
 const totalApps = COMPANIES.reduce((s, c) => s + c.apps.length, 0) + 1
@@ -167,7 +168,7 @@ export default function ErpHome() {
       {/* ── PRODUCT SUITE ── */}
       <section className="section bg-paper">
         <div className="container-page">
-          <SectionHeading title="The Voltech ERP product suite" lead={`${ERP_PRODUCTS.length} product lines, each built around how the team using it actually works.`} />
+          <SectionHeading title="The Voltech Prime product suite" lead={`${ERP_PRODUCTS.length} product lines, each built around how the team using it actually works.`} />
           <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
             {ERP_PRODUCTS.map((p, i) => (
               <Reveal as="li" key={p.code} dir="up" delay={(i % 4) * 70} className="lift ia rounded-xl border border-line bg-white p-5">
@@ -186,11 +187,11 @@ export default function ErpHome() {
           <SectionHeading title="Shared across every group company" lead="Two platforms run group-wide, configured per company with each company’s data kept separate." className="!mb-2" />
           <ModulePanel icon={Users} eyebrow="Used by all companies" title="HR Management System"
             body="The complete employee lifecycle — recruitment and onboarding through payroll, statutory compliance and exit."
-            modules={HRMS_MODULES} art="hrms" tech={HRMS_TECH}
+            modules={HRMS_MODULES} art="hrms" image={screen('hr-dashboard')} tech={HRMS_TECH}
             stats={[{ v: String(HRMS_MODULES.length), l: 'Modules' }, { v: String(HRMS_COMPANIES), l: 'Companies' }]} />
           <ModulePanel tone="green" cols={3} icon={ShieldCheck} eyebrow="Common to all companies" title="Audit Management System"
             body="ISO certification, document control, compliance monitoring and safety management in one real-time dashboard."
-            modules={AUDIT_MODULES} art="audit"
+            modules={AUDIT_MODULES} art="audit" image={screen('hr-statutory')}
             stats={[{ v: '17', l: 'Users' }, { v: '5', l: 'Companies' }, { v: String(AUDIT_MODULES.length), l: 'Modules' }, { v: '24×7', l: 'Monitoring' }]}
             link={ERP_CONFIG.showLoginLinks ? { href: ERP_CONFIG.auditUrl, label: 'Open audit system' } : null} />
         </div>

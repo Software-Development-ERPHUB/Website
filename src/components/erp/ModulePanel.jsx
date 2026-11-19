@@ -15,15 +15,15 @@ import PanelArt from './PanelArt'
 export default function ModulePanel({ icon, eyebrow, title, body, modules, stats, link, tech, art, image, tone = 'ink', cols = 5 }) {
   const colCls = cols === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-5'
   const bg = tone === 'green'
-    ? 'linear-gradient(120deg,#00361A 0%,#006B33 55%,#00923F 100%)'
-    : 'linear-gradient(120deg,#0B211A 0%,#143629 55%,#1c4a37 100%)'
+    ? 'linear-gradient(120deg,#003A5A 0%,#005889 55%,#0070AD 100%)'
+    : 'linear-gradient(120deg,#0E2136 0%,#123A55 55%,#155E85 100%)'
   return (
     <Reveal dir="up" className="overflow-hidden rounded-2xl border border-line bg-white shadow-lift">
       <div className="relative isolate overflow-hidden p-6 sm:p-8 lg:min-h-[320px] lg:p-10" style={{ background: bg }}>
         {image ? (
           <>
             <img src={image} alt="" aria-hidden="true" className="absolute inset-0 -z-10 h-full w-full object-cover" />
-            <div className="absolute inset-0 -z-10" style={{ background: tone === 'green' ? 'linear-gradient(90deg,#00361A 30%,rgb(0 107 51 / .55))' : 'linear-gradient(90deg,#0B211A 30%,rgb(15 42 34 / .5))' }} aria-hidden="true" />
+            <div className="absolute inset-0 -z-10" style={{ background: tone === 'green' ? 'linear-gradient(90deg,#003A5A 30%,rgb(0 90 137 / .55))' : 'linear-gradient(90deg,#0E2136 30%,rgb(16 58 85 / .6))' }} aria-hidden="true" />
           </>
         ) : (
           <>
@@ -75,7 +75,7 @@ export default function ModulePanel({ icon, eyebrow, title, body, modules, stats
       </div>
       <ul className={`grid gap-px bg-line sm:grid-cols-2 ${colCls}`}>
         {modules.map((m) => (
-          <li key={m.label} className="ia group relative bg-white p-5 transition-colors duration-300 hover:bg-[#F2F8F4]">
+          <li key={m.label} className="ia group relative bg-white p-5 transition-colors duration-300 hover:bg-[#F0F7FC]">
             <span className="absolute inset-y-0 left-0 w-[3px] origin-top scale-y-0 bg-brand transition-transform duration-300 group-hover:scale-y-100" aria-hidden="true" />
             <span className="icon-tile mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-brand-soft">
               <AnimIcon icon={m.icon} size={19} color="rgb(var(--c-primary))" />

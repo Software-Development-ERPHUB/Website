@@ -41,6 +41,39 @@ function ImageField({ id, value, onChange }) {
   )
 }
 
+function PeopleField({ id, f, value, onChange }) {
+  const team = useTeam(f.people)
+  const arr = Array.isArray(value) ? value : (value ? [value] : [])
+  const toggle = (slug) => {
+    const set = new Set(arr)
+    if (set.has(slug)) set.delete(slug); else set.add(slug)
+    onChange([...set])
+  }
+  const gone = arr.filter((s) => !team.some((t) => t.slug === s))
+  return (
+    <div id={id} className="rounded-lg border border-line bg-white p-3">
+      <div className="flex flex-wrap gap-2">
+        {team.map((t) => {
+          const on = arr.includes(t.slug)
+          return (
+            <label key={t.slug} className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-1.5 text-sm font-medium transition-colors ${on ? 'border-brand bg-brand-soft text-brand' : 'border-line text-ink hover:border-brand'}`}>
+              <input type="checkbox" className="sr-only" checked={on} onChange={() => toggle(t.slug)} />
+              <span className={`grid h-4 w-4 place-items-center rounded-full border text-[10px] ${on ? 'border-brand bg-brand text-white' : 'border-line'}`}>{on ? '✓' : ''}</span>
+              {t.name}
+            </label>
+          )
+        })}
+        {gone.map((s) => (
+          <button key={s} type="button" onClick={() => toggle(s)} className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-50 px-3 py-1.5 text-sm font-medium text-amber-800" title="No longer on the team — click to remove">
+            {s} (removed) ×
+          </button>
+        ))}
+      </div>
+      {!team.length && <p className="text-xs text-muted">Add people under Team members to assign leads.</p>}
+    </div>
+  )
+}
+
 function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
   const id = `fld-${f.name}`
   const common = { id, 'aria-invalid': error ? 'true' : undefined, 'aria-describedby': error ? `${id}-err` : f.help ? `${id}-help` : undefined }
