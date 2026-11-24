@@ -32,7 +32,8 @@ export const LEADERS = [
       'Under his leadership, Voltech Group has grown into a ₹600 crore organisation with a presence in 40+ countries, employing over 6,000 professionals across engineering, manufacturing, instrumentation, HR and facility management services.',
       'Voltech IT Services brings the group’s in-house software capability — built to run these businesses day to day — to clients outside the group.',
     ],
-    linkedin: 'https://www.linkedin.com/in/murugesan-umapathi-75331b192/',
+    linkedin: 'https://www.linkedin.com/in/umapathy-dhanasekaran-23796015a/',
+    profilePdf: 'https://voltechgroup.com/assets/image/photos/MD%20Profile.pdf', // opened by "Know more" on the home page photo
     sample: false,
   },
   {

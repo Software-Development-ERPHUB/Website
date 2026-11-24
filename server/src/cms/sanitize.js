@@ -43,6 +43,7 @@ export function cleanData(collection, input = {}) {
       case 'boolean': out[f.name] = !!v; break
       case 'date': out[f.name] = /^\d{4}-\d{2}-\d{2}/.test(v || '') ? String(v).slice(0, 10) : ''; break
       case 'select': out[f.name] = f.options.includes(v) ? v : ''; break
+      case 'ref': out[f.name] = slugify(str(v, 160)); break // slug of an entry in f.ref
       case 'stages': {
         // { [stageId]: { owner, status, start, end, notes } } — only known stages are kept
         const src = v && typeof v === 'object' ? v : {}

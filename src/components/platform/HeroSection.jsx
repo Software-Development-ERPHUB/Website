@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { ArrowRight, MonitorPlay } from 'lucide-react'
+import { ArrowRight, ArrowUpRight, Linkedin, MonitorPlay } from 'lucide-react'
 import { PIcon } from './shared'
 import { MODULES, PLATFORM } from '../../content/platform'
 import { LEADERS } from '../../content/leadership'
-import mdBanner from '../../assets/img/hero-md.webp'
+import mdPhoto from '../../assets/cmd_photo.jpg'
 import { photo } from '../../content/photos'
 /** Animated headline: each word rises in; words in `accent` get the orange highlight. */
 export function HeroHeadline({ lines, accentWords = [], accent = 'rgb(var(--c-accent))', as: H = 'h1', className = '' }) {
@@ -60,14 +60,15 @@ const TYPED = ['Every Possibility.', 'Smarter HR.', 'Clearer Finance.', 'Faster 
 
 /**
  * Home page hero: the message on the left with a typed second line, and on the
- * right the Chairman & MD banner (city skyline and the three modules).
+ * right the Chairman & MD photo (src/assets/cmd_photo.jpg). Clicking the photo
+ * or "Know more" opens his profile PDF; LinkedIn sits in his contact line.
  * Sits under the header (negative top margin). Drop a photo named
- * `home-hero` in src/assets/photos to use a different banner.
+ * `home-hero` in src/assets/photos to use a different one.
  */
 export default function HeroSection() {
   const md = LEADERS.find((l) => l.id === 'cmd') || LEADERS[0]
-  const art = photo('home-hero') || mdBanner
-  const alt = `${md.name}, ${md.role} of Voltech Group, with the HRMS, Finance and Manufacturing modules over a city skyline`
+  const art = photo('home-hero') || mdPhoto
+  const alt = `${md.name}, ${md.role} of Voltech Group, at his desk`
   return (
     <section className="hero-sky relative isolate -mt-[var(--header-h)] overflow-hidden pt-[var(--header-h)]" aria-labelledby="hero-h">
       <div className="container-page grid items-center gap-10 pb-14 pt-10 sm:pt-14 lg:min-h-[640px] lg:grid-cols-[1fr_1.08fr] lg:gap-12 lg:pb-20 lg:pt-12">
@@ -100,15 +101,30 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* right: the Chairman & MD banner with the three modules */}
+        {/* right: the Chairman & MD; the photo opens his profile PDF */}
         <figure className="float-in relative mx-auto w-full max-w-[640px]" style={{ animationDelay: '.25s' }}>
           <div className="absolute -inset-4 -z-10 rounded-[2.25rem] bg-gradient-to-br from-accent/25 via-white/0 to-[#049D83]/20 blur-2xl" aria-hidden="true" />
-          <div className="overflow-hidden rounded-[1.75rem] shadow-pop ring-4 ring-white">
-            <img src={art} alt={alt} width="1160" height="658" fetchpriority="high" className="aspect-[1160/658] w-full object-cover" />
-          </div>
-          <figcaption className="mt-5 text-center">
-            <span className="block font-display font-semibold text-ink">{md.name}</span>
-            <span className="block text-xs text-muted">{md.role}, Voltech Group</span>
+          <a href={md.profilePdf} target="_blank" rel="noopener noreferrer"
+            className="md-photo group relative block overflow-hidden rounded-[1.75rem] shadow-pop ring-4 ring-white">
+            <img src={art} alt={alt} width="1600" height="780" fetchpriority="high"
+              className="aspect-[16/10] w-full object-cover object-[78%_center] transition-transform duration-700 group-hover:scale-105" />
+            <span className="absolute inset-0 bg-gradient-to-t from-ink/60 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" aria-hidden="true" />
+            <span className="absolute bottom-4 right-4 inline-flex items-center gap-1.5 rounded-full bg-white/95 px-4 py-2 text-sm font-semibold text-brand shadow-lift transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-brand group-hover:text-white">
+              Know more<ArrowUpRight size={16} aria-hidden="true" className="transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+            </span>
+            <span className="sr-only"> about {md.name}: profile (PDF, opens in a new tab)</span>
+          </a>
+          <figcaption className="mt-5 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-center">
+            <span>
+              <span className="block font-display font-semibold text-ink">{md.name}</span>
+              <span className="block text-xs text-muted">{md.role}, Voltech Group</span>
+            </span>
+            {md.linkedin && (
+              <a href={md.linkedin} target="_blank" rel="noopener noreferrer" className="li-btn group inline-flex items-center gap-2 rounded-full border border-[#0A66C2]/30 bg-white px-3.5 py-1.5 text-sm font-semibold text-[#0A66C2]">
+                <span className="li-ic flex h-7 w-7 items-center justify-center rounded-full bg-[#0A66C2] text-white"><Linkedin size={15} aria-hidden="true" /></span>
+                LinkedIn<span className="sr-only"> profile of {md.name} (opens in a new tab)</span>
+              </a>
+            )}
           </figcaption>
         </figure>
       </div>

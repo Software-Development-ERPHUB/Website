@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Routes, Route, Navigate, NavLink, Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, Newspaper, Briefcase, HelpCircle, Image as ImageIcon, Inbox, GraduationCap, Users, LogOut,
-  ExternalLink, Menu, X, KeyRound, FileText, Layers, KanbanSquare, ListChecks,
+  ExternalLink, Menu, X, KeyRound, FileText, Layers, KanbanSquare, ListChecks, Building2,
 } from 'lucide-react'
 import { AuthProvider, useAuth } from './auth'
 import { ToastProvider, Spinner } from './ui'
@@ -19,7 +19,7 @@ import Account from './pages/Account'
 import Tracker from './pages/Tracker'
 import MyWork from './pages/MyWork'
 
-const ICONS = { newspaper: Newspaper, briefcase: Briefcase, help: HelpCircle, layers: Layers, users: Users }
+const ICONS = { newspaper: Newspaper, briefcase: Briefcase, help: HelpCircle, layers: Layers, users: Users, building: Building2 }
 
 function useCollections(enabled) {
   const [cols, setCols] = useState(null)

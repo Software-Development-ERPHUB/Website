@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Plus, Search, ArrowUp, ArrowDown, FileText } from 'lucide-react'
+import { useEntryOptions } from '../fields/RefField'
 import { cms, fmtDate } from '../api'
 import { PageTitle, StatusBadge, Empty, Pager, Spinner, useToast } from '../ui'
 
@@ -23,6 +24,10 @@ export default function EntryList({ cols }) {
   useEffect(() => { setPage(1); setStatus(''); setQ('') }, [collection])
 
   const listCols = def?.fields.filter((f) => f.list) || []
+  // ref columns (e.g. Client) show the linked entry's name, not its slug
+  const refCol = listCols.find((f) => f.type === 'ref')
+  const refRows = useEntryOptions(refCol?.ref)
+  const cell = (f, v) => (f.type === 'ref' && v ? refRows.find((x) => x.slug === v)?.name || v : v)
   const ordered = def?.sort === 'order' && !status && !q
 
   async function move(i, dir) {
@@ -88,7 +93,7 @@ export default function EntryList({ cols }) {
                         <Link to={`/admin/content/${collection}/${r.id}`} className="font-semibold text-ink hover:text-brand hover:underline">{r.title}</Link>
                         <p className="text-xs text-muted">/{r.slug}</p>
                       </td>
-                      {listCols.map((f) => <td key={f.name} className="px-4 py-3 text-muted">{String(r.draft?.[f.name] || '—')}</td>)}
+                      {listCols.map((f) => <td key={f.name} className="px-4 py-3 text-muted">{String(cell(f, r.draft?.[f.name]) || '—')}</td>)}
                       {!def.internal && <td className="px-4 py-3"><StatusBadge status={r.status} hasChanges={r.hasChanges} /></td>}
                       <td className="px-4 py-3 text-muted">{fmtDate(r.updatedAt)}{r.updatedByName && <span className="block text-xs">{r.updatedByName}</span>}</td>
                     </tr>

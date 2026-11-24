@@ -55,9 +55,9 @@ export const PRODUCTS = [
   },
   {
     slug: 'kra-kpi',
-    aliases: ['kpi', 'kri'], // old links from when these were separate apps
+    aliases: ['kpi', 'kri', 'pms'], // old /client-demo/kpi and /kri links open this; the separate KPI and KRI demos were removed
     category: 'hrms',
-    name: 'KRA & KPI Performance',
+    name: 'Voltech PMS · KPI & KRA',
     code: 'PMS',
     icon: 'Target',
     status: 'demo',

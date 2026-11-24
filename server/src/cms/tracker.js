@@ -77,11 +77,11 @@ export async function logStageChanges(app, before = {}, after = {}, user) {
 
 router.get('/', async (req, res, next) => {
   try {
-    const [apps, team, me, [touched], [seen]] = await Promise.all([rows('apps'), rows('team'), teamSlugFor(req.user),
+    const [apps, team, clients, me, [touched], [seen]] = await Promise.all([rows('apps'), rows('team'), rows('clients'), teamSlugFor(req.user),
       pool.query('SELECT app_id, stage, MAX(created_at) AS at FROM tracker_activity GROUP BY app_id, stage'),
       pool.query("SELECT owner, MAX(created_at) AS at FROM tracker_activity WHERE owner <> '' GROUP BY owner")])
     res.json({
-      ok: true, apps, team, me, role: req.user.role, stages: STAGES, statuses: STAGE_STATUSES, suites: SUITES,
+      ok: true, apps, team, clients: clients.map((c) => ({ slug: c.slug, name: c.name, code: c.code || '', active: c.active !== false })), me, role: req.user.role, stages: STAGES, statuses: STAGE_STATUSES, suites: SUITES,
       lastUpdate: Object.fromEntries(touched.map((t) => [`${t.app_id}:${t.stage}`, t.at])),
       lastSeen: Object.fromEntries(seen.map((t) => [t.owner, t.at])),
     })
