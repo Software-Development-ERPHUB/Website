@@ -4,11 +4,12 @@
  * The dashboard builds its forms from this file (GET /api/cms/collections),
  * so adding a field here is all it takes to show it in the editor.
  *
- * Field types: text · textarea · slug · richtext · image · tags · select · number · date · boolean
+ * Field types: text · textarea · slug · richtext · image · tags · select · ref · number · date · boolean
  *   required   — needed to PUBLISH (drafts can be saved incomplete)
  *   max        — max characters
  *   from       — (slug) field the slug is generated from
  *   options    — (select) allowed values
+ *   ref        — (ref) collection whose entries fill the dropdown, e.g. 'clients'
  *   list       — shown as a column in the entry list
  *
  * Collections marked  internal: true  are for the team only: the public API
@@ -104,6 +105,8 @@ export const COLLECTIONS = {
       { name: 'name', label: 'Application name', type: 'text', required: true, max: 120 },
       { name: 'slug', label: 'Slug', type: 'slug', from: 'name', required: true },
       { name: 'code', label: 'Catalogue no.', type: 'text', max: 10, list: true, help: 'Suite letter (A, B …) or product number (1, 2 …).' },
+      { name: 'client', label: 'Client', type: 'ref', ref: 'clients', list: true,
+        help: 'Who this application is for. Add or edit clients under Development → Clients.' },
       { name: 'kind', label: 'Type', type: 'select', options: APP_KINDS, required: true, list: true, default: 'Module',
         help: 'Enterprise application = everything together · Suite = a lettered section · Module = one standalone application.' },
       { name: 'suite', label: 'Suite', type: 'select', options: SUITES, list: true },
@@ -112,6 +115,24 @@ export const COLLECTIONS = {
       { name: 'note', label: 'Portfolio note', type: 'text', max: 160 },
       { name: 'demoUrl', label: 'Demo link', type: 'text', max: 300, help: 'e.g. /client-demo/procurement or a live https:// link.' },
       { name: 'stages', label: 'Lifecycle', type: 'stages', stages: STAGES, statuses: STAGE_STATUSES, people: 'team', group: 'Development stages' },
+    ],
+  },
+  clients: {
+    label: 'Clients',
+    singular: 'Client',
+    icon: 'building',
+    internal: true,
+    titleField: 'name',
+    sort: 'order',
+    fields: [
+      { name: 'name', label: 'Client name', type: 'text', required: true, max: 120 },
+      { name: 'slug', label: 'Slug', type: 'slug', from: 'name', required: true },
+      { name: 'code', label: 'Short code', type: 'text', max: 20, list: true, help: 'e.g. VEPL. Shown where space is tight.' },
+      { name: 'industry', label: 'Industry', type: 'text', max: 80, list: true },
+      { name: 'contactPerson', label: 'Contact person', type: 'text', max: 80 },
+      { name: 'email', label: 'Contact email', type: 'text', max: 190 },
+      { name: 'phone', label: 'Contact phone', type: 'text', max: 40 },
+      { name: 'active', label: 'Active client', type: 'boolean', default: true, help: 'Untick to hide the client from the dropdowns. Applications already linked keep it.' },
     ],
   },
   team: {

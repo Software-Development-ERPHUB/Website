@@ -33,7 +33,7 @@ export const SUITES = [
         points: ['PF ECR, ESI, PT, TDS', 'Payroll register', 'Bank transfer advice'] },
       { id: 'ess', name: 'Employee App', icon: 'Smartphone', screens: ['hr-ess'], demo: 'attendance-payroll',
         points: ['Punch in from the phone', 'Leave and payslips', 'Geo-tagged attendance'] },
-      { id: 'performance', name: 'KRA & KPI', icon: 'Target', screens: ['kra-dashboard', 'kra-library', 'kra-analytics'], demo: 'kra-kpi',
+      { id: 'performance', name: 'PMS · KPI & KRA', icon: 'Target', screens: ['kra-dashboard', 'kra-library', 'kra-analytics'], demo: 'kra-kpi',
         points: ['Goal sheets by role', 'KRA / KPI library', 'Calibration and analytics'] },
     ],
   },

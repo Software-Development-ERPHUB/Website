@@ -8,6 +8,7 @@ import RichTextEditor from '../fields/RichTextEditor'
 import MediaPicker from '../fields/MediaPicker'
 import TagsInput from '../fields/TagsInput'
 import StagesField from '../fields/StagesField'
+import RefField from '../fields/RefField'
 import AppHistory from '../tracker/AppHistory'
 
 const slugify = (s) => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '').slice(0, 150)
@@ -74,7 +75,7 @@ function PeopleField({ id, f, value, onChange }) {
   )
 }
 
-function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
+function Field({ f, value, onChange, error, slugTouched, onSlugTouch, cols }) {
   const id = `fld-${f.name}`
   const common = { id, 'aria-invalid': error ? 'true' : undefined, 'aria-describedby': error ? `${id}-err` : f.help ? `${id}-help` : undefined }
   let input
@@ -86,6 +87,7 @@ function Field({ f, value, onChange, error, slugTouched, onSlugTouch }) {
         <option value="">Choose…</option>{f.options.map((o) => <option key={o} value={o}>{o}</option>)}
       </select>); break
     case 'tags': input = <TagsInput id={id} value={value || []} onChange={onChange} />; break
+    case 'ref': input = <RefField f={f} common={common} value={value} onChange={onChange} cols={cols} />; break
     case 'stages': input = <StagesField id={id} f={f} value={value} onChange={onChange} />; break
     case 'image': input = <ImageField id={id} value={value} onChange={onChange} />; break
     case 'number': input = <input {...common} type="number" className="field" value={value ?? ''} onChange={(e) => onChange(e.target.value)} />; break
@@ -252,7 +254,7 @@ export default function EntryEditor({ cols }) {
             <section key={g || 'main'} className="space-y-5 rounded-xl border border-line bg-white p-5 sm:p-6">
               {g && <h2 className="font-display text-lg font-semibold">{g}</h2>}
               {fields.map((f) => (
-                <Field key={f.name} f={f} value={data[f.name]} onChange={set(f.name)} error={errors[f.name]}
+                <Field key={f.name} f={f} cols={cols} value={data[f.name]} onChange={set(f.name)} error={errors[f.name]}
                   slugTouched={slugTouched} onSlugTouch={() => setSlugTouched(true)} />
               ))}
             </section>

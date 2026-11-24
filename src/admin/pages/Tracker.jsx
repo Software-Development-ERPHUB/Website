@@ -21,6 +21,7 @@ export default function Tracker() {
   const [tab, setTab] = useState('overview')
   const [suite, setSuite] = useState('')
   const [person, setPerson] = useState('')
+  const [client, setClient] = useState('')
   const [q, setQ] = useState('')
   const [seeding, setSeeding] = useState(false)
 
@@ -42,6 +43,7 @@ export default function Tracker() {
 
   const people = useMemo(() => Object.fromEntries((data?.team || []).map((t) => [t.slug, t])), [data])
   const nameOf = (slug) => people[slug]?.name || slug
+  const clientOf = (slug) => (slug ? data?.clients?.find((c) => c.slug === slug)?.name || slug : '')
 
   const stageOf = (a, id) => a.stages?.[id] || {}
   const doneCount = (a) => STAGES.filter((s) => stageOf(a, s.id).status === 'Done').length
@@ -54,6 +56,7 @@ export default function Tracker() {
     const match = (a) => (!ql || `${a.code} ${a.name}`.toLowerCase().includes(ql))
       && (!suite || a.suite === suite || (suite === '_all' && a.kind === 'Enterprise application'))
       && (!person || STAGES.some((s) => stageOf(a, s.id).owner === person))
+      && (!client || (client === '_none' ? !a.client : a.client === client))
     const apps = data.apps.filter(match)
     const out = []
     const top = apps.filter((a) => a.kind === 'Enterprise application')
@@ -66,7 +69,7 @@ export default function Tracker() {
     const rest = apps.filter((a) => a.kind !== 'Enterprise application' && !SUITES.includes(a.suite))
     if (rest.length) out.push({ key: '_other', title: 'Not in a suite', apps: rest })
     return out
-  }, [data, q, suite, person, SUITES]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [data, q, suite, person, client, SUITES]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const stats = useMemo(() => {
     const apps = data?.apps || []
@@ -97,8 +100,8 @@ export default function Tracker() {
 
   function downloadCsv() {
     const esc = (v) => `"${String(v ?? '').replace(/"/g, '""')}"`
-    const head = ['No.', 'Application', 'Type', 'Suite', ...STAGES.flatMap((s) => [`${s.label} - by`, `${s.label} - status`, `${s.label} - finished`])]
-    const lines = groups.flatMap((g) => g.apps).map((a) => [a.code, a.name, a.kind, a.suite,
+    const head = ['No.', 'Application', 'Client', 'Type', 'Suite', ...STAGES.flatMap((s) => [`${s.label} - by`, `${s.label} - status`, `${s.label} - finished`])]
+    const lines = groups.flatMap((g) => g.apps).map((a) => [a.code, a.name, clientOf(a.client), a.kind, a.suite,
       ...STAGES.flatMap((s) => { const r = stageOf(a, s.id); return [r.owner ? nameOf(r.owner) : '', r.status || 'Not started', r.end || ''] })])
     const csv = [head, ...lines].map((l) => l.map(esc).join(',')).join('\r\n')
     const url = URL.createObjectURL(new Blob(['﻿' + csv], { type: 'text/csv;charset=utf-8' }))
@@ -152,6 +155,11 @@ export default function Tracker() {
               <option value="">All suites</option><option value="_all">Enterprise application</option>
               {SUITES.map((s) => <option key={s} value={s}>{s}</option>)}
             </select>
+            <select aria-label="Client" className="field !min-h-[40px] !w-auto !py-1" value={client} onChange={(e) => setClient(e.target.value)}>
+              <option value="">All clients</option>
+              {(data.clients || []).map((c) => <option key={c.slug} value={c.slug}>{c.name}</option>)}
+              <option value="_none">No client set</option>
+            </select>
             <select aria-label="Developer" className="field !min-h-[40px] !w-auto !py-1" value={person} onChange={(e) => setPerson(e.target.value)}>
               <option value="">Everyone</option>
               {data.team.map((t) => <option key={t.slug} value={t.slug}>{t.name}</option>)}
@@ -199,7 +207,7 @@ export default function Tracker() {
                                   : <span className={`text-ink ${strong ? 'font-bold' : 'font-semibold'}`}>{a.name}</span>}
                                 {a.demoUrl && <a href={a.demoUrl} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-brand" title="Open demo" aria-label={`Open ${a.name} demo`}><ExternalLink size={13} /></a>}
                               </span>
-                              {strong && <span className="text-xs text-muted">{a.kind}</span>}
+                              {(strong || a.client) && <span className="block text-xs text-muted">{[strong && a.kind, a.client && clientOf(a.client)].filter(Boolean).join(' · ')}</span>}
                             </td>
                             {STAGES.map((s) => {
                               const r = stageOf(a, s.id)
