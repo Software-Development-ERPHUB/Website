@@ -1,7 +1,6 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta name="robots" content="noindex, nofollow">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Voltech PMS · KPI &amp; KRA</title>
@@ -447,6 +446,34 @@ table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-md)}
 
 @media (max-height:600px) and (min-width:861px){.login{overflow-y:auto}}
 
+/* ---- Client BSC extensions: pillars, codes, relevance, plan ---- */
+.lg-users{grid-template-columns:repeat(auto-fit,minmax(92px,1fr))}
+.pq{display:inline-flex;align-items:center;gap:4px;font-size:var(--fs-xs);font-weight:600;padding:2px 8px;border-radius:999px;border:1px solid color-mix(in oklab,var(--pq) 45%,transparent);background:color-mix(in oklab,var(--pq) 12%,transparent);color:color-mix(in oklab,var(--pq) 75%,var(--ink));white-space:nowrap}
+.pq-P{--pq:#3b6fd8}.pq-Q{--pq:#16a37a}.pq-D{--pq:#d08a12}.pq-C{--pq:#c2410c}.pq-S{--pq:#d23c50}.pq-M{--pq:#8b5cf6}
+.relbar{display:inline-block;width:90px;height:6px;border-radius:99px;background:var(--line);overflow:hidden;vertical-align:middle}
+.relbar i{display:block;height:100%;border-radius:99px}
+.relbar.wide{display:block;width:100%;margin-top:8px}
+.gcode{flex:none;font-size:var(--fs-xs);font-weight:700;padding:3px 7px;border-radius:6px;background:var(--accent-soft);color:var(--accent);min-width:44px;text-align:center}
+.tnode.draft{border-style:dashed;opacity:.85}
+.clamp2{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;margin-top:2px}
+.cascade-steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.cascade-steps>div{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);background:var(--surface);border-radius:12px;padding:10px 12px}
+.cascade-steps>div>b{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--accent);color:#fff;font-size:var(--fs-sm)}
+.cascade-steps span{display:flex;flex-direction:column;font-size:var(--fs-xs);color:var(--ink-3);gap:1px}
+.cascade-steps strong{font-size:var(--fs-sm);color:var(--ink)}
+.cascade-steps em{font-style:normal}
+@media (max-width:900px){.cascade-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.cascade-steps{grid-template-columns:minmax(0,1fr)}}
+.pq-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.pq-cell{border:1px solid var(--line);border-radius:10px;padding:10px 12px;background:var(--surface-2)}
+.pq-cell .v{font-size:1.5rem;font-weight:700}
+.pq-cell .v small{font-size:.8rem;color:var(--ink-3)}
+.kra-desc{padding:8px 12px 0}
+.kra-desc textarea{font-size:var(--fs-sm)}
+.hint.wc{text-align:right}
+.plan-tbl th.cur,.plan-tbl td.cur{background:var(--accent-soft)}
+.ai-recs{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:8px;font-size:var(--fs-sm)}
+
 </style>
 </head>
 <body>
@@ -466,7 +493,7 @@ table.tbl{width:100%;border-collapse:collapse;font-size:var(--fs-md)}
       <div class="head"><img data-logo alt="Voltech logo"><h2 style="font-size:1.35rem">Sign in</h2><div class="small muted">Voltech PMS · KPI &amp; KRA</div></div>
       <div class="field"><label for="lgUser">User name</label><input id="lgUser" placeholder="e.g. hr.admin"></div>
       <div class="field"><label for="lgPass">Password</label><input id="lgPass" type="password" placeholder="Any password (demo)"></div>
-      <div class="field"><label for="lgRole">Role for a new user name</label><select id="lgRole"><option value="hr">HR Admin</option><option value="manager">Manager</option><option value="employee">Employee</option></select></div>
+      <div class="field"><label for="lgRole">Role for a new user name</label><select id="lgRole"><option value="hr">HR Admin</option><option value="top">Top Management</option><option value="buhead">UH / GM / BU Head</option><option value="manager">DH / UH (Manager)</option><option value="employee">Employee</option></select></div>
       <button class="btn primary" type="submit" style="padding:10px">Sign in</button>
       <div class="small muted" style="margin-top:4px">Or continue as a demo user</div>
       <div class="lg-users" id="lgUsers"></div>
@@ -562,24 +589,24 @@ PMS.KB = {
   CATEGORIES: [
     { id:'financial', name:'Financial', kra:'Cost management', kpi:'Budget variance %', bsc:'Financial' },
     { id:'revenue', name:'Revenue', kra:'Business growth', kpi:'Revenue achieved vs target', bsc:'Financial' },
-    { id:'productivity', name:'Productivity', kra:'Work output', kpi:'Units or tasks completed', bsc:'Internal Process' },
-    { id:'quality', name:'Quality', kra:'Error reduction', kpi:'Defect or error rate', bsc:'Internal Process' },
-    { id:'timeliness', name:'Timeliness', kra:'Delivery', kpi:'On-time completion %', bsc:'Internal Process' },
+    { id:'productivity', name:'Productivity', kra:'Work output', kpi:'Units or tasks completed', bsc:'Business Process' },
+    { id:'quality', name:'Quality', kra:'Error reduction', kpi:'Defect or error rate', bsc:'Business Process' },
+    { id:'timeliness', name:'Timeliness', kra:'Delivery', kpi:'On-time completion %', bsc:'Business Process' },
     { id:'customer', name:'Customer', kra:'Customer satisfaction', kpi:'CSAT score', bsc:'Customer' },
-    { id:'operational', name:'Operational', kra:'Process efficiency', kpi:'Average processing time', bsc:'Internal Process' },
-    { id:'technical', name:'Technical', kra:'Technical excellence', kpi:'Defects, code quality or uptime', bsc:'Internal Process' },
-    { id:'project', name:'Project', kra:'Project execution', kpi:'Milestones achieved %', bsc:'Internal Process' },
-    { id:'compliance', name:'Compliance', kra:'Policy adherence', kpi:'Compliance rate', bsc:'Internal Process' },
-    { id:'innovation', name:'Innovation', kra:'Process improvement', kpi:'Improvements implemented', bsc:'Learning & Growth' },
-    { id:'learning', name:'Learning', kra:'Skill development', kpi:'Demonstrated skill attainment', bsc:'Learning & Growth' },
-    { id:'collaboration', name:'Collaboration', kra:'Teamwork', kpi:'Structured peer feedback', bsc:'Learning & Growth' },
-    { id:'leadership', name:'Leadership', kra:'Team development', kpi:'Coaching and team-goal outcomes', bsc:'Learning & Growth' },
+    { id:'operational', name:'Operational', kra:'Process efficiency', kpi:'Average processing time', bsc:'Business Process' },
+    { id:'technical', name:'Technical', kra:'Technical excellence', kpi:'Defects, code quality or uptime', bsc:'Business Process' },
+    { id:'project', name:'Project', kra:'Project execution', kpi:'Milestones achieved %', bsc:'Business Process' },
+    { id:'compliance', name:'Compliance', kra:'Policy adherence', kpi:'Compliance rate', bsc:'Business Process' },
+    { id:'innovation', name:'Innovation', kra:'Process improvement', kpi:'Improvements implemented', bsc:'Learning & Development' },
+    { id:'learning', name:'Learning', kra:'Skill development', kpi:'Demonstrated skill attainment', bsc:'Learning & Development' },
+    { id:'collaboration', name:'Collaboration', kra:'Teamwork', kpi:'Structured peer feedback', bsc:'Learning & Development' },
+    { id:'leadership', name:'Leadership', kra:'Team development', kpi:'Coaching and team-goal outcomes', bsc:'Learning & Development' },
     { id:'communication', name:'Communication', kra:'Stakeholder communication', kpi:'Communication effectiveness assessment', bsc:'Customer' },
-    { id:'risk', name:'Risk management', kra:'Risk mitigation', kpi:'Risks resolved within agreed SLA', bsc:'Internal Process' },
-    { id:'people', name:'People management', kra:'Employee development', kpi:'Development-plan progress', bsc:'Learning & Growth' },
+    { id:'risk', name:'Risk management', kra:'Risk mitigation', kpi:'Risks resolved within agreed SLA', bsc:'Business Process' },
+    { id:'people', name:'People management', kra:'Employee development', kpi:'Development-plan progress', bsc:'Learning & Development' },
     { id:'reliability', name:'Reliability', kra:'Service continuity', kpi:'Availability or SLA compliance', bsc:'Customer' },
     { id:'strategic', name:'Strategic alignment', kra:'Goal achievement', kpi:'Strategic objectives achieved', bsc:'Financial' },
-    { id:'improvement', name:'Continuous improvement', kra:'Process optimization', kpi:'Verified improvement in cost, time or quality', bsc:'Learning & Growth' }
+    { id:'improvement', name:'Continuous improvement', kra:'Process optimization', kpi:'Verified improvement in cost, time or quality', bsc:'Learning & Development' }
   ],
 
   MEASUREMENT_TYPES: [
@@ -603,7 +630,7 @@ PMS.KB = {
 
   FRAMEWORKS: [
     { id:'bsc', name:'Balanced Scorecard', best:'Balanced business, customer, process and learning measures',
-      perspectives:['Financial','Customer','Internal Process','Learning & Growth'] },
+      perspectives:['Financial','Customer','Business Process','Learning & Development'] },
     { id:'okr', name:'OKRs', best:'Strategic objectives with measurable key results, usually quarterly' },
     { id:'mbo', name:'Management by Objectives (MBO)', best:'Targets agreed between employee and manager' },
     { id:'competency', name:'Competency-based assessment', best:'Skills, behaviours and leadership capability' },
@@ -760,7 +787,33 @@ PMS.KB = {
   ],
   RI: [0, 0, 0, 0.58, 0.90, 1.12, 1.24, 1.32, 1.41, 1.45, 1.49, 1.51, 1.48, 1.56, 1.57, 1.59],
 
-  FREQUENCIES: ['Monthly','Quarterly','Half-yearly','Annually']
+  FREQUENCIES: ['Monthly','Quarterly','Half-yearly','Annually'],
+
+  /* PQDCSM performance-measurement pillars and the BSC perspective(s) each one feeds. */
+  PILLARS: [
+    { id:'P', name:'Production', persp:['Business Process'], hint:'Output, OEE, throughput, plan adherence' },
+    { id:'Q', name:'Quality', persp:['Customer','Business Process'], hint:'FPY, defects, rework, complaints' },
+    { id:'D', name:'Delivery', persp:['Customer'], hint:'OTIF, lead time, SLA, schedule' },
+    { id:'C', name:'Cost', persp:['Financial'], hint:'Cost vs budget, scrap cost, revenue, margin' },
+    { id:'S', name:'Safety', persp:['Learning & Development'], hint:'LTI, near-miss closure, 5S, compliance' },
+    { id:'M', name:'Morale', persp:['Learning & Development'], hint:'Engagement, training, skills, attendance, attrition' }
+  ],
+  /* Default pillar for each KRA category. */
+  CAT_PILLAR: { productivity:'P', operational:'P', technical:'P', project:'D', timeliness:'D', reliability:'D', customer:'D', quality:'Q',
+    financial:'C', revenue:'C', strategic:'C', improvement:'C', compliance:'S', risk:'S', learning:'M', people:'M', leadership:'M',
+    collaboration:'M', communication:'M', innovation:'M' },
+
+  /* Four-level BSC cascade: Business goal (Top management) → Strategic objective (UH/GM/BU head) → KRA (DH/UH) → KPI (DH/employee). */
+  GOAL_LEVELS: {
+    company:    { name:'Business goal', short:'Goal', owner:'Top management', code:'G' },
+    department: { name:'Strategic objective', short:'Strategy', owner:'UH / GM / BU head', code:'S' },
+    team:       { name:'Sub-objective', short:'Sub-objective', owner:'DH / UH', code:'T' }
+  },
+  RELEVANCE: [ { min:80, label:'Fantastic' }, { min:75, label:'Good' }, { min:50, label:'Fair' }, { min:0, label:'Low' } ],
+
+  /* Competency mapping (behaviour / skill / attitude), rated on the BARS anchors. */
+  COMPETENCY_TYPES: ['Behaviour','Skill','Attitude'],
+  WORD_LIMIT: 200
 };
 
 /* ---- Methodology packages a client can pick in Method Setup ---- */
@@ -781,13 +834,14 @@ PMS.KB = {
       weighting:{ kra:'direct', kpi:'direct', minKra:10, maxKra:40, maxKras:6, maxKpis:3, lock:true },
       scoring:{ source:'achievement', hybridMix:70, cap:100, zeroActual:'cap', missing:'exclude', selfWeight:0, rangePenalty:1, milestone:{ ontime:100, late:70, partial:40, missed:0 } },
       scale:'5pt', workflow:{ frequency:'Half-yearly', employeeAck:true, calibration:false, hrApproval:true } },
-    { id:'bsc', name:'Balanced Scorecard', tagline:'Four perspectives, cascaded from company goals',
-      fits:'Manufacturing and multi-department companies that want financial, customer, process and learning balance.',
+    { id:'bsc', name:'Balanced Scorecard', tagline:'Four perspectives + PQDCSM pillars: Goal → Strategy → KRA → KPI',
+      fits:'Manufacturing and multi-department companies that want financial, customer, process and learning balance, cascaded from a 5/10-year plan.',
       frameworks:['bsc','smart','benchmark'], primary:'bsc',
       discovery: pick({ goals:'auto', cascade:'auto', jd:'auto', manager:'human', history:'auto', system:'auto', benchmark:'suggested', self:'human', ai:'suggested', competency:'suggested' }),
       categories:['financial','revenue','customer','quality','timeliness','operational','productivity','learning','innovation','compliance','reliability','people','leadership'],
       weighting:{ kra:'ahp', kpi:'direct', minKra:10, maxKra:40, maxKras:6, maxKpis:3, lock:true },
-      scoring:{ source:'hybrid', hybridMix:70, cap:100, zeroActual:'cap', missing:'exclude', selfWeight:0, rangePenalty:1, milestone:{ ontime:100, late:70, partial:40, missed:0 } },
+      scoring:{ source:'achievement', hybridMix:70, cap:100, zeroActual:'cap', missing:'exclude', selfWeight:0, rangePenalty:1, milestone:{ ontime:100, late:70, partial:50, missed:0 },
+        mode:'step', stepFull:100, stepHalf:80, competencyWeight:0 },
       scale:'5pt', workflow:{ frequency:'Half-yearly', employeeAck:true, calibration:true, hrApproval:true } },
     { id:'okr', name:'OKR-driven', tagline:'Quarterly objectives with stretch key results',
       fits:'Fast-moving product, IT and sales teams that re-plan every quarter.',
@@ -892,7 +946,22 @@ PMS.engine = (function(){
   }
 
   /* ---------- KPI normalisation (direction aware) ---------- */
+  /* Step scoring (BSC client rule): Achieved 100 · Partially achieved 50 · Not achieved 0.
+     A reviewer may also set the level directly (k.level = '100' | '50' | '0'). */
+  const LEVEL_NAME = { 100:'Achieved', 50:'Partially achieved', 0:'Not achieved' };
   function achievement(k, cfg){
+    const sc = cfg.scoring, step = sc.mode === 'step';
+    const r = achieve0(k, cfg);
+    if (step && k.level !== undefined && k.level !== null && k.level !== ''){
+      const v = +k.level;
+      return { raw: r ? r.raw : null, score: v, note: LEVEL_NAME[v] + ' (set by reviewer)', level: v };
+    }
+    if (!r || !step || k.direction === 'milestone' || r.raw == null) return r;
+    const full = sc.stepFull != null ? +sc.stepFull : 100, half = sc.stepHalf != null ? +sc.stepHalf : 80;
+    const v = r.raw >= full ? 100 : r.raw >= half ? 50 : 0;
+    return { raw: r.raw, score: v, note: (r.note ? r.note + ' · ' : '') + LEVEL_NAME[v], level: v };
+  }
+  function achieve0(k, cfg){
     const sc = cfg.scoring, cap = sc.cap > 0 ? sc.cap : Infinity;
     const t = num(k.target), a = num(k.actual);
     let raw = null, note = '';
@@ -968,10 +1037,24 @@ PMS.engine = (function(){
     });
     let final = totW > 0 ? total / totW : null;
     if (mode === 'block' && anyMissing) final = null;
+    const kpiFinal = final;
+    const comp = competencyScore(sheet, cfg);
+    if (final != null && comp.weight > 0 && comp.score != null) final = final * (1 - comp.weight / 100) + comp.score * comp.weight / 100;
     const cal = sheet.calibration && sheet.calibration.score != null ? +sheet.calibration.score : null;
     const published = cal != null ? cal : final;
-    return { kras, kraSum: round(kraSum, 2), final, calibrated: cal, published, band: band(published, cfg),
+    return { kras, kraSum: round(kraSum, 2), final, kpiFinal, comp, calibrated: cal, published, band: band(published, cfg),
              anyMissing, missingCount, kpiCount, coverage: kraSum ? totW / kraSum : 0 };
+  }
+
+  /* Competency mapping (behaviour / skill / attitude): each rated self + manager on the scale; equal weight. */
+  function competencyScore(sheet, cfg){
+    const weight = +(cfg.scoring.competencyWeight || 0);
+    const items = (sheet.competencies || []).map(c => {
+      const br = blendRating({ selfRating: c.self, mgrRating: c.mgr }, cfg);
+      return { id: c.compId, rating: br, score: br ? ratingToScore(br.r, cfg) : null };
+    });
+    const sc = items.filter(x => x.score != null).map(x => x.score);
+    return { weight, items, score: sc.length ? sum(sc) / sc.length : null, rated: sc.length, count: items.length };
   }
 
   /* ---------- sheet validation ---------- */
@@ -987,7 +1070,7 @@ PMS.engine = (function(){
       if (!kra.title || !kra.title.trim()) errs.push(`${n}: title is required.`);
       if (W < w.minKra || W > w.maxKra) warns.push(`${n}: weight ${W}% is outside the policy range ${w.minKra}–${w.maxKra}%.`);
       if (!kra.kpis.length) errs.push(`${n}: add at least one KPI.`);
-      if (kra.kpis.length > w.maxKpis) warns.push(`${n}: policy allows at most ${w.maxKpis} KPIs.`);
+      if (kra.kpis.length > w.maxKpis) errs.push(`${n}: at most ${w.maxKpis} KPIs are allowed per KRA (has ${kra.kpis.length}).`);
       if (kra.kpis.length && Math.abs(res.kras[i].kpiSum - 100) > 0.05) errs.push(`${n}: KPI weights must total 100% (now ${round(res.kras[i].kpiSum, 1)}%).`);
       kra.kpis.forEach((k, j) => {
         const m = `${n} › KPI ${j + 1}`;
@@ -1065,7 +1148,8 @@ PMS.engine = (function(){
     const res = scoreSheet(sheet, cfg);
     if (res.final == null) return null;
     const W = res.kras.map(k => k.W), S = res.kras.map(k => k.score);
-    const calc = ws => { let t = 0, tw = 0; ws.forEach((w, i) => { if (S[i] != null){ t += w * S[i]; tw += w; } }); return tw ? t / tw : null; };
+    const cw = res.comp && res.comp.weight > 0 && res.comp.score != null ? res.comp.weight / 100 : 0;
+    const calc = ws => { let t = 0, tw = 0; ws.forEach((w, i) => { if (S[i] != null){ t += w * S[i]; tw += w; } }); return tw ? (t / tw) * (1 - cw) + (cw ? res.comp.score * cw : 0) : null; };
     const rows = W.map((w, i) => {
       const up = W.slice(); up[i] = w * (1 + delta / 100);
       const dn = W.slice(); dn[i] = w * (1 - delta / 100);
@@ -1076,7 +1160,7 @@ PMS.engine = (function(){
   }
 
   return { num, sum, round, clamp, scale, band, ratingToScore, ratingAnchorScore, blendRating, achievement, kpiScore,
-           scoreSheet, validateSheet, weakMetric, ahp, identity, rankSum, rankReciprocal, swing, toPercents, weighted,
+           scoreSheet, competencyScore, validateSheet, weakMetric, LEVEL_NAME, ahp, identity, rankSum, rankReciprocal, swing, toPercents, weighted,
            mean, sd, pearson, sensitivity };
 })();
 
@@ -1268,7 +1352,7 @@ PMS.seed = function(){
       K('360° collaboration rating','rating','rating','','','360° survey','Half-yearly','rating',100)])
   ];
   const library = templates.map(t => ({
-    id: id('lib'), role: t.role, kra: t.kra, category: t.category, defaultWeight: t.weight, goalId: t.goal,
+    id: id('lib'), role: t.role, kra: t.kra, category: t.category, pillar: PMS.KB.CAT_PILLAR[t.category] || '', defaultWeight: t.weight, goalId: t.goal,
     description: t.description || '',
     kpis: t.kpis.map(k => ({ id: id('lk'), ...k }))
   }));
@@ -1277,20 +1361,64 @@ PMS.seed = function(){
     { id:'g-co1', level:'company', parentId:null, perspective:'Financial', title:'Grow revenue 18% to ₹240 Cr in FY 2026-27', metric:'Revenue', target:'₹240 Cr', owner:'E001', dept:'' },
     { id:'g-co2', level:'company', parentId:null, perspective:'Financial', title:'Reduce operational cost by 10%', metric:'Opex', target:'−10%', owner:'E001', dept:'' },
     { id:'g-co3', level:'company', parentId:null, perspective:'Customer', title:'Lift customer satisfaction to 4.5 / 5', metric:'CSAT', target:'4.5', owner:'E001', dept:'' },
-    { id:'g-co4', level:'company', parentId:null, perspective:'Internal Process', title:'Improve on-time delivery to 95%', metric:'OTD', target:'95%', owner:'E001', dept:'' },
-    { id:'g-co5', level:'company', parentId:null, perspective:'Internal Process', title:'Cut field failure rate below 0.5%', metric:'Field failures', target:'<0.5%', owner:'E001', dept:'' },
-    { id:'g-co6', level:'company', parentId:null, perspective:'Learning & Growth', title:'Every employee completes 24 training hours', metric:'Training hours', target:'24 h', owner:'E001', dept:'' },
-    { id:'g-it1', level:'department', parentId:'g-co4', perspective:'Internal Process', title:'Keep ERP, HRMS and PRIME at 99.9% availability', metric:'Availability', target:'99.9%', owner:'E002', dept:'IT' },
-    { id:'g-it2', level:'department', parentId:'g-co4', perspective:'Internal Process', title:'Deliver PRIME ERP phase 2 on schedule', metric:'Milestones on time', target:'90%', owner:'E002', dept:'IT' },
-    { id:'g-pr1', level:'department', parentId:'g-co2', perspective:'Internal Process', title:'Raise OEE to 82% across the assembly lines', metric:'OEE', target:'82%', owner:'E007', dept:'Production' },
-    { id:'g-pr2', level:'department', parentId:'g-co5', perspective:'Internal Process', title:'First-pass yield of 97% or better', metric:'FPY', target:'97%', owner:'E007', dept:'Production' },
-    { id:'g-q1', level:'department', parentId:'g-co5', perspective:'Internal Process', title:'Zero open critical audit findings', metric:'Open criticals', target:'0', owner:'E007', dept:'Quality' },
-    { id:'g-st1', level:'department', parentId:'g-co2', perspective:'Internal Process', title:'Inventory accuracy of 99% or better', metric:'Stock accuracy', target:'99%', owner:'E007', dept:'Stores' },
+    { id:'g-co4', level:'company', parentId:null, perspective:'Business Process', title:'Improve on-time delivery to 95%', metric:'OTD', target:'95%', owner:'E001', dept:'' },
+    { id:'g-co5', level:'company', parentId:null, perspective:'Business Process', title:'Cut field failure rate below 0.5%', metric:'Field failures', target:'<0.5%', owner:'E001', dept:'' },
+    { id:'g-co6', level:'company', parentId:null, perspective:'Learning & Development', title:'Every employee completes 24 training hours', metric:'Training hours', target:'24 h', owner:'E001', dept:'' },
+    { id:'g-it1', level:'department', parentId:'g-co4', perspective:'Business Process', title:'Keep ERP, HRMS and PRIME at 99.9% availability', metric:'Availability', target:'99.9%', owner:'E002', dept:'IT' },
+    { id:'g-it2', level:'department', parentId:'g-co4', perspective:'Business Process', title:'Deliver PRIME ERP phase 2 on schedule', metric:'Milestones on time', target:'90%', owner:'E002', dept:'IT' },
+    { id:'g-pr1', level:'department', parentId:'g-co2', perspective:'Business Process', title:'Raise OEE to 82% across the assembly lines', metric:'OEE', target:'82%', owner:'E007', dept:'Production' },
+    { id:'g-pr2', level:'department', parentId:'g-co5', perspective:'Business Process', title:'First-pass yield of 97% or better', metric:'FPY', target:'97%', owner:'E007', dept:'Production' },
+    { id:'g-q1', level:'department', parentId:'g-co5', perspective:'Business Process', title:'Zero open critical audit findings', metric:'Open criticals', target:'0', owner:'E007', dept:'Quality' },
+    { id:'g-st1', level:'department', parentId:'g-co2', perspective:'Business Process', title:'Inventory accuracy of 99% or better', metric:'Stock accuracy', target:'99%', owner:'E007', dept:'Stores' },
     { id:'g-sa1', level:'department', parentId:'g-co1', perspective:'Financial', title:'Book ₹240 Cr of orders', metric:'Order booking', target:'₹240 Cr', owner:'E012', dept:'Sales' },
     { id:'g-su1', level:'department', parentId:'g-co3', perspective:'Customer', title:'Resolve 92% of tickets within SLA', metric:'SLA compliance', target:'92%', owner:'E012', dept:'Customer Support' },
     { id:'g-fi1', level:'department', parentId:'g-co2', perspective:'Financial', title:'Keep budget variance within ±3%', metric:'Budget variance', target:'±3%', owner:'E001', dept:'Finance & Accounts' },
-    { id:'g-it3', level:'team', parentId:'g-it2', perspective:'Internal Process', title:'Ship PRIME fabrication-shop module by August', metric:'Release', target:'Aug 2026', owner:'E003', dept:'IT' }
+    { id:'g-it3', level:'team', parentId:'g-it2', perspective:'Business Process', title:'Ship PRIME fabrication-shop module by August', metric:'Release', target:'Aug 2026', owner:'E003', dept:'IT' }
   ];
+
+  // Client BSC extensions: pillar, relevance, description per goal
+  const GX = {
+    'g-co1':['C',85,'Grow top line through new switchgear SKUs, export orders in the Middle East and price discipline on key accounts.'],
+    'g-co2':['C',80,'Lower conversion and overhead cost through machine utilisation, lower material loss and energy savings.'],
+    'g-co3':['Q',78,'Be the most dependable supplier for our OEM customers: right first time, on time, with fast complaint closure.'],
+    'g-co4':['D',82,'Dispatch to the committed date for every order by tightening plan adherence and supplier lead times.'],
+    'g-co5':['Q',76,'Reduce field failures with first-pass yield, stronger incoming inspection and closed-loop corrective action.'],
+    'g-co6':['M',72,'Build skills and morale: technical skill, safety awareness and behaviour training for every employee.'],
+    'g-it1':['D',70,''], 'g-it2':['D',74,''],
+    'g-pr1':['P',88,'Maximise machine utilisation and reduce material loss on all assembly lines.'],
+    'g-pr2':['Q',84,'Improve first-pass yield with poka-yoke, standard work and weekly quality reviews.'],
+    'g-q1':['Q',75,''], 'g-st1':['C',70,''], 'g-sa1':['C',86,''], 'g-su1':['D',73,''], 'g-fi1':['C',78,''], 'g-it3':['D',68,'']
+  };
+  goals.forEach(g => { const x = GX[g.id] || ['',70,'']; g.pillar = x[0]; g.relevance = x[1]; g.description = x[2]; g.status = 'active'; });
+  goals.push({ id:'g-co7', level:'company', parentId:null, perspective:'Learning & Development', title:'Zero lost-time accidents across all plants', metric:'LTI', target:'0', owner:'E001', dept:'',
+    pillar:'S', relevance:'', description:'Draft from the leadership offsite — targets and owners still to be agreed.', status:'draft' });
+
+  const competencies = [
+    { id:'cm-1', type:'Behaviour', name:'Ownership & accountability', description:'Takes responsibility for results, follows through without reminders.' },
+    { id:'cm-2', type:'Behaviour', name:'Teamwork & collaboration', description:'Shares information, helps peers, works across departments.' },
+    { id:'cm-3', type:'Behaviour', name:'Safety behaviour', description:'Follows PPE, LOTO and 5S; reports near-misses.' },
+    { id:'cm-4', type:'Skill', name:'Technical / job skill', description:'Depth in the core tools, machines or systems of the role.' },
+    { id:'cm-5', type:'Skill', name:'Problem solving (RCA, 5-Why)', description:'Finds root causes and fixes them permanently.' },
+    { id:'cm-6', type:'Skill', name:'Communication', description:'Clear written and spoken updates to team, customers and management.' },
+    { id:'cm-7', type:'Attitude', name:'Learning agility', description:'Seeks feedback, learns new methods quickly.' },
+    { id:'cm-8', type:'Attitude', name:'Discipline & punctuality', description:'Attendance, shift adherence, overtime willingness when needed.' },
+    { id:'cm-9', type:'Attitude', name:'Customer focus', description:'Puts internal and external customer needs first.' }
+  ];
+
+  const longPlan = {
+    name:'Vision 2031 — five-year plan', startYear: 2026, years: 5,
+    items: [
+      { id:'lp-1', perspective:'Financial', pillar:'C', title:'Revenue ₹500 Cr by FY 2030-31', metric:'Revenue (₹ Cr)', unit:'₹ Cr', direction:'higher', goalId:'g-co1', targets:[240,290,345,415,500] },
+      { id:'lp-2', perspective:'Financial', pillar:'C', title:'Conversion cost down 25% vs FY 2025-26', metric:'Cost reduction %', unit:'%', direction:'higher', goalId:'g-co2', targets:[8,13,17,21,25] },
+      { id:'lp-3', perspective:'Customer', pillar:'Q', title:'CSAT 4.8 / 5 and top-3 supplier rating at every OEM', metric:'CSAT', unit:'/5', direction:'higher', goalId:'g-co3', targets:[4.5,4.6,4.65,4.7,4.8] },
+      { id:'lp-4', perspective:'Customer', pillar:'D', title:'On-time delivery 99%', metric:'OTD %', unit:'%', direction:'higher', goalId:'g-co4', targets:[95,96.5,97.5,98.5,99] },
+      { id:'lp-5', perspective:'Business Process', pillar:'P', title:'OEE 90% on all lines', metric:'OEE %', unit:'%', direction:'higher', goalId:'g-pr1', targets:[85,86.5,88,89,90] },
+      { id:'lp-6', perspective:'Business Process', pillar:'Q', title:'Field failure rate below 0.2%', metric:'Field failures %', unit:'%', direction:'lower', goalId:'g-co5', targets:[0.5,0.4,0.32,0.25,0.2] },
+      { id:'lp-7', perspective:'Learning & Development', pillar:'S', title:'Zero lost-time accidents every year', metric:'LTI count', unit:'', direction:'lower', goalId:'g-co7', targets:[0,0,0,0,0] },
+      { id:'lp-8', perspective:'Learning & Development', pillar:'M', title:'40 training hours per employee and engagement 80%', metric:'Training hours', unit:'h', direction:'higher', goalId:'g-co6', targets:[24,28,32,36,40] }
+    ],
+    notes:'Approved by the board in March 2026. Yearly goals in the cascade are checked against the current-year column.'
+  };
 
   const P = (empId, name, roleKey, dept, grade, managerId, perf, doj, location, jd) => ({ id:empId, empId, name, role: roleKey, designation: PMS.ROLES[roleKey], department: dept, grade, managerId, perf, doj, location, jd });
   const people = [
@@ -1321,6 +1449,7 @@ PMS.seed = function(){
   const preset = PMS.KB.PRESETS.find(p => p.id === 'bsc');
   const config = PMS.configFromPreset(preset);
   config.setupComplete = true;
+  config.scoring.competencyWeight = 10;
 
   const dec = v => { const s = String(v); return s.includes('.') ? Math.min(2, s.split('.')[1].length) : 0; };
   const fmt = (v, ref, unit) => { const d = Math.max(dec(ref), unit === '%' ? 1 : 0); return +v.toFixed(d); };
@@ -1361,7 +1490,7 @@ PMS.seed = function(){
   function makeSheet(emp, cycle, status, perf, prev){
     const tpls = library.filter(l => l.role === emp.role);
     const kras = tpls.map(t => ({
-      id: id('kra'), title: t.kra, category: t.category, weight: t.defaultWeight, goalId: t.goalId || '', libId: t.id,
+      id: id('kra'), title: t.kra, category: t.category, pillar: t.pillar, description: '', weight: t.defaultWeight, goalId: t.goalId || '', libId: t.id,
       kpis: t.kpis.map(k => ({
         id: id('kpi'), name: k.name, description: k.description, formula: k.formula, unit: k.unit, direction: k.direction,
         baseline: prev && k.baseline !== '' ? fmt((+k.baseline * 0.6 + +k.target * 0.4), k.baseline, k.unit) : k.baseline,
@@ -1370,7 +1499,9 @@ PMS.seed = function(){
         weight: k.weight, actual: '', selfRating: '', mgrRating: '', evidence: ''
       }))
     }));
-    const sheet = { id: id('sh'), employeeId: emp.id, cycleId: cycle.id, status, kras, comments:{ employee:'', manager:'', hr:'' },
+    const compIds = emp.role === 'md' ? ['cm-1','cm-6','cm-9'] : ['prodeng','prodmgr','qc','stores'].includes(emp.role) ? ['cm-3','cm-4','cm-5','cm-8'] : ['cm-1','cm-2','cm-4','cm-7'];
+    const sheetComps = compIds.map(c => ({ compId: c, self: '', mgr: '' }));
+    const sheet = { id: id('sh'), employeeId: emp.id, cycleId: cycle.id, status, kras, competencies: sheetComps, comments:{ employee:'', manager:'', hr:'' },
       history: [], calibration: null, ack: false, createdAt: cycle.start + 'T09:00:00Z', updatedAt: '' };
     const order = PMS.KB.STAGES.map(s => s.id);
     const at = order.indexOf(status);
@@ -1390,6 +1521,9 @@ PMS.seed = function(){
         k.selfRating = Math.min(PMS.engine.scale(config).points, m + (rnd() < 0.45 ? 1 : 0));
         if (at >= order.indexOf('calibration') || (status === 'manager' && rnd() < 0.35)) k.mgrRating = m;
       }));
+      const pts = PMS.engine.scale(config).points;
+      sheetComps.forEach(c => { const r = Math.max(1, Math.min(pts, Math.round(3 + (perf - 0.97) * 20 + noise() * 0.8)));
+        c.self = Math.min(pts, r + (rnd() < 0.4 ? 1 : 0)); if (at >= order.indexOf('calibration') || status === 'manager') c.mgr = r; });
       sheet.comments.employee = 'Delivered the planned work for the period; details and evidence are attached against each KPI.';
     }
     if (at >= order.indexOf('calibration')) sheet.comments.manager = perf >= 1.03 ? 'Strong half-year. Consistently ahead of target and supports peers.' : perf >= 0.97 ? 'Solid performance against agreed targets. Focus next cycle on the quality KPIs.' : 'Several targets missed. We have agreed a development plan with monthly check-ins.';
@@ -1424,7 +1558,7 @@ PMS.seed = function(){
   return {
     meta: { app:'Voltech PMS', schema: 2, createdAt: new Date().toISOString(), demo: true },
     company: { name:'Voltech Group', industry:'Electrical engineering & power systems', size:'Demo data', fyStart:'April', logo:'' },
-    config, goals, employees, library, cycles, currentCycleId:'cy-2627h1', sheets, ahpModels,
+    config, goals, employees, library, competencies, longPlan, cycles, currentCycleId:'cy-2627h1', sheets, ahpModels,
     audit: [
       { at:'2026-04-02T10:00:00Z', by:'HR Admin', action:'Applied methodology', detail:'Balanced Scorecard preset' },
       { at:'2026-04-08T11:20:00Z', by:'HR Admin', action:'Saved AHP model', detail:'IT department KRA priorities (CR 0.016)' },
@@ -1481,7 +1615,7 @@ PMS.brand = (function(){
 window.PMS = window.PMS || {};
 
 PMS.store = (function(){
-  const LS_KEY = 'voltech-pms-db-v1';
+  const LS_KEY = 'voltech-pms-db-v2';
   const API = 'api.php';
   let db = null, mode = 'memory', rev = 0, timer = null, saving = false, pending = false;
   const listeners = [];
@@ -1509,9 +1643,20 @@ PMS.store = (function(){
     c.ai = c.ai || { provider:'auto' };
     c.analytics = c.analytics || { sensitivity:10, outlierZ:2 };
     c.scoring.milestone = c.scoring.milestone || { ontime:100, late:70, partial:40, missed:0 };
+    if (!c.scoring.mode) c.scoring.mode = 'continuous';
+    if (c.scoring.stepFull == null) c.scoring.stepFull = 100;
+    if (c.scoring.stepHalf == null) c.scoring.stepHalf = 80;
+    if (c.scoring.competencyWeight == null) c.scoring.competencyWeight = 0;
+    d.competencies = d.competencies || [];
+    d.longPlan = d.longPlan || { name:'Long-term plan', startYear: 2026, years: 5, items: [] };
+    const PR = { 'Internal Process':'Business Process', 'Learning & Growth':'Learning & Development' };
+    d.goals.forEach(g => { if (PR[g.perspective]) g.perspective = PR[g.perspective]; if (!g.status) g.status = 'active'; if (g.relevance == null) g.relevance = ''; if (g.description == null) g.description = ''; if (g.pillar == null) g.pillar = ''; });
+    d.library.forEach(t => { if (t.pillar == null) t.pillar = PMS.KB.CAT_PILLAR[t.category] || ''; });
     if (!d.currentCycleId && d.cycles.length) d.currentCycleId = d.cycles[d.cycles.length - 1].id;
     d.sheets.forEach(s => {
       s.history = s.history || []; s.comments = s.comments || { employee:'', manager:'', hr:'' };
+      s.competencies = s.competencies || [];
+      s.kras.forEach(k => { if (k.pillar == null) k.pillar = PMS.KB.CAT_PILLAR[k.category] || ''; if (k.description == null) k.description = ''; });
       if (s.status === 'completed' && !s.locked){
         const r = PMS.engine.scoreSheet(s, c);
         if (r.published != null) s.locked = { score: Math.round(r.published * 100) / 100, rating: r.band.r, label: r.band.label, scale: c.scale.type, method: c.presetId, at: s.updatedAt || new Date().toISOString() };
@@ -1739,7 +1884,7 @@ PMS.ui = (function(){
     get(k, d){ try { const v = localStorage.getItem('pms-pref-' + k); return v == null ? d : JSON.parse(v); } catch (e){ return d; } },
     set(k, v){ try { localStorage.setItem('pms-pref-' + k, JSON.stringify(v)); } catch (e){} }
   };
-  const ROLES = { hr:'HR Admin', manager:'Manager', employee:'Employee' };
+  const ROLES = { hr:'HR Admin', top:'Top Management', buhead:'UH / GM / BU Head', manager:'DH / UH (Manager)', employee:'Employee' };
   let role = pref.get('role', 'hr');
   const ui = {
     $, $$, esc, icon, fmt, fmtInt, fmtDate, fmtDateTime, initials, toast, modal, confirm: confirmBox,
@@ -1801,6 +1946,30 @@ PMS.router = (function(){
     field: (label, inner, hint = '', cls = '') => `<div class="field ${cls}"><label>${esc(label)}</label>${inner}${hint ? `<div class="hint">${hint}</div>` : ''}</div>`,
     opts: (list, sel) => list.map(o => { const [v, t] = Array.isArray(o) ? o : [o, o]; return `<option value="${esc(v)}" ${String(v) === String(sel) ? 'selected' : ''}>${esc(t)}</option>`; }).join(''),
     canEdit: () => ui.role === 'hr',
+    /* client BSC extensions */
+    pillar: id => KB.PILLARS.find(p => p.id === id),
+    pillarTag: id => { const p = KB.PILLARS.find(x => x.id === id); return p ? `<span class="pq pq-${esc(p.id)}" data-tip="${esc(p.name + ' · ' + p.persp.join(' / '))}">${esc(p.id)} · ${esc(p.name)}</span>` : ''; },
+    pillarOpts: (sel, short) => '<option value="">— pillar —</option>' + KB.PILLARS.map(p => `<option value="${p.id}" ${p.id === sel ? 'selected' : ''}>${p.id} · ${esc(p.name)}${short ? '' : ' (' + esc(p.persp.join(', ')) + ')'}</option>`).join(''),
+    relLabel: v => { if (v === '' || v == null) return ''; const r = KB.RELEVANCE.find(x => +v >= x.min); return r ? r.label : ''; },
+    relBar: v => v === '' || v == null ? '' : `<span class="relbar" data-tip="Relevance ${esc(v)}% · ${esc(H.relLabel(v))}"><i style="width:${Math.max(0, Math.min(100, +v))}%;background:var(--${+v >= 80 ? 'good' : +v >= 75 ? 'accent' : +v >= 50 ? 'warn' : 'bad'})"></i></span><span class="xs num">${esc(v)}% ${esc(H.relLabel(v))}</span>`,
+    goalCode: g => {
+      if (!g) return '';
+      const all = D().goals, L = KB.GOAL_LEVELS;
+      const parent = g.parentId ? all.find(x => x.id === g.parentId) : null;
+      const sibs = all.filter(x => (x.parentId || null) === (g.parentId || null) && x.level === g.level);
+      const n = sibs.indexOf(g) + 1;
+      const me = (L[g.level] || L.company).code + n;
+      return parent ? H.goalCode(parent) + '-' + me : me;
+    },
+    kraCode: (kra, ki) => { const g = H.goal(kra.goalId); return (g ? H.goalCode(g) + '-' : '') + 'KRA' + (ki + 1); },
+    words: t => (String(t || '').trim().match(/\S+/g) || []).length,
+    wordBox: (attrs, val, ro, rows = 3, ph = '') => `<textarea ${attrs} data-words rows="${rows}" ${ro || ''} placeholder="${esc(ph)}">${esc(val || '')}</textarea><div class="hint wc"><span data-wc>${H.words(val)}</span> / ${KB.WORD_LIMIT} words</div>`,
+    bindWords: root => root.addEventListener('input', e => { const t = e.target; if (!t.matches || !t.matches('[data-words]')) return;
+      let w = t.value.match(/\S+\s*/g) || [];
+      if (w.length > KB.WORD_LIMIT){ t.value = w.slice(0, KB.WORD_LIMIT).join('').trimEnd(); ui.toast(`Limit is ${KB.WORD_LIMIT} words.`, 'err'); }
+      const c = t.parentNode.querySelector('[data-wc]'); if (c) c.textContent = H.words(t.value); }),
+    canGoal: level => ({ hr: true, top: level === 'company', buhead: level !== 'company', manager: level === 'team' })[ui.role] || false,
+    canPlan: () => ['hr','top'].includes(ui.role),
     commit: (action, detail) => { if (action) PMS.store.audit(action, detail); PMS.store.save(); PMS.app && PMS.app.refreshChrome(); }
   };
 
@@ -1857,6 +2026,8 @@ PMS.router = (function(){
         <div class="card-body">${depts.length ? ui.barsH(depts, { max: Math.max(100, ...depts.map(d => d.value)) }) : '<div class="empty">No reviewed sheets yet.</div>'}</div></div>
     </div>
 
+    ${pillarCard(sheets)}
+
     <div class="grid g2">
       <div class="card"><div class="card-head"><h3>Needs attention</h3><span class="spacer"></span><button class="btn sm" data-go="analytics">Calibration ${icon('arrow')}</button></div>
         <div class="card-body">${attention.length ? `<ul class="list-plain">${attention.slice(0, 7).map(a => `<li><span class="sev ${a.sev}"></span><div style="flex:1;min-width:0"><b class="small">${esc(a.title)}</b><div class="small muted">${esc(a.detail)}</div></div>${a.sheetId ? `<button class="btn sm ghost" data-sheet="${esc(a.sheetId)}">Open</button>` : ''}</li>`).join('')}</ul>` : '<div class="empty">Nothing flagged. Every sheet passes the configured checks.</div>'}</div></div>
@@ -1881,6 +2052,21 @@ PMS.router = (function(){
     ui.$$('[data-sheet]', el).forEach(b => b.onclick = () => PMS.router.go('sheet', { id: b.dataset.sheet }));
     ui.$('[data-new]', el).onclick = () => PMS.actions.newSheet();
   } };
+
+  function pillarCard(sheets){
+    const rows = KB.PILLARS.map(p => {
+      let w = 0, sw = 0, ss = 0;
+      sheets.forEach(sh => { const r = H.result(sh); sh.kras.forEach((k, i) => { if (k.pillar !== p.id) return; const W = +k.weight || 0; w += W; const sc = r.kras[i] && r.kras[i].score; if (sc != null){ sw += W; ss += W * sc; } }); });
+      return { p, share: sheets.length ? w / sheets.length : 0, score: sw ? ss / sw : null };
+    });
+    const max = Math.max(1, ...rows.map(r => r.share));
+    return `<div class="card"><div class="card-head"><h3>PQDCSM pillars</h3><span class="sub">Average KRA weight per goal sheet and weighted KRA score, current cycle</span><span class="spacer"></span><button class="btn sm" data-go="plan">Long-term plan ${icon('arrow')}</button></div>
+      <div class="card-body"><div class="pq-grid">${rows.map(r => `<div class="pq-cell">
+        ${H.pillarTag(r.p.id)}<div class="xs muted" style="margin-top:4px;min-height:2.6em">${esc(r.p.persp.join(' / '))}</div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:4px"><div><div class="v num">${ui.fmt(r.share, 0)}<small>%</small></div><div class="xs muted">avg weight</div></div><div style="text-align:right"><b class="num">${r.score != null ? ui.fmt(r.score) : '—'}</b><div class="xs muted">score</div></div></div>
+        <div class="relbar wide"><i style="width:${r.share / max * 100}%;background:var(--series-1)"></i></div></div>`).join('')}</div>
+        ${rows.some(r => !r.share) ? `<p class="small muted" style="margin-top:10px">No KRA weight on: ${rows.filter(r => !r.share).map(r => esc(r.p.name)).join(', ')}. Tag KRAs with a pillar on the goal sheet.</p>` : ''}</div></div>`;
+  }
 
   /* ================= EMPLOYEES ================= */
   PMS.pages.employees = { title: 'Employees', render(el){
@@ -1966,7 +2152,7 @@ PMS.router = (function(){
   /* ================= GOAL CASCADE ================= */
   PMS.pages.goals = { title: 'Goal cascade', render(el){
     const st = PMS.pages.goals.state || (PMS.pages.goals.state = { persp:'' });
-    const goals = D().goals;
+    const goals = D().goals, L = KB.GOAL_LEVELS;
     const linked = gid => {
       const ids = new Set([gid]); let grew = true;
       while (grew){ grew = false; goals.forEach(g => { if (g.parentId && ids.has(g.parentId) && !ids.has(g.id)){ ids.add(g.id); grew = true; } }); }
@@ -1974,68 +2160,207 @@ PMS.router = (function(){
     };
     const node = g => {
       const kids = goals.filter(c => c.parentId === g.id);
-      const owner = H.emp(g.owner);
-      return `<div class="tnode" data-id="${esc(g.id)}" style="cursor:pointer">
-        <span class="lvl ${esc(g.level)}">${esc(g.level)}</span>
-        <div style="flex:1;min-width:0"><b>${esc(g.title)}</b>
-          <div class="row tight small muted" style="margin-top:3px"><span class="tag">${esc(g.perspective)}</span>${g.dept ? `<span class="tag">${esc(g.dept)}</span>` : ''}<span>${esc(g.metric)} → <b class="num" style="color:var(--ink)">${esc(g.target)}</b></span>${owner ? `<span>· ${esc(owner.name)}</span>` : ''}</div></div>
+      const owner = H.emp(g.owner), lv = L[g.level] || L.company;
+      return `<div class="tnode ${g.status === 'draft' ? 'draft' : ''}" data-id="${esc(g.id)}" style="cursor:pointer">
+        <span class="gcode num">${esc(H.goalCode(g))}</span>
+        <div style="flex:1;min-width:0"><div class="xs muted">${esc(lv.name)} · ${esc(lv.owner)}</div><b>${esc(g.title)}</b>
+          ${g.description ? `<div class="small muted clamp2">${esc(g.description)}</div>` : ''}
+          <div class="row tight small muted" style="margin-top:4px"><span class="tag">${esc(g.perspective)}</span>${H.pillarTag(g.pillar)}${g.dept ? `<span class="tag">${esc(g.dept)}</span>` : ''}<span>${esc(g.metric)} → <b class="num" style="color:var(--ink)">${esc(g.target)}</b></span>${owner ? `<span>· ${esc(owner.name)}</span>` : ''}</div>
+          ${g.relevance !== '' && g.relevance != null ? `<div class="row tight" style="margin-top:5px">${H.relBar(g.relevance)}</div>` : ''}</div>
+        ${g.status === 'draft' ? '<span class="pill warn plain">Saved for later</span>' : ''}
         <span class="pill plain accent" data-tip="KRAs in the current cycle aligned to this goal or its children">${linked(g.id)} KRAs</span></div>
         ${kids.length ? `<div class="tchildren">${kids.map(node).join('')}</div>` : ''}`;
     };
     const roots = goals.filter(g => !g.parentId && (!st.persp || g.perspective === st.persp));
     const persp = KB.FRAMEWORKS[0].perspectives;
     const cover = persp.map(p => ({ label: p, value: goals.filter(g => g.perspective === p).length }));
+    const pcover = KB.PILLARS.map(p => ({ label: p.id + ' · ' + p.name, value: goals.filter(g => g.pillar === p.id).length }));
+    const rel = goals.filter(g => g.relevance !== '' && g.relevance != null).map(g => +g.relevance);
+    const canAdd = ['company','department','team'].some(H.canGoal);
     el.innerHTML = `
-      <div class="page-head"><div><h1>Goal cascade</h1><p class="lead">Company goals cascade to department and team goals. KRAs on goal sheets link to a goal, which is how the goal-alignment analysis traces each KPI back to strategy.</p></div>
-        <div class="actions">${H.canEdit() ? `<button class="btn primary" data-add>${icon('plus')}Add goal</button>` : ''}</div></div>
+      <div class="page-head"><div><h1>Goal cascade</h1><p class="lead">Business goal (top management) → strategic objective (UH / GM / BU head) → KRA (DH / UH) → KPI (employee). Codes such as <span class="num">G1-S1-KRA1</span> trace every KPI back to the goal it serves.</p></div>
+        <div class="actions"><button class="btn" data-go="plan">${icon('chart')}Long-term plan & AI check</button>${canAdd ? `<button class="btn primary" data-add>${icon('plus')}Add goals</button>` : ''}</div></div>
+      <div class="cascade-steps">${[['A','Business goal','Top management','FY / CY goal, perspective, relevance to the 5-year target'],['B','Strategic objective','UH / GM / BU head','Strategy under a goal, PQDCSM pillar, relevance to the goal'],['C','KRA','DH / UH','Derived from the objective on the goal sheet, pillar and weight'],['D','KPI','DH / Employee','Up to 3 KPIs per KRA, weights total 100%']].map(x => `<div><b>${x[0]}</b><span><strong>${x[1]}</strong>${x[2]}<em>${x[3]}</em></span></div>`).join('')}</div>
       <div class="grid" style="grid-template-columns:minmax(0,1fr) 300px;align-items:start" id="goalGrid">
         <div class="card"><div class="card-head"><div class="seg" id="perspSeg"><button data-p="" class="${!st.persp ? 'on' : ''}">All</button>${persp.map(p => `<button data-p="${esc(p)}" class="${st.persp === p ? 'on' : ''}">${esc(p)}</button>`).join('')}</div></div>
           <div class="card-body"><div class="tree">${roots.map(node).join('') || '<div class="empty">No goals in this perspective.</div>'}</div></div></div>
         <div class="stack">
           <div class="card"><div class="card-head"><h3>Balanced Scorecard coverage</h3></div><div class="card-body">${ui.barsH(cover, { fmtV: v => ui.fmtInt(v) })}</div></div>
-          <div class="note info"><b>How cascading works.</b> Company reliability goal → IT uptime target → DevOps availability KPI. In Discovery, a KRA linked to a cascaded goal scores higher on business-goal alignment (B).</div>
+          <div class="card"><div class="card-head"><h3>PQDCSM coverage</h3></div><div class="card-body">${ui.barsH(pcover, { fmtV: v => ui.fmtInt(v), color:'var(--series-2)' })}</div></div>
+          <div class="card"><div class="card-body"><div class="eyebrow">Average relevance</div><div class="score-big" style="font-size:2rem">${rel.length ? ui.fmt(E.mean(rel), 0) + '%' : '—'}</div><div class="small muted">${rel.length ? esc(H.relLabel(E.mean(rel))) + ' · ' : ''}${rel.filter(v => v < 75).length} goal(s) below 75% (Good)</div></div></div>
+          <div class="note info"><b>Who can add what.</b> Top management adds business goals, UH / GM / BU heads add strategic objectives under them, DH / UH adds sub-objectives. HR can edit all. Switch role in the top bar.</div>
         </div>
       </div>`;
     if (innerWidth < 1000) ui.$('#goalGrid', el).style.gridTemplateColumns = 'minmax(0,1fr)';
     ui.$$('#perspSeg button', el).forEach(b => b.onclick = () => { st.persp = b.dataset.p; PMS.router.refresh(); });
+    ui.$$('[data-go]', el).forEach(b => b.onclick = () => PMS.router.go(b.dataset.go));
     ui.$$('.tnode', el).forEach(n => n.onclick = () => editGoal(H.goal(n.dataset.id)));
     const add = ui.$('[data-add]', el); if (add) add.onclick = () => editGoal(null);
   } };
 
-  function editGoal(goal){
-    const isNew = !goal; const g = goal || { id:'', level:'department', parentId:'', perspective:'Financial', title:'', metric:'', target:'', owner:'', dept:'' };
-    const ro = H.canEdit() ? '' : 'disabled';
-    ui.modal({ title: isNew ? 'Add goal' : 'Edit goal', body: `
-      ${H.field('Goal', `<input id="g-title" value="${esc(g.title)}" ${ro} placeholder="e.g. Improve on-time delivery to 95%">`)}
-      <div class="grid g2">
-        ${H.field('Level', `<select id="g-level" ${ro}>${H.opts([['company','Company'],['department','Department'],['team','Team']], g.level)}</select>`)}
-        ${H.field('Parent goal', `<select id="g-parent" ${ro}><option value="">None (top level)</option>${H.opts(D().goals.filter(x => x.id !== g.id).map(x => [x.id, x.title]), g.parentId)}</select>`)}
+  function editGoal(goal, preset){
+    const isNew = !goal;
+    const defLevel = ['company','department','team'].find(H.canGoal) || 'company';
+    const g = goal || Object.assign({ id:'', level: defLevel, parentId:'', perspective:'Financial', pillar:'', title:'', description:'', metric:'', target:'', owner:'', dept:'', relevance: 75, status:'active' }, preset || {});
+    const can = H.canGoal(g.level) || isNew;
+    const ro = can ? '' : 'disabled';
+    const L = KB.GOAL_LEVELS;
+    const relText = lv => lv === 'company' ? 'How relevant is this goal to the 5-year target?' : 'How relevant is this objective to the company goal?';
+    ui.modal({ title: isNew ? 'Add goal' : H.goalCode(g) + ' · ' + (L[g.level] || L.company).name, size:'wide', body: `
+      <div class="grid g3">
+        ${H.field('Level', `<select id="g-level" ${ro}>${Object.entries(L).map(([k, v]) => `<option value="${k}" ${k === g.level ? 'selected' : ''} ${H.canGoal(k) ? '' : 'disabled'}>${esc(v.name)} — ${esc(v.owner)}</option>`).join('')}</select>`)}
         ${H.field('BSC perspective', `<select id="g-persp" ${ro}>${H.opts(KB.FRAMEWORKS[0].perspectives, g.perspective)}</select>`)}
-        ${H.field('Department', `<input id="g-dept" value="${esc(g.dept)}" ${ro} list="gdl"><datalist id="gdl">${H.depts().map(d => `<option value="${esc(d)}">`).join('')}</datalist>`)}
+        ${H.field('PQDCSM pillar', `<select id="g-pillar" ${ro}>${H.pillarOpts(g.pillar)}</select>`, '<span id="g-phint"></span>')}
+      </div>
+      ${H.field('Parent', `<select id="g-parent" ${ro}><option value="">None (top level)</option>${H.opts(D().goals.filter(x => x.id !== g.id).map(x => [x.id, H.goalCode(x) + ' · ' + x.title]), g.parentId)}</select>`, 'A strategic objective maps to one business goal (Goal-1 → Strategy-1).')}
+      ${H.field('Goal / objective', `<input id="g-title" value="${esc(g.title)}" ${ro} maxlength="200" placeholder="e.g. Maximise machine utilisation and reduce material loss">`)}
+      ${H.field('Description', H.wordBox('id="g-desc"', g.description, ro, 3, 'What this goal means, how it will be achieved, any assumptions'))}
+      <div class="grid g3">
         ${H.field('Metric', `<input id="g-metric" value="${esc(g.metric)}" ${ro}>`)}
         ${H.field('Target', `<input id="g-target" value="${esc(g.target)}" ${ro}>`)}
         ${H.field('Owner', `<select id="g-owner" ${ro}><option value="">—</option>${H.opts(D().employees.map(e => [e.id, e.name]), g.owner)}</select>`)}
-      </div>`,
-      foot: `${!isNew && H.canEdit() ? `<button class="btn danger" data-del>${icon('trash')}Delete</button><span class="spacer"></span>` : ''}<button class="btn" data-close>Close</button>${H.canEdit() ? '<button class="btn primary" data-save>Save</button>' : ''}`,
+        ${H.field('Department', `<input id="g-dept" value="${esc(g.dept)}" ${ro} list="gdl"><datalist id="gdl">${H.depts().map(d => `<option value="${esc(d)}">`).join('')}</datalist>`)}
+      </div>
+      <div class="field"><label id="g-rel-l">${esc(relText(g.level))}</label>
+        <div class="row" style="flex-wrap:nowrap;gap:12px"><input type="range" id="g-rel" min="0" max="100" step="5" value="${esc(g.relevance === '' || g.relevance == null ? 75 : g.relevance)}" ${ro} style="flex:1"><b class="num" id="g-rel-v" style="min-width:110px"></b></div>
+        <div class="hint">0–49 Low · 50–74 Fair · 75–79 Good · 80–100 Fantastic</div></div>
+      ${!isNew && g.level !== 'team' && can ? `<div><button class="btn sm" data-child>${icon('plus')}Add ${g.level === 'company' ? 'strategic objective' : 'sub-objective'} under this</button></div>` : ''}`,
+      foot: `${!isNew && can ? `<button class="btn danger" data-del>${icon('trash')}Delete</button><span class="spacer"></span>` : ''}<button class="btn" data-close>Cancel</button>${can ? '<button class="btn" data-later>Save for later</button><button class="btn primary" data-save>Save</button>' : ''}`,
       onMount(m, close){
-        const sv = ui.$('[data-save]', m);
-        sv && (sv.onclick = () => {
+        H.bindWords(m);
+        const rel = ui.$('#g-rel', m), relV = ui.$('#g-rel-v', m), lvl = ui.$('#g-level', m), pil = ui.$('#g-pillar', m);
+        const showRel = () => relV.textContent = rel.value + '% · ' + H.relLabel(rel.value);
+        const showP = () => { const p = H.pillar(pil.value); ui.$('#g-phint', m).textContent = p ? p.hint + ' · maps to ' + p.persp.join(' / ') : ''; };
+        rel.oninput = showRel; showRel(); showP();
+        pil.onchange = () => { showP(); const p = H.pillar(pil.value); const ps = ui.$('#g-persp', m); if (p && !p.persp.includes(ps.value)) ps.value = p.persp[0]; };
+        lvl.onchange = () => ui.$('#g-rel-l', m).textContent = relText(lvl.value);
+        const save = status => {
           const v = id => ui.$(id, m).value.trim();
           if (!v('#g-title')){ ui.toast('Enter the goal.', 'err'); return; }
-          Object.assign(g, { title: v('#g-title'), level: v('#g-level'), parentId: v('#g-parent') || null, perspective: v('#g-persp'), dept: v('#g-dept'), metric: v('#g-metric'), target: v('#g-target'), owner: v('#g-owner') });
+          if (status === 'active' && v('#g-level') !== 'company' && !v('#g-parent')){ ui.toast('Pick the parent goal this objective maps to, or use Save for later.', 'err'); return; }
+          if (!H.canGoal(v('#g-level'))){ ui.toast('Your role cannot add goals at this level.', 'err'); return; }
+          Object.assign(g, { title: v('#g-title'), description: ui.$('#g-desc', m).value.trim(), level: v('#g-level'), parentId: v('#g-parent') || null, perspective: v('#g-persp'), pillar: v('#g-pillar'),
+            dept: v('#g-dept'), metric: v('#g-metric'), target: v('#g-target'), owner: v('#g-owner'), relevance: +rel.value, status });
           if (isNew){ g.id = PMS.store.uid('g'); D().goals.push(g); }
-          H.commit(isNew ? 'Added goal' : 'Updated goal', g.title); close(); PMS.router.refresh();
-        });
+          H.commit(status === 'draft' ? 'Saved goal for later' : isNew ? 'Added goal' : 'Updated goal', g.title); close(); PMS.router.refresh();
+          ui.toast(status === 'draft' ? 'Saved as draft. Open it any time to finish.' : 'Goal saved');
+        };
+        const sv = ui.$('[data-save]', m); sv && (sv.onclick = () => save('active'));
+        const lt = ui.$('[data-later]', m); lt && (lt.onclick = () => save('draft'));
+        const ch = ui.$('[data-child]', m); ch && (ch.onclick = () => { close(); editGoal(null, { parentId: g.id, level: g.level === 'company' ? 'department' : 'team', perspective: g.perspective, pillar: g.pillar, dept: g.dept, relevance: 80 }); });
         const del = ui.$('[data-del]', m);
         del && (del.onclick = async () => {
           const kids = D().goals.filter(x => x.parentId === g.id).length;
           if (!await ui.confirm({ title:'Delete goal?', message: kids ? `This goal has ${kids} child goal(s); they will move to the top level.` : 'KRAs linked to this goal will lose the link.', ok:'Delete', danger:true })) return;
           D().goals.forEach(x => { if (x.parentId === g.id) x.parentId = null; });
           D().goals = D().goals.filter(x => x.id !== g.id);
+          (D().longPlan.items || []).forEach(x => { if (x.goalId === g.id) x.goalId = ''; });
           H.commit('Deleted goal', g.title); close(); PMS.router.refresh();
         });
       } });
   }
+  PMS.actions = PMS.actions || {}; PMS.actions.editGoal = editGoal;
+
+  /* ================= LONG-TERM PLAN + AI EVALUATION ================= */
+  const numOf = t => { const m = String(t == null ? '' : t).replace(/,/g, '').match(/[0-9]+(?:\.[0-9]+)?/); return m ? +m[0] : null; };
+  H.planEval = function(){
+    const d = D(), lp = d.longPlan, cyc = H.cur();
+    const fyStart = cyc && cyc.fy ? +cyc.fy.slice(0, 4) : new Date().getFullYear();
+    const yi = Math.max(0, Math.min(lp.years - 1, fyStart - lp.startYear));
+    const items = (lp.items || []).map(it => {
+      const g = H.goal(it.goalId), plan = numOf(it.targets[yi]), fin = numOf(it.targets[lp.years - 1]), gv = g ? numOf(g.target) : null;
+      let status = 'nogoal', gap = null;
+      if (g && gv != null && plan != null){
+        gap = it.direction === 'lower' ? plan - gv : gv - plan;           // +ve = goal more ambitious than plan
+        const tol = Math.max(Math.abs(plan) * 0.03, it.direction === 'lower' ? 0 : 0.0001);
+        status = gap >= 0 ? 'ok' : -gap <= tol ? 'close' : 'behind';
+      } else if (g) status = 'nonnum';
+      const left = lp.years - 1 - yi;
+      let pace = null, step = null;
+      if (gv != null && fin != null && left > 0){
+        if (it.unit !== '%' && it.direction !== 'lower' && gv > 0 && fin > 0) pace = (Math.pow(fin / gv, 1 / left) - 1) * 100;
+        else step = (fin - gv) / left;
+      }
+      return { it, g, plan, fin, gv, gap, status, pace, step, rel: g && g.relevance !== '' && g.relevance != null ? +g.relevance : null };
+    });
+    const company = d.goals.filter(g => g.level === 'company');
+    const orphanGoals = company.filter(g => !(lp.items || []).some(i => i.goalId === g.id));
+    const persp = KB.FRAMEWORKS[0].perspectives.map(p => ({ p, plan: (lp.items || []).filter(i => i.perspective === p).length, goals: company.filter(g => g.perspective === p).length }));
+    const pillars = KB.PILLARS.map(p => ({ p, plan: (lp.items || []).filter(i => i.pillar === p.id).length, goals: d.goals.filter(g => g.pillar === p.id).length }));
+    const rel = d.goals.filter(g => g.relevance !== '' && g.relevance != null);
+    const lowRel = rel.filter(g => +g.relevance < 75);
+    const withGoal = items.filter(x => ['ok','close','behind'].includes(x.status));
+    const okN = items.filter(x => x.status === 'ok').length, closeN = items.filter(x => x.status === 'close').length;
+    const score = items.length ? Math.round(((okN + closeN * 0.5) / items.length) * 70 + (rel.length ? E.mean(rel.map(g => +g.relevance)) : 0) * 0.2 + (persp.every(x => x.plan && x.goals) ? 10 : persp.filter(x => x.plan && x.goals).length * 2.5)) : 0;
+    const recs = [];
+    items.filter(x => x.status === 'behind').forEach(x => recs.push(`${H.goalCode(x.g)} “${x.g.title}” targets ${x.g.target}, but the plan needs ${x.plan}${x.it.unit === '%' ? '%' : ' ' + (x.it.unit || '')} this year. Raise the goal target or re-phase the later years of ${lp.name}.`));
+    items.filter(x => x.status === 'nogoal').forEach(x => recs.push(`Plan item “${x.it.title}” has no yearly goal this FY. Add a business goal for ${x.it.targets[yi]} ${x.it.unit || ''}.`));
+    orphanGoals.forEach(g => recs.push(`Business goal “${g.title}” is not linked to any long-term plan item. Link it or confirm it is a one-year goal.`));
+    lowRel.forEach(g => recs.push(`${H.goalCode(g)} “${g.title}” has relevance ${g.relevance}% (${H.relLabel(g.relevance)}). Review whether it should stay in this year’s plan.`));
+    pillars.filter(x => !x.goals).forEach(x => recs.push(`No goal or objective is tagged ${x.p.name} (${x.p.id}). Add one so the PQDCSM pillars are balanced.`));
+    items.filter(x => x.pace != null && x.pace > 25).forEach(x => recs.push(`“${x.it.title}” needs about ${ui.fmt(x.pace, 0)}% growth a year after this FY to reach ${x.it.targets[lp.years - 1]} — check it is realistic.`));
+    return { lp, yi, fy: cyc ? cyc.fy : '', items, orphanGoals, persp, pillars, rel, lowRel, score, recs, okN, closeN, behindN: items.filter(x => x.status === 'behind').length, noGoalN: items.filter(x => x.status === 'nogoal').length, withGoal };
+  };
+
+  PMS.pages.plan = { title: 'Long-term plan', render(el){
+    const d = D(), lp = d.longPlan, can = H.canPlan();
+    const ev = H.planEval();
+    const yrs = Array.from({ length: lp.years }, (_, i) => lp.startYear + i);
+    const fyl = y => 'FY ' + y + '-' + String(y + 1).slice(2);
+    const ST = { ok:['good','On track'], close:['warn','Slightly below'], behind:['bad','Below plan'], nogoal:['warn','No yearly goal'], nonnum:['plain','Not numeric'] };
+    el.innerHTML = `
+      <div class="page-head"><div><div class="eyebrow">${lp.years}-year plan · ${fyl(lp.startYear)} to ${fyl(lp.startYear + lp.years - 1)}</div><h1>${esc(lp.name)}</h1>
+        <p class="lead">Top management sets where the company must be in ${lp.years} years. Each year's business goals in the cascade are checked against the current-year column, and the AI evaluation flags gaps.</p></div>
+        <div class="actions"><button class="btn" data-ask>${icon('sparkle')}Ask AI to review</button>${can ? `<button class="btn" data-settings>${icon('gear')}Plan settings</button><button class="btn primary" data-additem>${icon('plus')}Add plan item</button>` : ''}</div></div>
+      ${lp.notes ? `<div class="note info">${esc(lp.notes)}</div>` : ''}
+      <div class="grid g4">
+        <div class="tile"><span class="eyebrow">AI alignment score</span><span class="v" style="color:var(--${ev.score >= 80 ? 'good' : ev.score >= 60 ? 'warn' : 'bad'})">${ev.score}<small>/100</small></span><span class="d">Goals vs plan, relevance, coverage</span></div>
+        <div class="tile"><span class="eyebrow">On track · ${esc(ev.fy)}</span><span class="v">${ev.okN}<small>/${ev.items.length}</small></span><span class="d">${ev.closeN} slightly below · ${ev.behindN} below plan</span></div>
+        <div class="tile"><span class="eyebrow">Plan items without a goal</span><span class="v" style="color:var(--${ev.noGoalN ? 'warn' : 'good'})">${ev.noGoalN}</span><span class="d">${ev.orphanGoals.length} business goal(s) not in the plan</span></div>
+        <div class="tile"><span class="eyebrow">Average relevance</span><span class="v">${ev.rel.length ? ui.fmt(E.mean(ev.rel.map(g => +g.relevance)), 0) : '—'}<small>%</small></span><span class="d">${ev.lowRel.length} below 75% (Good)</span></div>
+      </div>
+      <div class="card"><div class="card-head"><h3>Plan targets by year</h3><span class="sub">Current year highlighted · the goal column is this FY's business goal from the cascade</span></div>
+        <div class="tbl-wrap"><table class="tbl compact plan-tbl"><thead><tr><th>Perspective / pillar</th><th>Plan item</th>${yrs.map((y, i) => `<th class="r ${i === ev.yi ? 'cur' : ''}">${fyl(y)}</th>`).join('')}<th>Linked FY goal</th><th class="r">Goal target</th><th>AI check</th>${can ? '<th></th>' : ''}</tr></thead>
+        <tbody>${ev.items.map((x, ii) => `<tr>
+          <td class="small">${esc(x.it.perspective)}<div>${H.pillarTag(x.it.pillar)}</div></td>
+          <td style="min-width:230px"><b class="small">${esc(x.it.title)}</b><div class="xs muted">${esc(x.it.metric)} · ${x.it.direction === 'lower' ? 'lower is better' : 'higher is better'}</div></td>
+          ${yrs.map((y, i) => `<td class="r num ${i === ev.yi ? 'cur' : ''}">${can ? `<input data-pi="${ii}" data-y="${i}" value="${esc(x.it.targets[i] == null ? '' : x.it.targets[i])}" style="width:64px;text-align:right">` : esc(x.it.targets[i] == null ? '' : x.it.targets[i])}</td>`).join('')}
+          <td class="small">${can ? `<select data-pg="${ii}" style="max-width:220px"><option value="">—</option>${H.opts(d.goals.filter(g => g.level !== 'team').map(g => [g.id, H.goalCode(g) + ' · ' + g.title]), x.it.goalId)}</select>` : x.g ? esc(H.goalCode(x.g) + ' · ' + x.g.title) : '<span class="muted">—</span>'}</td>
+          <td class="r num small">${x.g ? esc(x.g.target) : '—'}</td>
+          <td><span class="pill ${ST[x.status][0]} plain">${ST[x.status][1]}</span>${x.pace != null ? `<div class="xs muted">then ${ui.fmt(x.pace, 1)}% growth / yr</div>` : x.step ? `<div class="xs muted">then ${x.step > 0 ? '+' : ''}${ui.fmt(x.step, 2)} ${esc(x.it.unit || '')} / yr</div>` : ''}</td>
+          ${can ? `<td><button class="btn icon sm ghost" data-rmi="${ii}" aria-label="Remove">${icon('trash')}</button></td>` : ''}</tr>`).join('') || `<tr><td colspan="${yrs.length + 6}"><div class="empty">No plan items yet.</div></td></tr>`}</tbody></table></div></div>
+      <div class="grid g2">
+        <div class="card"><div class="card-head"><h3>${icon('sparkle')} AI evaluation of ${esc(ev.fy)} goals</h3><span class="sub">Built-in rules; use “Ask AI to review” for a written review</span></div>
+          <div class="card-body">${ev.recs.length ? `<ol class="ai-recs">${ev.recs.map(r => `<li>${esc(r)}</li>`).join('')}</ol>` : '<div class="empty">The yearly goals match the long-term plan. Nothing to flag.</div>'}</div></div>
+        <div class="card"><div class="card-head"><h3>Coverage</h3><span class="sub">Plan items · business goals</span></div>
+          <div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>Perspective</th><th class="r">Plan items</th><th class="r">Business goals</th></tr></thead><tbody>${ev.persp.map(x => `<tr><td class="small">${esc(x.p)}</td><td class="r num">${x.plan}</td><td class="r num" style="color:var(--${x.goals ? 'ink' : 'bad'})">${x.goals}</td></tr>`).join('')}</tbody></table></div>
+          <div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>PQDCSM pillar</th><th class="r">Plan items</th><th class="r">Goals &amp; objectives</th></tr></thead><tbody>${ev.pillars.map(x => `<tr><td>${H.pillarTag(x.p.id)}</td><td class="r num">${x.plan}</td><td class="r num" style="color:var(--${x.goals ? 'ink' : 'bad'})">${x.goals}</td></tr>`).join('')}</tbody></table></div></div>
+      </div>`;
+    const ch = () => { H.commit(); PMS.router.refresh(); };
+    ui.$$('[data-pi]', el).forEach(i => i.onchange = () => { const it = lp.items[+i.dataset.pi]; const v = i.value.trim(); it.targets[+i.dataset.y] = v === '' ? '' : isNaN(+v) ? v : +v; ch(); });
+    ui.$$('[data-pg]', el).forEach(i => i.onchange = () => { lp.items[+i.dataset.pg].goalId = i.value; H.commit('Linked plan item to goal', lp.items[+i.dataset.pg].title); PMS.router.refresh(); });
+    ui.$$('[data-rmi]', el).forEach(b => b.onclick = async () => { const it = lp.items[+b.dataset.rmi]; if (!await ui.confirm({ title:'Remove plan item?', message: esc(it.title), ok:'Remove', danger:true })) return; lp.items.splice(+b.dataset.rmi, 1); H.commit('Removed plan item', it.title); PMS.router.refresh(); });
+    const ai = ev.items.map(x => `- ${x.it.title} [${x.it.perspective}/${x.it.pillar}]: plan ${ev.fy} = ${x.it.targets[ev.yi]}, final = ${x.it.targets[lp.years - 1]}; FY goal = ${x.g ? x.g.title + ' (target ' + x.g.target + ', relevance ' + x.g.relevance + '%)' : 'none'}; check = ${ST[x.status][1]}`).join('\n');
+    ui.$('[data-ask]', el).onclick = () => PMS.assistant.open(`Evaluate our ${ev.fy} business goals against the ${lp.years}-year plan "${lp.name}". For each item say whether the yearly goal is ambitious enough, realistic, and what to change. Then comment on perspective and PQDCSM balance.\n\n${ai}\nGoals not in plan: ${ev.orphanGoals.map(g => g.title).join('; ') || 'none'}`);
+    const ad = ui.$('[data-additem]', el); ad && (ad.onclick = () => ui.modal({ title:'Add plan item', body: `
+      ${H.field('Plan item', '<input id="pi-t" placeholder="e.g. OEE 90% on all lines by FY 2030-31">')}
+      <div class="grid g3">${H.field('Perspective', `<select id="pi-p">${H.opts(KB.FRAMEWORKS[0].perspectives)}</select>`)}${H.field('PQDCSM pillar', `<select id="pi-pl">${H.pillarOpts('')}</select>`)}${H.field('Direction', `<select id="pi-d">${H.opts([['higher','Higher is better'],['lower','Lower is better']])}</select>`)}
+      ${H.field('Metric', '<input id="pi-m">')}${H.field('Unit', '<input id="pi-u" placeholder="% / ₹ Cr / h">')}${H.field('Linked FY goal', `<select id="pi-g"><option value="">—</option>${H.opts(d.goals.filter(g => g.level === 'company').map(g => [g.id, H.goalCode(g) + ' · ' + g.title]))}</select>`)}</div>
+      ${H.field('Yearly targets (comma separated, ' + lp.years + ' values)', '<input id="pi-y" placeholder="85, 86.5, 88, 89, 90">')}`,
+      foot:'<button class="btn" data-close>Cancel</button><button class="btn primary" data-ok>Add</button>',
+      onMount(m, close){ ui.$('[data-ok]', m).onclick = () => { const v = id => ui.$(id, m).value.trim(); if (!v('#pi-t')){ ui.toast('Enter the plan item.', 'err'); return; }
+        const ys = v('#pi-y').split(',').map(x => x.trim()).map(x => x === '' ? '' : isNaN(+x) ? x : +x); while (ys.length < lp.years) ys.push(''); ys.length = lp.years;
+        lp.items.push({ id: PMS.store.uid('lp'), title: v('#pi-t'), perspective: v('#pi-p'), pillar: v('#pi-pl'), direction: v('#pi-d'), metric: v('#pi-m'), unit: v('#pi-u'), goalId: v('#pi-g'), targets: ys });
+        H.commit('Added plan item', v('#pi-t')); close(); PMS.router.refresh(); }; } }));
+    const se = ui.$('[data-settings]', el); se && (se.onclick = () => ui.modal({ title:'Plan settings', size:'narrow', body: `
+      ${H.field('Plan name', `<input id="ps-n" value="${esc(lp.name)}">`)}
+      <div class="grid g2">${H.field('Start FY (year)', `<input type="number" id="ps-s" value="${lp.startYear}">`)}${H.field('Horizon', `<select id="ps-y">${H.opts([[5,'5 years'],[10,'10 years']], lp.years)}</select>`)}</div>
+      ${H.field('Notes', `<textarea id="ps-o" rows="3">${esc(lp.notes || '')}</textarea>`)}`,
+      foot:'<button class="btn" data-close>Cancel</button><button class="btn primary" data-ok>Save</button>',
+      onMount(m, close){ ui.$('[data-ok]', m).onclick = () => { lp.name = ui.$('#ps-n', m).value.trim() || lp.name; lp.startYear = +ui.$('#ps-s', m).value || lp.startYear; lp.years = +ui.$('#ps-y', m).value; lp.notes = ui.$('#ps-o', m).value.trim();
+        lp.items.forEach(it => { while (it.targets.length < lp.years) it.targets.push(''); it.targets.length = lp.years; });
+        H.commit('Updated long-term plan', lp.name); close(); PMS.router.refresh(); }; } }));
+  } };
 
   /* ================= KRA / KPI LIBRARY ================= */
   PMS.pages.library = { title: 'KRA / KPI library', render(el){
@@ -2051,7 +2376,7 @@ PMS.router = (function(){
           <div class="card-head" style="align-items:flex-start"><div style="flex:1;min-width:0"><div class="eyebrow">${esc(H.roleName(l.role))}</div><h3>${esc(l.kra)}</h3></div>
             <button class="btn icon sm ghost" data-edit="${esc(l.id)}" aria-label="Edit">${icon('edit')}</button></div>
           <div class="card-body stack" style="gap:8px;flex:1">
-            <div class="row tight"><span class="tag">${esc(H.cat(l.category).name)}</span><span class="tag">Default weight ${esc(l.defaultWeight)}%</span>${off ? '<span class="pill warn plain">Category not in methodology</span>' : ''}</div>
+            <div class="row tight">${H.pillarTag(l.pillar)}<span class="tag">${esc(H.cat(l.category).name)}</span><span class="tag">Default weight ${esc(l.defaultWeight)}%</span>${off ? '<span class="pill warn plain">Category not in methodology</span>' : ''}</div>
             ${l.kpis.map(k => `<div style="border-top:1px solid var(--line);padding-top:8px">
               <div class="row" style="justify-content:space-between;gap:6px"><b class="small">${esc(k.name)}</b><span class="xs muted nowrap">${esc(KB.DIRECTIONS[k.direction].short)}</span></div>
               <div class="xs muted">${k.direction === 'range' ? `Range ${esc(k.rangeMin)} to ${esc(k.rangeMax)}` : k.direction === 'rating' ? 'Rated on the configured scale' : `Baseline <span class="num">${esc(k.baseline || '—')}</span> → target <span class="num">${esc(k.target)}</span>`} ${esc(k.unit && k.unit !== 'rating' && k.unit !== 'milestone' ? k.unit : '')} · ${esc(k.dataSource)} · ${esc(k.frequency)}</div></div>`).join('')}
@@ -2071,8 +2396,21 @@ PMS.router = (function(){
       <div class="grid g-auto" id="libGrid"></div>
       <div class="card"><div class="card-head"><h3>The 20 KRA categories</h3><span class="sub">Highlighted categories are used by the current methodology</span></div>
         <div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>Category</th><th>Example KRA</th><th>Example KPI</th><th>BSC perspective</th></tr></thead>
-        <tbody>${KB.CATEGORIES.map(c => `<tr><td>${enabled.has(c.id) ? `<span class="pill accent">${esc(c.name)}</span>` : `<span class="muted">${esc(c.name)}</span>`}</td><td>${esc(c.kra)}</td><td>${esc(c.kpi)}</td><td class="small muted">${esc(c.bsc)}</td></tr>`).join('')}</tbody></table></div></div>`;
+        <tbody>${KB.CATEGORIES.map(c => `<tr><td>${enabled.has(c.id) ? `<span class="pill accent">${esc(c.name)}</span>` : `<span class="muted">${esc(c.name)}</span>`}</td><td>${esc(c.kra)}</td><td>${esc(c.kpi)}</td><td class="small muted">${esc(c.bsc)}</td></tr>`).join('')}</tbody></table></div></div>
+      <div class="card"><div class="card-head"><h3>Competency library</h3><span class="sub">Behaviour · Skill · Attitude, mapped on each goal sheet's Competencies tab</span><span class="spacer"></span>${H.canEdit() ? `<button class="btn sm" data-addcomp>${icon('plus')}Add competency</button>` : ''}</div>
+        <div class="tbl-wrap"><table class="tbl compact"><thead><tr><th>Type</th><th>Competency</th><th>What good looks like</th><th class="r">Used on</th><th></th></tr></thead>
+        <tbody>${(D().competencies || []).map(c => `<tr><td><span class="tag">${esc(c.type)}</span></td><td><b class="small">${esc(c.name)}</b></td><td class="small muted">${esc(c.description)}</td><td class="r num small">${H.sheets().filter(s => (s.competencies || []).some(x => x.compId === c.id)).length} sheets</td><td>${H.canEdit() ? `<button class="btn icon sm ghost" data-ecomp="${esc(c.id)}" aria-label="Edit">${icon('edit')}</button>` : ''}</td></tr>`).join('') || '<tr><td colspan="5"><div class="empty">No competencies yet.</div></td></tr>'}</tbody></table></div></div>`;
     draw();
+    const editComp = c => { const isNew = !c; c = c || { id:'', type:'Behaviour', name:'', description:'' };
+      ui.modal({ title: isNew ? 'Add competency' : c.name, size:'narrow', body: `${H.field('Type', `<select id="c-t">${H.opts(KB.COMPETENCY_TYPES, c.type)}</select>`)}${H.field('Competency', `<input id="c-n" value="${esc(c.name)}">`)}${H.field('What good looks like', H.wordBox('id="c-d"', c.description, '', 3))}`,
+        foot: `${!isNew ? `<button class="btn danger" data-del>${icon('trash')}Delete</button><span class="spacer"></span>` : ''}<button class="btn" data-close>Cancel</button><button class="btn primary" data-ok>Save</button>`,
+        onMount(m, close){ H.bindWords(m);
+          ui.$('[data-ok]', m).onclick = () => { const n = ui.$('#c-n', m).value.trim(); if (!n){ ui.toast('Enter the competency.', 'err'); return; }
+            Object.assign(c, { type: ui.$('#c-t', m).value, name: n, description: ui.$('#c-d', m).value.trim() }); if (isNew){ c.id = PMS.store.uid('cm'); D().competencies.push(c); }
+            H.commit(isNew ? 'Added competency' : 'Updated competency', n); close(); PMS.router.refresh(); };
+          const dl = ui.$('[data-del]', m); dl && (dl.onclick = () => { D().competencies = D().competencies.filter(x => x !== c); D().sheets.forEach(s => s.competencies = (s.competencies || []).filter(x => x.compId !== c.id)); H.commit('Deleted competency', c.name); close(); PMS.router.refresh(); }); } }); };
+    const ac = ui.$('[data-addcomp]', el); ac && (ac.onclick = () => editComp(null));
+    ui.$$('[data-ecomp]', el).forEach(b => b.onclick = () => editComp(D().competencies.find(x => x.id === b.dataset.ecomp)));
     ui.$('#libQ', el).oninput = e => { st.q = e.target.value; draw(); };
     ui.$('#libRole', el).onchange = e => { st.role = e.target.value; draw(); };
     ui.$('#libCat', el).onchange = e => { st.cat = e.target.value; draw(); };
@@ -2111,7 +2449,9 @@ PMS.router = (function(){
         ${H.field('Default weight (%)', `<input type="number" id="t-w" value="${esc(t.defaultWeight)}" ${ro}>`)}
         ${H.field('Role', `<select id="t-role" ${ro}>${H.opts(Object.entries(PMS.ROLES), t.role)}</select>`)}
         ${H.field('Category', `<select id="t-cat" ${ro}>${H.opts(KB.CATEGORIES.map(c => [c.id, c.name]), t.category)}</select>`)}
-        ${H.field('Linked goal', `<select id="t-goal" ${ro}><option value="">None</option>${H.opts(D().goals.map(g => [g.id, g.title]), t.goalId)}</select>`)}
+        ${H.field('Linked goal', `<select id="t-goal" ${ro}><option value="">None</option>${H.opts(D().goals.map(g => [g.id, H.goalCode(g) + ' · ' + g.title]), t.goalId)}</select>`)}
+        ${H.field('PQDCSM pillar', `<select id="t-pillar" ${ro}>${H.pillarOpts(t.pillar)}</select>`)}
+        ${H.field('Description', H.wordBox('id="t-desc"', t.description, ro, 2), '', 'span-2')}
       </div>
       <div class="stack" id="t-kpis">${t.kpis.map((k, i) => PMS.kpiFieldsHtml(k, i, ro)).join('')}</div>
       ${ro ? '' : `<div><button class="btn sm" data-addkpi>${icon('plus')}Add KPI</button></div>`}
@@ -2121,7 +2461,7 @@ PMS.router = (function(){
       onMount(m, close){
         const readAll = () => {
           t.kra = ui.$('#t-kra', m).value.trim(); t.defaultWeight = +ui.$('#t-w', m).value || 0; t.role = ui.$('#t-role', m).value;
-          t.category = ui.$('#t-cat', m).value; t.goalId = ui.$('#t-goal', m).value;
+          t.category = ui.$('#t-cat', m).value; t.goalId = ui.$('#t-goal', m).value; t.pillar = ui.$('#t-pillar', m).value; t.description = ui.$('#t-desc', m).value.trim();
           t.kpis = ui.$$('[data-kpi]', m).map((b, i) => Object.assign({ id: t.kpis[i] && t.kpis[i].id || PMS.store.uid('lk') }, PMS.readKpiFields(b)));
         };
         const rerender = () => { ui.$('.modal-body', m).innerHTML = body(); bind(); };
@@ -2131,12 +2471,12 @@ PMS.router = (function(){
           ui.$('#t-warn', m).innerHTML = (Math.abs(w - 100) > .05 ? `<div class="note warn">KPI weights add to ${w}%. They must total 100% inside the KRA.</div>` : '') + weak.map(x => `<div class="note warn">${esc(x)}</div>`).join('');
         };
         const bind = () => {
-          const a = ui.$('[data-addkpi]', m); a && (a.onclick = () => { readAll(); t.kpis.push({ name:'', unit:'%', direction:'higher', baseline:'', target:'', rangeMin:'', rangeMax:'', dataSource:'', frequency:'Monthly', mtype:'percentage', weight:0, formula:'' }); rerender(); });
+          const a = ui.$('[data-addkpi]', m); a && (a.onclick = () => { readAll(); const mx = C().weighting.maxKpis || 99; if (t.kpis.length >= mx){ ui.toast(`At most ${mx} KPIs per KRA (policy).`, 'err'); return; } t.kpis.push({ name:'', unit:'%', direction:'higher', baseline:'', target:'', rangeMin:'', rangeMax:'', dataSource:'', frequency:'Monthly', mtype:'percentage', weight:0, formula:'' }); rerender(); });
           ui.$$('[data-rm]', m).forEach(b => b.onclick = () => { readAll(); t.kpis.splice(+b.dataset.rm, 1); rerender(); });
           ui.$('.modal-body', m).oninput = () => { readAll(); warn(); };
           warn();
         };
-        bind();
+        bind(); H.bindWords(m);
         const sv = ui.$('[data-save]', m);
         sv && (sv.onclick = () => {
           readAll();
@@ -2413,13 +2753,20 @@ PMS.router = (function(){
       { k:{ direction:'lower', target:3, actual:4 }, t:'Defects 4 vs target 3' },
       { k:{ direction:'lower', target:3, actual:0 }, t:'Defects 0 vs target 3 (zero actual)' },
       { k:{ direction:'range', rangeMin:90, rangeMax:100, actual:104 }, t:'Utilisation 104 vs range 90–100' },
-      { k:{ direction:'milestone', actual:'late' }, t:'Release delivered late' }
+      { k:{ direction:'milestone', actual:'late' }, t:'Release delivered late' },
+      { k:{ direction:'higher', target:97, actual:90 }, t:'FPY 90% vs target 97%' }
     ].map(x => ({ ...x, a: E.achievement(x.k, tmp) }));
     return `<div class="stack lg">
       <div class="card"><div class="card-head"><h3>What produces each KPI score?</h3></div><div class="card-body stack">
         <div class="grid g3">${KB.SCORE_SOURCES.map(x => `<button class="choice ${s.source === x.id ? 'on' : ''}" data-src="${x.id}"><h4>${esc(x.name)}</h4><p>${esc(x.desc)}</p></button>`).join('')}</div>
         ${s.source === 'hybrid' ? `<div class="field"><label>Mix: ${s.hybridMix}% calculated achievement · ${100 - s.hybridMix}% reviewer rating</label><input type="range" min="10" max="90" step="5" data-sc="hybridMix" value="${s.hybridMix}"></div>` : ''}
         ${H.field('Self-rating weight inside the reviewer rating (%)', `<input type="number" data-sc="selfWeight" value="${s.selfWeight}" style="max-width:120px">`, '0 = manager rating only. 20 = 20% self, 80% manager.')}
+      </div></div>
+      <div class="card"><div class="card-head"><h3>Achievement levels & competencies</h3><span class="sub">Client BSC option: Not achieved / 50% / 100%</span></div><div class="card-body stack">
+        <div class="grid g2"><button class="choice ${s.mode !== 'step' ? 'on' : ''}" data-mode="continuous"><h4>Continuous</h4><p>KPI score is the achievement % itself (e.g. 92.8% → 92.8).</p></button>
+          <button class="choice ${s.mode === 'step' ? 'on' : ''}" data-mode="step"><h4>Step levels 100 / 50 / 0</h4><p>Achieved = 100, partially achieved = 50, not achieved = 0. The reviewer can override the level on each KPI.</p></button></div>
+        ${s.mode === 'step' ? `<div class="grid g3">${H.field('Achieved (100) when achievement ≥', `<input type="number" data-sc="stepFull" value="${s.stepFull}" style="max-width:120px">`, '% of target')}${H.field('Partial (50) when achievement ≥', `<input type="number" data-sc="stepHalf" value="${s.stepHalf}" style="max-width:120px">`, 'Below this = Not achieved (0)')}<div class="formula" style="align-self:center">KRA1 35% · KPI1 60% achieved → 21\nKPI2 40% partial → 0.4 × 50% × 35 = 7\nKRA1 = 28 of 35</div></div>` : ''}
+        ${H.field('Competency weight in final score (%)', `<input type="number" min="0" max="50" data-sc="competencyWeight" value="${s.competencyWeight || 0}" style="max-width:120px">`, 'Behaviour / Skill / Attitude ratings from the Competencies tab. 0 = shown for development only. Final = KPI score × (100 − w)% + competency score × w%.')}
       </div></div>
       <div class="grid g2">
         <div class="card"><div class="card-head"><h3>Normalisation rules</h3></div><div class="card-body stack">
@@ -2494,6 +2841,7 @@ Final:   P = Σ W(KRA) × Σ W(KPI|KRA) × A</div></div></div>
           <dt>KPI weights</dt><dd>${esc(nm(KB.WEIGHT_METHODS, d.weighting.kpi))}</dd>
           <dt>Policy</dt><dd>${d.weighting.minKra}–${d.weighting.maxKra}% per KRA, up to ${d.weighting.maxKras} KRAs × ${d.weighting.maxKpis} KPIs</dd>
           <dt>Score from</dt><dd>${esc(nm(KB.SCORE_SOURCES, d.scoring.source))}${d.scoring.source === 'hybrid' ? ` ${d.scoring.hybridMix}/${100 - d.scoring.hybridMix}` : ''}</dd>
+          <dt>Levels</dt><dd>${d.scoring.mode === 'step' ? `Step 100 / 50 / 0 (≥${d.scoring.stepFull} / ≥${d.scoring.stepHalf})` : 'Continuous'}</dd><dt>Competencies</dt><dd>${d.scoring.competencyWeight ? d.scoring.competencyWeight + '% of final' : 'Not weighted'}</dd>
           <dt>Cap</dt><dd>${d.scoring.cap || 'None'}</dd><dt>Missing data</dt><dd>${esc(d.scoring.missing)}</dd></dl></div></div>
         <div class="card"><div class="card-head"><h3>Ratings & workflow</h3></div><div class="card-body"><dl class="kv">
           <dt>Scale</dt><dd>${esc(sc.name)}</dd>
@@ -2530,6 +2878,7 @@ Final:   P = Σ W(KRA) × Σ W(KPI|KRA) × A</div></div></div>
     ui.$$('[data-wm]', el).forEach(b => b.onclick = () => { d.weighting[b.dataset.wm] = b.dataset.v; custom(); rr(); });
     ui.$$('[data-wp]', el).forEach(i => i.onchange = () => { d.weighting[i.dataset.wp] = i.type === 'checkbox' ? i.checked : +i.value; custom(); });
     ui.$$('[data-src]', el).forEach(b => b.onclick = () => { d.scoring.source = b.dataset.src; custom(); rr(); });
+    ui.$$('[data-mode]', el).forEach(b => b.onclick = () => { d.scoring.mode = b.dataset.mode; if (d.scoring.stepFull == null) d.scoring.stepFull = 100; if (d.scoring.stepHalf == null) d.scoring.stepHalf = 80; custom(); rr(); });
     ui.$$('[data-sc]', el).forEach(i => { const ev = i.type === 'range' ? 'input' : 'change'; i.addEventListener(ev, () => { const k = i.dataset.sc; d.scoring[k] = ['zeroActual','missing'].includes(k) ? i.value : +i.value; custom(); if (ev === 'change') rr(); else { const l = i.closest('.field').querySelector('label'); l.textContent = `Mix: ${i.value}% calculated achievement · ${100 - i.value}% reviewer rating`; } }); });
     ui.$$('[data-ms]', el).forEach(i => i.onchange = () => { d.scoring.milestone[i.dataset.ms] = +i.value; custom(); rr(); });
     ui.$$('[data-scale]', el).forEach(b => b.onclick = () => { const s = KB.SCALES[b.dataset.scale]; d.scale = { type: b.dataset.scale, bands: clone(s.bands), anchors: clone(s.anchors || null) }; custom(); rr(); });
@@ -2572,7 +2921,7 @@ Final:   P = Σ W(KRA) × Σ W(KPI|KRA) × A</div></div></div>
     if (dsc.cascade !== 'off' || dsc.goals !== 'off'){
       D().goals.filter(g => g.dept === emp.department && g.level !== 'company').forEach(g => {
         if (out.some(c => c.goalId === g.id)) { out.filter(c => c.goalId === g.id).forEach(c => c.sources = [...new Set([...c.sources, 'Goal cascade'])]); return; }
-        const cat = { Financial:'financial', Customer:'customer', 'Internal Process':'operational', 'Learning & Growth':'learning' }[g.perspective] || 'strategic';
+        const cat = { Financial:'financial', Customer:'customer', 'Business Process':'operational', 'Learning & Development':'learning' }[g.perspective] || 'strategic';
         fromTpl({ kra: 'Contribute to: ' + g.title, category: cat, goalId: g.id, defaultWeight: 15,
           kpis:[{ name: g.metric + ' (team contribution)', unit:'', direction:'higher', baseline:'', target:'', dataSource:'Department MIS', frequency:'Quarterly', mtype:'percentage', weight:100, formula:'', rangeMin:'', rangeMax:'' }] }, ['Goal cascade'], 65);
       });
@@ -2819,14 +3168,14 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
   };
 
   /* ---------- actions ---------- */
-  PMS.actions = {
+  PMS.actions = Object.assign(PMS.actions || {}, {
     blankSheet(empId, cycleId){
-      return { id: PMS.store.uid('sh'), employeeId: empId, cycleId, status:'draft', kras: [], comments:{ employee:'', manager:'', hr:'' },
+      return { id: PMS.store.uid('sh'), employeeId: empId, cycleId, status:'draft', kras: [], competencies: [], comments:{ employee:'', manager:'', hr:'' },
         history: [], calibration: null, ack: false, createdAt: now(), updatedAt: now() };
     },
     fromTemplates(emp, cycleId){
       const s = PMS.actions.blankSheet(emp.id, cycleId);
-      s.kras = D().library.filter(l => l.role === emp.role).map(t => ({ id: PMS.store.uid('kra'), title: t.kra, category: t.category, weight: t.defaultWeight, goalId: t.goalId || '',
+      s.kras = D().library.filter(l => l.role === emp.role).map(t => ({ id: PMS.store.uid('kra'), title: t.kra, category: t.category, pillar: t.pillar || KB.CAT_PILLAR[t.category] || '', description:'', weight: t.defaultWeight, goalId: t.goalId || '',
         kpis: t.kpis.map(k => ({ id: PMS.store.uid('kpi'), name: k.name, description: k.description || '', formula: k.formula || '', unit: k.unit, direction: k.direction, baseline: k.baseline, target: k.target,
           rangeMin: k.rangeMin, rangeMax: k.rangeMax, dataSource: k.dataSource, frequency: k.frequency, mtype: k.mtype, weight: k.weight, actual:'', selfRating:'', mgrRating:'', evidence:'' })) }));
       return s;
@@ -2863,7 +3212,7 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
           D().sheets.push(s); H.commit('Created goal sheet', emp.name); close(); PMS.router.go('sheet', { id: s.id });
         }; } });
     }
-  };
+  });
 
   /* ================= GOAL SHEETS LIST ================= */
   PMS.pages.sheets = { title: 'Goal sheets', render(el){
@@ -2904,7 +3253,7 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
 
   /* ================= SHEET EDITOR ================= */
   function perms(s){
-    const r = ui.role, st = s.status, cfg = C();
+    const r = ['top','buhead'].includes(ui.role) ? 'manager' : ui.role, st = s.status, cfg = C();
     const hr = r === 'hr', mgr = r === 'manager', emp = r === 'employee';
     const planStage = ['draft','pending'].includes(st) || (st === 'active' && !cfg.weighting.lock);
     return {
@@ -2927,11 +3276,13 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
       const dirs = Object.entries(KB.DIRECTIONS).map(([v, d]) => [v, d.short]);
       const rOpts = (v) => `<option value="">–</option>${Array.from({ length: sc.points }, (_, i) => sc.points - i).map(n => `<option value="${n}" ${String(v) === String(n) ? 'selected' : ''}>${n}</option>`).join('')}`;
       const dis = b => b ? '' : 'disabled';
+      const step = cfg.scoring.mode === 'step', maxK = cfg.weighting.maxKpis || 99;
+      const lvOpts = v => H.opts([['','Auto'],['100','Achieved · 100%'],['50','Partial · 50%'],['0','Not achieved · 0%']], v == null ? '' : String(v));
       const stageIdx = ORDER.indexOf(s.status);
       const showStages = KB.STAGES.filter(x => x.id !== 'calibration' || cfg.workflow.calibration);
 
       const planRow = (k, ki, pi) => `<tr>
-        <td style="min-width:210px"><input data-k="${ki}" data-p="${pi}" data-f="name" value="${esc(k.name)}" ${dis(pm.structure)}><input data-k="${ki}" data-p="${pi}" data-f="formula" value="${esc(k.formula || '')}" placeholder="Formula / definition" style="margin-top:4px;font-size:.75rem" ${dis(pm.structure)}></td>
+        <td style="min-width:210px"><span class="xs muted num">${esc(H.kraCode(s.kras[ki], ki))}-KPI${pi + 1}</span><input data-k="${ki}" data-p="${pi}" data-f="name" value="${esc(k.name)}" ${dis(pm.structure)}><input data-k="${ki}" data-p="${pi}" data-f="formula" value="${esc(k.formula || '')}" placeholder="Formula / definition" style="margin-top:4px;font-size:.75rem" ${dis(pm.structure)}></td>
         <td><select data-k="${ki}" data-p="${pi}" data-f="direction" data-struct ${dis(pm.structure)}>${H.opts(dirs, k.direction)}</select></td>
         <td><input data-k="${ki}" data-p="${pi}" data-f="unit" value="${esc(k.unit)}" style="width:80px" ${dis(pm.structure)}></td>
         <td><input data-k="${ki}" data-p="${pi}" data-f="baseline" value="${esc(k.baseline)}" style="width:80px" ${dis(pm.structure && !['rating','milestone'].includes(k.direction))}></td>
@@ -2948,10 +3299,27 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
         <td>${k.direction === 'milestone' ? `<select data-k="${ki}" data-p="${pi}" data-f="actual" ${dis(pm.actual)}>${H.opts([['','—'],['ontime','On time'],['late','Late'],['partial','Partial'],['missed','Missed']], k.actual)}</select>`
           : k.direction === 'rating' ? '<span class="xs muted">n/a</span>' : `<input data-k="${ki}" data-p="${pi}" data-f="actual" value="${esc(k.actual)}" style="width:86px" inputmode="decimal" ${dis(pm.actual)}>`}</td>
         <td class="ach" data-ach="${ki}-${pi}"></td>
+        ${step ? `<td><select data-k="${ki}" data-p="${pi}" data-f="level" ${dis(pm.mgr || pm.actual)} aria-label="Achievement level" style="width:130px;min-width:0">${lvOpts(k.level)}</select></td>` : ''}
         <td><select data-k="${ki}" data-p="${pi}" data-f="selfRating" ${dis(pm.self)} aria-label="Self rating">${rOpts(k.selfRating)}</select></td>
         <td><select data-k="${ki}" data-p="${pi}" data-f="mgrRating" ${dis(pm.mgr)} aria-label="Manager rating">${rOpts(k.mgrRating)}</select></td>
         <td class="ach" data-sc="${ki}-${pi}"></td>
         <td><input data-k="${ki}" data-p="${pi}" data-f="evidence" value="${esc(k.evidence)}" placeholder="Evidence / link" style="min-width:160px" ${dis(pm.actual || pm.mgr)}></td></tr>`;
+
+      const lib = D().competencies || [];
+      const compHtml = () => {
+        const cw = +(cfg.scoring.competencyWeight || 0);
+        const rows = (s.competencies || []).map((c, ci) => { const d = lib.find(x => x.id === c.compId) || { name: c.compId, type:'' };
+          return `<tr><td><span class="tag">${esc(d.type)}</span></td><td><b class="small">${esc(d.name)}</b><div class="xs muted">${esc(d.description || '')}</div></td>
+            <td><select data-cm="${ci}" data-cf="self" ${dis(pm.self)} aria-label="Self rating">${rOpts(c.self)}</select></td>
+            <td><select data-cm="${ci}" data-cf="mgr" ${dis(pm.mgr)} aria-label="Manager rating">${rOpts(c.mgr)}</select></td>
+            <td class="r num small" data-cms="${ci}"></td>
+            <td>${pm.structure ? `<button class="btn icon sm ghost" data-rmcm="${ci}" aria-label="Remove">${icon('trash')}</button>` : ''}</td></tr>`; }).join('');
+        const avail = lib.filter(x => !(s.competencies || []).some(c => c.compId === x.id));
+        return `<div class="card"><div class="card-head"><h3>Competency mapping</h3><span class="sub">Behaviour · Skill · Attitude, rated on the ${esc(sc.name)} scale</span><span class="spacer"></span><span class="pill plain ${cw ? 'accent' : ''}">${cw ? cw + '% of final score' : 'Not weighted (shown for development)'}</span></div>
+          <div class="tbl-wrap"><table class="tbl edit"><thead><tr><th>Type</th><th>Competency</th><th>Self</th><th>Manager</th><th class="r">Score</th><th></th></tr></thead><tbody>${rows || '<tr><td colspan="6"><div class="empty">No competencies mapped yet.</div></td></tr>'}</tbody></table></div>
+          <div class="card-body row">${pm.structure && avail.length ? `<select id="cmAdd" style="max-width:320px">${H.opts(avail.map(x => [x.id, x.type + ' › ' + x.name]))}</select><button class="btn sm" data-addcm>${icon('plus')}Add competency</button>` : ''}
+            <span class="spacer"></span><span class="small" id="cmAvg"></span></div></div>`;
+      };
 
       el.innerHTML = `
         <div class="page-head">
@@ -2963,20 +3331,22 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
         <div id="valBox"></div>
         <div class="grid" style="grid-template-columns:minmax(0,1fr) 300px;align-items:start" id="sgrid">
           <div class="stack">
-            <div class="tabs"><button class="${tab === 'plan' ? 'on' : ''}" data-tab="plan">Goals & targets</button><button class="${tab === 'results' ? 'on' : ''}" data-tab="results">Results & ratings</button><button class="${tab === 'history' ? 'on' : ''}" data-tab="history">History · ${s.history.length}</button></div>
-            ${tab === 'history' ? `<div class="card"><div class="card-body"><ul class="list-plain audit">${s.history.slice().reverse().map(h => `<li><span class="num xs muted">${ui.fmtDateTime(h.at)}</span><span class="small"><b>${esc(h.action)}</b> · <span class="muted">${esc(h.by)}</span>${h.note ? `<div class="xs muted">${esc(h.note)}</div>` : ''}</span></li>`).join('')}</ul></div></div>` :
+            <div class="tabs"><button class="${tab === 'plan' ? 'on' : ''}" data-tab="plan">Goals & targets</button><button class="${tab === 'results' ? 'on' : ''}" data-tab="results">Results & ratings</button><button class="${tab === 'comp' ? 'on' : ''}" data-tab="comp">Competencies · ${(s.competencies || []).length}</button><button class="${tab === 'history' ? 'on' : ''}" data-tab="history">History · ${s.history.length}</button></div>
+            ${tab === 'comp' ? compHtml() : tab === 'history' ? `<div class="card"><div class="card-body"><ul class="list-plain audit">${s.history.slice().reverse().map(h => `<li><span class="num xs muted">${ui.fmtDateTime(h.at)}</span><span class="small"><b>${esc(h.action)}</b> · <span class="muted">${esc(h.by)}</span>${h.note ? `<div class="xs muted">${esc(h.note)}</div>` : ''}</span></li>`).join('')}</ul></div></div>` :
             s.kras.map((kra, ki) => `<div class="kra-block">
-              <div class="kra-top"><span class="kno">KRA ${ki + 1}</span>
+              <div class="kra-top"><span class="kno num" data-tip="Goal-Strategy-KRA code">${esc(H.kraCode(kra, ki))}</span>
                 <input class="kt" data-k="${ki}" data-f="title" value="${esc(kra.title)}" ${dis(pm.structure)} aria-label="KRA title">
                 <select data-k="${ki}" data-f="category" style="width:auto" ${dis(pm.structure)} aria-label="Category">${H.opts(KB.CATEGORIES.map(c => [c.id, c.name]), kra.category)}</select>
+                <select data-k="${ki}" data-f="pillar" style="width:auto" ${dis(pm.structure)} aria-label="PQDCSM pillar">${H.pillarOpts(kra.pillar, true)}</select>
                 <label class="w">Weight <input type="number" data-k="${ki}" data-f="weight" value="${esc(kra.weight)}" ${dis(pm.structure)}>%</label>
                 ${pm.structure ? `<button class="btn icon sm ghost" data-rmkra="${ki}" aria-label="Remove KRA">${icon('trash')}</button>` : ''}</div>
+              ${tab === 'plan' && (pm.structure || kra.description) ? `<div class="kra-desc">${pm.structure ? H.wordBox(`data-k="${ki}" data-f="description"`, kra.description, '', 2, 'KRA description: what this result area covers (max 200 words)') : `<p class="small muted">${esc(kra.description)}</p>`}</div>` : ''}
               <div class="tbl-wrap"><table class="tbl edit">
                 ${tab === 'plan' ? `<thead><tr><th>KPI</th><th>Direction</th><th>Unit</th><th>Baseline</th><th>Target</th><th>Data source</th><th>Frequency</th><th>Wt %</th><th class="r" data-tip="KRA weight × KPI weight">Overall</th><th></th></tr></thead><tbody>${kra.kpis.map((k, pi) => planRow(k, ki, pi)).join('')}</tbody>`
-                  : `<thead><tr><th>KPI</th><th class="r">Overall wt</th><th>Actual</th><th class="r">Achieved</th><th>Self</th><th>Manager</th><th class="r">Score</th><th>Evidence</th></tr></thead><tbody>${kra.kpis.map((k, pi) => resRow(k, ki, pi)).join('')}</tbody>`}
+                  : `<thead><tr><th>KPI</th><th class="r">Overall wt</th><th>Actual</th><th class="r">Achieved</th>${step ? '<th data-tip="Step scoring: 100 / 50 / 0. Auto uses the thresholds in Method setup; the reviewer can override.">Level</th>' : ''}<th>Self</th><th>Manager</th><th class="r">Score</th><th>Evidence</th></tr></thead><tbody>${kra.kpis.map((k, pi) => resRow(k, ki, pi)).join('')}</tbody>`}
               </table></div>
-              <div class="kra-foot">${pm.structure ? `<button class="btn sm" data-addkpi="${ki}">${icon('plus')}Add KPI</button>` : ''}
-                <span class="small">Linked goal: ${pm.structure ? `<select data-k="${ki}" data-f="goalId" style="width:auto;max-width:260px">${'<option value="">None</option>' + H.opts(D().goals.map(g => [g.id, g.title]), kra.goalId)}</select>` : esc((H.goal(kra.goalId) || { title:'None' }).title)}</span>
+              <div class="kra-foot">${pm.structure ? (kra.kpis.length >= maxK ? `<span class="xs muted">Max ${maxK} KPIs per KRA reached</span>` : `<button class="btn sm" data-addkpi="${ki}">${icon('plus')}Add KPI</button>`) : ''}
+                <span class="small">Linked goal: ${pm.structure ? `<select data-k="${ki}" data-f="goalId" style="width:auto;max-width:260px">${'<option value="">None</option>' + H.opts(D().goals.map(g => [g.id, H.goalCode(g) + ' · ' + g.title]), kra.goalId)}</select>` : esc((H.goal(kra.goalId) ? H.goalCode(H.goal(kra.goalId)) + ' · ' + H.goal(kra.goalId).title : 'None'))}</span>
                 <span class="spacer"></span><span data-kpisum="${ki}" class="small"></span><span data-krascore="${ki}" class="num small"></span></div></div>`).join('') +
             (pm.structure ? `<div class="row"><button class="btn" data-addkra>${icon('plus')}Add KRA</button><button class="btn" data-fromlib>${icon('book')}Add from library</button><button class="btn" data-lab>${icon('scale')}Derive weights in Weightage lab</button></div>` : '') +
             `<div class="card"><div class="card-head"><h3>Comments</h3></div><div class="card-body grid g3">
@@ -3007,6 +3377,8 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
           const ks = ui.$(`[data-kpisum="${ki}"]`, el); if (ks){ const ok = Math.abs(k.kpiSum - 100) < .05; ks.innerHTML = `KPI weights <b class="num" style="color:var(--${ok ? 'good' : 'bad'})">${ui.fmt(k.kpiSum, 0)}%</b>`; }
           const kr = ui.$(`[data-krascore="${ki}"]`, el); if (kr) kr.innerHTML = k.score != null ? `· KRA score <b>${ui.fmt(k.score)}</b>` : '';
         });
+        (r.comp ? r.comp.items : []).forEach((it, ci) => { const c = ui.$(`[data-cms="${ci}"]`, el); if (c) c.innerHTML = it.score != null ? `<b>${ui.fmt(it.score)}</b><small>${esc(it.rating.basis || '')}</small>` : '<span class="muted">—</span>'; });
+        const ca = ui.$('#cmAvg', el); if (ca) ca.innerHTML = r.comp && r.comp.score != null ? `Competency score <b class="num">${ui.fmt(r.comp.score)}</b> (${r.comp.rated}/${r.comp.count} rated)` : '';
         const prov = !['manager','calibration','completed'].includes(s.status);
         ui.$('#scoreBox', el).innerHTML = `<div class="eyebrow">${r.locked ? 'Published score' : r.calibrated != null ? 'Calibrated score' : prov ? 'Provisional score' : 'Score'}</div>
           <div class="score-big" style="margin:6px 0">${ui.fmt(r.published)}</div>${ui.bandPill(r.band, cfg)}
@@ -3014,9 +3386,12 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
           ${r.locked ? `<div class="xs muted" style="margin-top:8px">Locked ${ui.fmtDate(r.locked.at)} · ${esc(KB.SCALES[r.locked.scale] ? KB.SCALES[r.locked.scale].name : '')}</div>` : ''}
           <div class="xs muted" style="margin-top:8px">KRA weights ${ui.fmt(r.kraSum, 0)}% · ${r.kpiCount - r.missingCount}/${r.kpiCount} KPIs scored</div>`;
         ui.$('#buildUp', el).innerHTML = `<thead><tr><th>KRA</th><th class="r">Wt</th><th class="r">Score</th><th class="r">Pts</th></tr></thead><tbody>${r.kras.map((k, i) => `<tr><td class="small">${esc(s.kras[i].title || 'KRA ' + (i + 1))}</td><td class="r num small">${ui.fmt(k.W, 0)}%</td><td class="r num small">${ui.fmt(k.score)}</td><td class="r num small"><b>${k.score != null ? ui.fmt(k.W * k.score / 100) : '—'}</b></td></tr>`).join('')}
+          ${r.comp && r.comp.weight > 0 ? `<tr><td class="small"><b>KPI total</b></td><td class="r num small">${100 - r.comp.weight}%</td><td class="r num small">${ui.fmt(r.kpiFinal)}</td><td class="r num small">${r.kpiFinal != null ? ui.fmt(r.kpiFinal * (1 - r.comp.weight / 100)) : '—'}</td></tr>
+          <tr><td class="small">Competencies</td><td class="r num small">${r.comp.weight}%</td><td class="r num small">${ui.fmt(r.comp.score)}</td><td class="r num small">${r.comp.score != null ? ui.fmt(r.comp.score * r.comp.weight / 100) : '—'}</td></tr>` : ''}
           <tr><td class="small"><b>Total</b></td><td class="r num small">${ui.fmt(r.kraSum, 0)}%</td><td></td><td class="r num"><b>${ui.fmt(r.final)}</b></td></tr></tbody>`;
         const terms = r.kras.filter(k => k.score != null).map(k => `(${(k.W / 100).toFixed(2)} × ${ui.fmt(k.score)})`);
-        ui.$('#formulaBox', el).textContent = terms.length ? `P = ${terms.join(' + ')}\n  = ${ui.fmt(r.final)}${r.coverage < 1 && cfg.scoring.missing === 'exclude' ? '\n(re-weighted over KRAs with data)' : ''}` : 'P = Σ W(KRA) × KRA score\nNo results yet.';
+        const cmp = r.comp && r.comp.weight > 0 && r.comp.score != null;
+        ui.$('#formulaBox', el).textContent = terms.length ? `P = ${terms.join(' + ')}\n  = ${ui.fmt(cmp ? r.kpiFinal : r.final)}${cmp ? `\nFinal = ${ui.fmt(r.kpiFinal)} × ${(1 - r.comp.weight / 100).toFixed(2)} + ${ui.fmt(r.comp.score)} × ${(r.comp.weight / 100).toFixed(2)}\n  = ${ui.fmt(r.final)}` : ''}${step ? '\nStep scoring: KPI score is 100 / 50 / 0' : ''}${r.coverage < 1 && cfg.scoring.missing === 'exclude' ? '\n(re-weighted over KRAs with data)' : ''}` : 'P = Σ W(KRA) × KRA score\nNo results yet.';
         // validation for next step
         const v = nextStage ? E.validateSheet(s, cfg, nextStage) : { errs: [], warns: E.validateSheet(s, cfg, 'draft').warns };
         ui.$('#valBox', el).innerHTML = (v.errs.length ? `<div class="note bad"><b>Before moving to ${esc(ui.stage(nextStage).name)}:</b><ul>${v.errs.slice(0, 8).map(x => `<li>${esc(x)}</li>`).join('')}${v.errs.length > 8 ? `<li>…and ${v.errs.length - 8} more</li>` : ''}</ul></div>` : '') +
@@ -3027,7 +3402,7 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
 
       /* workflow actions */
       const acts = [];
-      const role = ui.role, can = (...r) => r.includes(role);
+      const role = ['top','buhead'].includes(ui.role) ? 'manager' : ui.role, can = (...r) => r.includes(role);
       const log = (action, note) => s.history.push({ at: now(), by: ui.roleName(), action, note: note || '' });
       const move = async (to, action, note) => {
         const v = E.validateSheet(s, cfg, to);
@@ -3069,6 +3444,7 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
       el.addEventListener('change', ev => {
         const t = ev.target;
         if (t.dataset.c){ s.comments[t.dataset.c] = t.value; touch(); return; }
+        if (t.dataset.cm != null){ s.competencies[+t.dataset.cm][t.dataset.cf] = t.value === '' ? '' : +t.value; touch(); return; }
         if (t.dataset.k == null || !t.dataset.f) return;
         const kra = s.kras[+t.dataset.k];
         const obj = t.dataset.p != null ? kra.kpis[+t.dataset.p] : kra;
@@ -3079,16 +3455,19 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
         touch();
         if (t.dataset.struct !== undefined || t.dataset.f === 'direction') PMS.router.refresh();
       });
+      H.bindWords(el);
+      ui.$$('[data-rmcm]', el).forEach(b => b.onclick = () => { s.competencies.splice(+b.dataset.rmcm, 1); touch(); PMS.router.refresh(); });
+      const acm = ui.$('[data-addcm]', el); acm && (acm.onclick = () => { s.competencies = s.competencies || []; s.competencies.push({ compId: ui.$('#cmAdd', el).value, self:'', mgr:'' }); log('Mapped competency', (lib.find(x => x.id === ui.$('#cmAdd', el).value) || {}).name); touch(); PMS.router.refresh(); });
       ui.$$('[data-rmkra]', el).forEach(b => b.onclick = async () => { const i = +b.dataset.rmkra; if (!await ui.confirm({ title:'Remove KRA?', message:`“${esc(s.kras[i].title)}” and its KPIs will be removed.`, ok:'Remove', danger:true })) return; s.kras.splice(i, 1); log('Removed KRA'); touch(); PMS.router.refresh(); });
       ui.$$('[data-rmkpi]', el).forEach(b => b.onclick = () => { const [i, j] = b.dataset.rmkpi.split('-').map(Number); s.kras[i].kpis.splice(j, 1); touch(); PMS.router.refresh(); });
-      ui.$$('[data-addkpi]', el).forEach(b => b.onclick = () => { s.kras[+b.dataset.addkpi].kpis.push({ id: PMS.store.uid('kpi'), name:'', description:'', formula:'', unit:'%', direction:'higher', baseline:'', target:'', rangeMin:'', rangeMax:'', dataSource:'', frequency:'Monthly', mtype:'percentage', weight:0, actual:'', selfRating:'', mgrRating:'', evidence:'' }); touch(); PMS.router.refresh(); });
-      const ak = ui.$('[data-addkra]', el); ak && (ak.onclick = () => { s.kras.push({ id: PMS.store.uid('kra'), title:'New KRA', category: cfg.categories[0] || 'quality', weight: 0, goalId:'', kpis: [] }); touch(); PMS.router.refresh(); });
+      ui.$$('[data-addkpi]', el).forEach(b => b.onclick = () => { if (s.kras[+b.dataset.addkpi].kpis.length >= maxK){ ui.toast(`At most ${maxK} KPIs per KRA.`, 'err'); return; } s.kras[+b.dataset.addkpi].kpis.push({ id: PMS.store.uid('kpi'), name:'', description:'', formula:'', unit:'%', direction:'higher', baseline:'', target:'', rangeMin:'', rangeMax:'', dataSource:'', frequency:'Monthly', mtype:'percentage', weight:0, actual:'', selfRating:'', mgrRating:'', evidence:'' }); touch(); PMS.router.refresh(); });
+      const ak = ui.$('[data-addkra]', el); ak && (ak.onclick = () => { s.kras.push({ id: PMS.store.uid('kra'), title:'New KRA', category: cfg.categories[0] || 'quality', pillar: KB.CAT_PILLAR[cfg.categories[0]] || '', description:'', weight: 0, goalId:'', kpis: [] }); touch(); PMS.router.refresh(); });
       const fl = ui.$('[data-fromlib]', el); fl && (fl.onclick = () => {
         const opts = D().library.filter(l => !s.kras.some(k => k.title === l.kra));
         ui.modal({ title:'Add KRA from library', body: `${H.field('Template', `<select id="lb">${H.opts(opts.map(l => [l.id, H.roleName(l.role) + ' › ' + l.kra]))}</select>`)}<p class="small muted">Its KPIs are copied with their targets. Set the KRA weight afterwards so the total stays at 100%.</p>`,
           foot: '<button class="btn" data-close>Cancel</button><button class="btn primary" data-ok>Add</button>',
           onMount(m, close){ ui.$('[data-ok]', m).onclick = () => { const t = D().library.find(l => l.id === ui.$('#lb', m).value);
-            s.kras.push({ id: PMS.store.uid('kra'), title: t.kra, category: t.category, weight: 0, goalId: t.goalId || '', kpis: t.kpis.map(k => ({ ...JSON.parse(JSON.stringify(k)), id: PMS.store.uid('kpi'), actual:'', selfRating:'', mgrRating:'', evidence:'' })) });
+            s.kras.push({ id: PMS.store.uid('kra'), title: t.kra, category: t.category, pillar: t.pillar || '', description: t.description || '', weight: 0, goalId: t.goalId || '', kpis: t.kpis.map(k => ({ ...JSON.parse(JSON.stringify(k)), id: PMS.store.uid('kpi'), actual:'', selfRating:'', mgrRating:'', evidence:'' })) });
             log('Added KRA from library', t.kra); touch(); close(); PMS.router.refresh(); }; } });
       });
       const lb = ui.$('[data-lab]', el); lb && (lb.onclick = () => { PMS.pages.weights.state = null; PMS.router.go('weights'); setTimeout(() => { const sel = document.getElementById('wSrc'); if (sel){ sel.value = 'sheet:' + s.id; sel.dispatchEvent(new Event('change')); } }, 0); });
@@ -3289,6 +3668,11 @@ Rank-reciprocal: w = (1 ÷ r) ÷ Σ(1 ÷ r)</div></div></div>
     lines.push(`Methodology: ${H.methodName()}; frameworks ${cfg.frameworks.map(f => nm(KB.FRAMEWORKS, f)).join(', ')}; KRA weights by ${nm(KB.WEIGHT_METHODS, cfg.weighting.kra)}, KPI weights by ${nm(KB.WEIGHT_METHODS, cfg.weighting.kpi)}; policy ${cfg.weighting.minKra}-${cfg.weighting.maxKra}% per KRA, max ${cfg.weighting.maxKras} KRAs; score source ${cfg.scoring.source}${cfg.scoring.source === 'hybrid' ? ' ' + cfg.scoring.hybridMix + '/' + (100 - cfg.scoring.hybridMix) : ''}; cap ${cfg.scoring.cap || 'none'}; missing data ${cfg.scoring.missing}; scale ${E.scale(cfg).name} with bands ${E.scale(cfg).bands.map(b => b.r + '≥' + b.min + ' ' + b.label).join(', ')}; discovery methods ${Object.entries(cfg.discovery).filter(([, v]) => v !== 'off').map(([k, v]) => k + ':' + v).join(', ')}; categories ${cfg.categories.join(', ')}; review ${cfg.workflow.frequency}, calibration ${cfg.workflow.calibration ? 'on' : 'off'}.`);
     lines.push('Goal sheets this cycle (employee | designation | dept | status | score | rating):');
     H.sheets().forEach(s => { const e = H.emp(s.employeeId); if (!e) return; const r = H.result(s); lines.push(`- ${e.name} | ${e.designation} | ${e.department} | ${ui.stage(s.status).name} | ${r.published == null ? '-' : r.published.toFixed(1)} | ${r.band && ['manager','calibration','completed'].includes(s.status) ? r.band.r + ' ' + r.band.label : '-'}`); });
+    lines.push('Goal cascade (code | level | perspective | pillar | relevance | status | title | target):');
+    d.goals.forEach(g => lines.push(`- ${H.goalCode(g)} | ${g.level} | ${g.perspective} | ${g.pillar || '-'} | ${g.relevance === '' || g.relevance == null ? '-' : g.relevance + '%'} | ${g.status || 'active'} | ${g.title} | ${g.target}`));
+    if (d.longPlan && d.longPlan.items.length){ const ev = H.planEval(); lines.push(`Long-term plan "${d.longPlan.name}" from FY ${d.longPlan.startYear}, ${d.longPlan.years} years. Current year index ${ev.yi}. Built-in alignment score ${ev.score}/100.`);
+      ev.items.forEach(x => lines.push(`- ${x.it.title}: targets ${x.it.targets.join(' / ')}; FY goal ${x.g ? x.g.target : 'none'}; check ${x.status}`)); }
+    lines.push(`Scoring levels: ${cfg.scoring.mode === 'step' ? `step 100/50/0 (achieved ≥${cfg.scoring.stepFull}%, partial ≥${cfg.scoring.stepHalf}%)` : 'continuous'}; competency weight ${cfg.scoring.competencyWeight || 0}%; max ${cfg.weighting.maxKpis} KPIs per KRA. PQDCSM pillars: ${KB.PILLARS.map(p => p.id + '=' + p.name + '→' + p.persp.join('/')).join(', ')}.`);
     const s = ctx.sheetId && d.sheets.find(x => x.id === ctx.sheetId);
     if (s){
       const e = H.emp(s.employeeId), r = H.result(s);
@@ -3314,11 +3698,15 @@ ${KB.PROMPT_KNOWLEDGE}`;
   ];
   const TOPICS = [
     { re:/kra\s*(vs|versus|and|or)\s*kpi|difference between kra|what is (a )?kra|what is (a )?kpi/i, a:() => `**KRA (Key Result Area)** is a major responsibility the employee is accountable for: *what* they own.\n**KPI (Key Performance Indicator)** is the measurable indicator of *how well* that responsibility is performed.\n\n| KRA | KPI | Measurement |\n|---|---|---|\n| Development delivery | Tasks completed on time | % completed by deadline |\n| Code quality | Production defects | Defects per release |\n| Application performance | API response time | Average ms |\n| Maintenance | Incident resolution | Average resolution time |\n| Team collaboration | Code review participation | Reviews per month |\n\nIn this app each KRA on a goal sheet holds 1–${C().weighting.maxKpis} KPIs whose weights add to 100% inside the KRA.` },
+    { re:/pqdcsm|pillar|production.*quality.*delivery|\bmorale\b/i, a:() => `**PQDCSM pillars** tag every goal, strategic objective and KRA with the shop-floor area it improves, and map to a Balanced Scorecard perspective:\n\n| Pillar | Name | Perspective |\n|---|---|---|\n${KB.PILLARS.map(p => `| ${p.id} | ${p.name} | ${p.persp.join(', ')} |`).join('\n')}\n\nThe **Dashboard** shows the average KRA weight and score per pillar, and the **Long-term plan** flags pillars with no goal.`, act:[['Open Goal cascade','goals'],['Open Dashboard','dashboard']] },
+    { re:/step scor|50 ?%.*100|partial(ly)? achieved|not achieved|achievement level/i, a:() => { const c = C().scoring; return `**Step scoring (100 / 50 / 0)** — each KPI is *Achieved* (100), *Partially achieved* (50) or *Not achieved* (0).\n\n- Auto level: achievement ≥ ${c.stepFull ?? 100}% → 100; ≥ ${c.stepHalf ?? 80}% → 50; otherwise 0. The reviewer can override the level on the Results tab.\n- KPI points = KRA weight × KPI weight × level.\n\nClient example: KRA1 weight 35, KPI1 60% (achieved) → 35 × 0.6 × 100% = **21**; KPI2 40% (partial) → 35 × 0.4 × 50% = **7**; KRA1 = **28 of 35**.\n\nCurrent setting: **${c.mode === 'step' ? 'Step' : 'Continuous'}**. Change it in Method setup → Scoring.`; }, act:[['Open Method setup','setup']] },
+    { re:/long[- ]term|5[- ]?year|10[- ]?year|vision 20|five[- ]year|yearly plan/i, a:() => { const ev = H.planEval(); return `**Long-term plan** (${ev.lp.name}, ${ev.lp.years} years). Top management sets yearly targets for each plan item; this FY's business goals are compared with the current-year column.\n\n- Alignment score: **${ev.score}/100**\n- On track ${ev.okN}, slightly below ${ev.closeN}, below plan ${ev.behindN}, no yearly goal ${ev.noGoalN}\n\n${ev.recs.slice(0, 5).map(r => '- ' + r).join('\n') || 'Nothing flagged.'}`; }, act:[['Open Long-term plan','plan']] },
+    { re:/competenc(y|ies) map|behaviou?r.*skill|attitude/i, a:() => `**Competency mapping** rates *Behaviour*, *Skill* and *Attitude* competencies on each goal sheet (Competencies tab), self and manager, on the rating scale. With a competency weight w in Method setup, Final = KPI score × (100 − w)% + competency score × w%. Current weight: **${C().scoring.competencyWeight || 0}%**. The list is maintained in the KRA / KPI library.`, act:[['Open library','library']] },
     { re:/\bahp\b|analytic hierarchy|pairwise/i, a:() => { const r = E.ahp([[1,2,4],[1/2,1,3],[1/4,1/3,1]]); return `**AHP (Analytic Hierarchy Process)** derives KRA weights from pairwise judgements.\n\n1. Compare each pair on the 1–9 scale (1 equal, 3 moderate, 5 strong, 7 very strong, 9 extreme). The reverse cell is the reciprocal: a(ji) = 1/a(ij).\n2. Weight = normalised geometric mean of each row (or the principal eigenvector).\n3. Consistency: CI = (λmax − n)/(n − 1), CR = CI/RI. Accept CR ≤ 0.10.\n\nGuide example (Delivery, Quality, Collaboration with [[1,2,4],[½,1,3],[¼,⅓,1]]): **${r.w.map(x => (x * 100).toFixed(1) + '%').join(' / ')}**, CR ${r.cr.toFixed(3)}.\n\nAHP sets *relative importance*; it cannot decide the right business *targets*. Try it in **Weightage lab**.`; }, act:[['Open Weightage lab','weights']] },
     { re:/consistency ratio|\bcr\b|\bci\b|inconsisten/i, a:() => `The **consistency ratio** checks whether pairwise judgements contradict each other (e.g. A > B, B > C but C > A).\n\nCI = (λmax − n) ÷ (n − 1)   CR = CI ÷ RI\n\nRI by size: n=3 → 0.58, 4 → 0.90, 5 → 1.12, 6 → 1.24, 7 → 1.32. **CR ≤ 0.10** is the usual guideline. When it is higher, Weightage lab names the pair that disagrees most with the rest so you can revisit it.` },
     { re:/rank.?sum|rank order|ranking weight/i, a:() => `**Rank-sum weighting** turns a ranking into weights: w = (n − r + 1) ÷ Σ(n − r + 1).\nFor 4 KRAs ranked 1–4: 4/10, 3/10, 2/10, 1/10 → **40 / 30 / 20 / 10**.\nUse it when people can agree on an order but not on exact percentages. *Rank-reciprocal* (1/r) gives more weight to the top item.` , act:[['Open Weightage lab','weights']] },
     { re:/swing/i, a:() => `**Swing weighting**: imagine every KRA at its worst level. Give **100 points** to the KRA whose move from worst to best matters most, then score the others relative to it (e.g. 70, 40, 20). Weight = points ÷ Σ points → 43% / 30% / 17% / 9%.\nIt captures how much *improvement* in each area is worth, which suits SLA and operations roles.` },
-    { re:/balanced scorecard|\bbsc\b/i, a:() => `**Balanced Scorecard** structures KRAs across four perspectives: **Financial, Customer, Internal Process, Learning & Growth**. It stops appraisals from rewarding only output or revenue.\nIn this app: goals in **Goal cascade** carry a perspective; the BSC package uses AHP for KRA weights, a 5-point scale and HR calibration. Good fit for multi-department manufacturers.` },
+    { re:/balanced scorecard|\bbsc\b/i, a:() => `**Balanced Scorecard** structures KRAs across four perspectives: **Financial, Customer, Business Process, Learning & Development**. It stops appraisals from rewarding only output or revenue.\nIn this app: goals in **Goal cascade** carry a perspective; the BSC package uses AHP for KRA weights, a 5-point scale and HR calibration. Good fit for multi-department manufacturers.` },
     { re:/\bokrs?\b|objectives and key results/i, a:() => `**OKRs** pair an ambitious *Objective* with 2–4 measurable *Key Results*, usually quarterly. Stretch targets mean ~70% achievement is often a good outcome, so the OKR package here caps at 120 and uses threshold bands (100%+, 85–99, 70–84, below 70).\nUse OKRs for fast-changing priorities; combine with SMART targets for clarity.` },
     { re:/\bmbo\b|management by objectives/i, a:() => `**Management by Objectives (MBO)**: manager and employee agree targets at the start of the cycle and review results at the end. Simple, transparent, and the fastest to roll out. The MBO package uses direct weights, system-calculated achievement and a 5-point scale.` },
     { re:/\bsmart\b/i, a:() => `**SMART** targets are Specific, Measurable, Achievable, Relevant and Time-bound. Example: “Reduce API response time from 420 ms to 300 ms by 30 September, measured by APM p50.” Every package here includes SMART because it governs how targets are written, not how they are weighted.` },
@@ -3625,6 +4013,26 @@ PMS.MANUAL = (function(){
       <p>Add company, department and team goals. Each goal has a Balanced Scorecard perspective, metric, target and owner, and may have a parent goal. The tree shows how many KRAs in the current cycle are aligned to each goal or its children. The coverage chart shows whether all four perspectives are represented.</p>
       <p>Link a KRA to a goal on the goal sheet (<i>Linked goal</i> under each KRA) or in a library template. Discovery uses these links for the <b>B</b> (business-goal alignment) component.</p>` },
 
+    { id:'bsc-client', title:'4a. BSC: pillars, levels & long-term plan', html:`
+      <h2>4a. Balanced Scorecard client extensions</h2>
+      <p>The Balanced Scorecard method follows a four-level cascade, each level owned by a different role:</p>
+      ${t(['Level','Owner (role)','What is entered','Code'], [['A. Business goal','Top management','FY / CY goal, BSC perspective, description (max 200 words), relevance to the 5-year target','G1'],['B. Strategic objective','UH / GM / BU head','Objective under a goal, PQDCSM pillar, relevance to the company goal','G1-S1'],['C. KRA','DH / UH','KRA on the goal sheet linked to the objective, pillar, weight, description','G1-S1-KRA1'],['D. KPI','DH / employee','Up to 3 KPIs per KRA; KPI weights total 100% inside the KRA','G1-S1-KRA1-KPI1']])}
+      <h3>BSC perspectives and PQDCSM pillars</h3>
+      ${t(['Pillar','Name','Perspective','Typical measures'], KB.PILLARS.map(p => [p.id, p.name, p.persp.join(', '), p.hint]))}
+      <h3>Relevance slider</h3>
+      <p>Every goal and objective carries a relevance value from 0 to 100%: 80%+ Fantastic, 75–79% Good, 50–74% Fair, below 50% Low. Goals below 75% are flagged in the long-term plan evaluation.</p>
+      <h3>Save for later</h3>
+      <p>In the goal form, <b>Save for later</b> keeps the goal as a draft (shown with a “Saved for later” tag) without requiring a parent. <b>Save</b> requires a parent for strategic objectives.</p>
+      <h3>Step scoring (100 / 50 / 0)</h3>
+      <p>Method setup → Scoring → <b>Achievement levels</b>. In step mode a KPI is Achieved (100) when achievement ≥ the “achieved” threshold, Partially achieved (50) when ≥ the “partial” threshold, otherwise Not achieved (0). The reviewer can override the level per KPI on the Results tab.</p>
+      ${t(['KRA','Weight','KPI','KPI weight','Level','Points'], [['KRA1','35','KPI1','60%','Achieved 100%','21'],['','','KPI2','40%','Partial 50%','7'],['','','','','KRA1 total','28 of 35']])}
+      <h3>Long-term plan and AI evaluation</h3>
+      <p>Configure → <b>Long-term plan</b>. Top management enters a 5- or 10-year plan: items by perspective and pillar with a target for every year, each linked to a business goal. The built-in AI check compares this FY's goal target with the plan's current-year target (On track / Slightly below / Below plan), lists plan items with no goal, goals outside the plan, low-relevance goals, empty pillars and unrealistic growth. <b>Ask AI to review</b> sends the same data to the AI assistant for a written review.</p>
+      <h3>Competency mapping</h3>
+      <p>The library holds Behaviour, Skill and Attitude competencies. Each goal sheet has a <b>Competencies</b> tab with self and manager ratings. Set a competency weight in Method setup to include them in the final score: Final = KPI score × (100 − w)% + competency score × w%.</p>
+      <h3>Roles</h3>
+      ${t(['Role','Can do'], [['Top Management','Add and edit business goals, edit the long-term plan, approve goal sheets'],['UH / GM / BU Head','Add strategic objectives and sub-objectives, approve and rate goal sheets'],['DH / UH (Manager)','Add sub-objectives, prepare KRAs and KPIs, approve and rate'],['Employee','Enter actuals, self ratings and competency self ratings'],['HR Admin','Everything, including calibration and publishing']])}` },
+
     { id:'employees', title:'5. Employees', html:`
       <h2>5. Employees</h2>
       <p>The employee master holds ID, name, <b>role template</b>, designation, department, grade, reporting manager, location, joining date and the <b>job description</b>. The role template decides which library KRAs are suggested. The job description is matched against KRA and KPI wording for the <b>J</b> (job relevance) component in Discovery.</p>
@@ -3756,13 +4164,15 @@ if (PMS.pages) PMS.pages.manual = { title: 'User manual', render(el){
   const ui = PMS.ui, icon = ui.icon, esc = ui.esc;
   const NAV = [
     ['Overview', [['dashboard','Dashboard','dashboard']]],
-    ['Configure', [['setup','Method setup','sliders'], ['goals','Goal cascade','target'], ['library','KRA / KPI library','book'], ['employees','Employees','users']]],
+    ['Configure', [['setup','Method setup','sliders'], ['goals','Goal cascade','target'], ['plan','Long-term plan','chart'], ['library','KRA / KPI library','book'], ['employees','Employees','users']]],
     ['Plan', [['discovery','KRA / KPI discovery','compass'], ['weights','Weightage lab','scale']]],
     ['Evaluate', [['sheets','Goal sheets','clipboard'], ['analytics','Calibration & analytics','chart']]],
     ['Help', [['assistant','AI assistant','sparkle'], ['manual','User manual','help'], ['settings','Settings','gear']]]
   ];
   const DEMO_USERS = [
     { user:'hr.admin', name:'HR Admin', title:'HR & Admin · full access', role:'hr' },
+    { user:'vikram.r', name:'Vikram Rao', title:'Managing Director · business goals & 5-year plan', role:'top' },
+    { user:'suresh.b', name:'Suresh Babu', title:'Plant Head · strategic objectives', role:'buhead' },
     { user:'ananya.k', name:'Ananya Krishnan', title:'IT Manager · approves and rates', role:'manager' },
     { user:'priya.s', name:'Priya Subramanian', title:'Software Developer · self review', role:'employee' }
   ];
